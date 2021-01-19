@@ -15,7 +15,6 @@ pipelines:
       #       - npx jest --ci
       - step:
           name: Deploy dev to Expo
-          deployment: production
           caches:
             - npm
           script:
@@ -34,7 +33,7 @@ pipelines:
       #       - npx jest --ci
       - step:
           name: Deploy staging to Expo
-          deployment: production
+          deployment: staging
           caches:
             - npm
           script:
