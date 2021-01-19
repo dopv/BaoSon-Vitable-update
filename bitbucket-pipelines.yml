@@ -5,6 +5,25 @@ definitions:
     npm: ~/.npm
 pipelines:
   branches:
+    dev:
+      # - step:
+      #     name: Validate code
+      #     caches:
+      #       - npm
+      #     script:
+      #       - npm ci
+      #       - npx jest --ci
+      - step:
+          name: Deploy dev to Expo
+          deployment: production
+          caches:
+            - npm
+          script:
+            - cp app.dev.json app.json
+            - apk add --no-cache bash
+            - npm ci
+            - npx expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
+            - npx expo publish
     master:
       # - step:
       #     name: Validate code
@@ -14,11 +33,24 @@ pipelines:
       #       - npm ci
       #       - npx jest --ci
       - step:
-          name: Deploy to Expo
+          name: Deploy staging to Expo
           deployment: production
           caches:
             - npm
           script:
+            - cp app.staging.json app.json
+            - apk add --no-cache bash
+            - npm ci
+            - npx expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
+            - npx expo publish
+      - step:
+          name: Deploy prod to Expo
+          deployment: production
+          trigger: manual
+          caches:
+            - npm
+          script:
+            - cp app.production.json app.json
             - apk add --no-cache bash
             - npm ci
             - npx expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD

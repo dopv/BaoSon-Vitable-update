@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "vitable-mobile-local",
-    "slug": "vitable-mobile-local",
+    "name": "vitable-mobile",
+    "slug": "vitable-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
