@@ -19,7 +19,7 @@ pipelines:
             - npm
           script:
             - cp app.dev.json app.json
-            - apk add --no-cache bash
+            # - apk add --no-cache bash
             - npm ci
             - npx expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
             - npx expo publish
@@ -38,7 +38,7 @@ pipelines:
             - npm
           script:
             - cp app.staging.json app.json
-            - apk add --no-cache bash
+            # - apk add --no-cache bash
             - npm ci
             - npx expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
             - npx expo publish
@@ -50,7 +50,7 @@ pipelines:
             - npm
           script:
             - cp app.production.json app.json
-            - apk add --no-cache bash
+            # - apk add --no-cache bash
             - npm ci
             - npx expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
             - npx expo publish
