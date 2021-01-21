@@ -4,12 +4,12 @@ const { width, height } = Dimensions.get('window');
 export const styles = StyleSheet.create({
   fullScreen: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#E5E5E5",
     alignContent:'center',
     justifyContent:'center'
   },
   vContent:{
-    width:'100%',
+    width: width,
     flexDirection:'row',
     alignItems:'center',
     justifyContent:'center'
