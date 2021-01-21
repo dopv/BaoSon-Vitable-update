@@ -1,0 +1,11 @@
+{
+    "error": {
+       
+    },
+    "unauthentic": {
+        "login":"Log in",
+        "logout":"Log out",
+        "email":"Email",
+        "pass":"Password"
+    }
+}
