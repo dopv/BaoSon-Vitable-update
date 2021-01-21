@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.vitable"
+      "package": "com.vitable",
+      "permissions":[]
     },
     "web": {
       "favicon": "./assets/favicon.png"
