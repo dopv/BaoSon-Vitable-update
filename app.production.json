@@ -23,10 +23,14 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.vitable"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra":{
+      "apiUrl":"https://api.vitable.com.au"
     }
   }
 }
