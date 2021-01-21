@@ -1,23 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Constants from 'expo-constants';
-const {manifest:{extra:{apiUrl}}} = Constants
+import React, { useEffect, useState } from 'react';
+import { RootNavigator } from './src/navigation/Root';
+import NetInfo from "@react-native-community/netinfo";
+import { NetworkError } from './src/components/NetworkError';
+import { StoreContainer } from "./src/store/store"
+
 export default function App() {
+  const [isDisconnect, setDisconnect] = useState(false);
+
+  useEffect(() => {
+    const unsubcribe = NetInfo.addEventListener((state: any) => {
+      if (state.isConnected && isDisconnect) {
+        setDisconnect(false);
+      } else if (!state.isConnected && !isDisconnect) {
+        setDisconnect(true);
+      }
+    });
+    return () =>
+      unsubcribe();
+  }, [isDisconnect]);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <Text>apiUrl: {apiUrl}</Text>
-      <StatusBar style="auto" />
-    </View>
+    <StoreContainer.Provider>
+      {isDisconnect && <NetworkError />}
+        <RootNavigator />
+    </StoreContainer.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
