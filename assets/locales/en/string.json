@@ -3,9 +3,13 @@
        
     },
     "unauthentic": {
-        "login":"Log in",
-        "logout":"Log out",
-        "email":"Email",
-        "pass":"Password"
+        "login": "Log in",
+        "logout": "Log out",
+        "email": "Email",
+        "pass": "Password",
+        "headerLogin":"FREE SHIPPING FOR ORDERS OVER $30"
+    },
+    "authentic": {
+        
     }
 }

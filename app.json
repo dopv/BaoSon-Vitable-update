@@ -30,7 +30,7 @@
       "favicon": "./assets/favicon.png"
     },
     "extra":{
-      "apiUrl":"https://api-staging.vitable.com.au"
+      "apiUrl":"https://api-dev.vitable.com.au"
     }
   }
 }

@@ -3,23 +3,27 @@ import { Text, Dimensions, View, TouchableOpacity } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
 import { FONT_15 } from '../../../themes/fontSize';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TOKEN_AUTHENTICATION } from '../../../common/keyStore';
-import { StoreContainer } from "../../../store/store";
+import { TOKEN } from '../../../common/keyStore';
 import { translate } from '../../../library/utils/i18n/translate';
 
 const { width } = Dimensions.get('window');
 
 interface DashboardProps {
+    navigation: any,
+    actionLogout: any,
+    route: any
 }
 
 export const Dashboard = (props: DashboardProps) => {
-    const { logout } = StoreContainer.useContainer();
+    const { navigation, route } = props;
+    const { actionLogout } = route.params
+
     useEffect(() => {
     }, []);
 
     const logOut = () => {
-        AsyncStorage.setItem(TOKEN_AUTHENTICATION, JSON.stringify(''));
-        logout && logout();
+        AsyncStorage.setItem(TOKEN, JSON.stringify(""));
+        actionLogout && actionLogout();
     }
 
     return <Screen
