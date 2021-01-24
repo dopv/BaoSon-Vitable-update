@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { Login } from '../screens/unAuthentication/login/Login';
 import { Dashboard } from '../screens/authentication/dashboard/Dashboard';
+import { HomePage } from '../screens/authentication/home/HomePage';
 import { Splash } from '../screens/unAuthentication/splash/Splash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TOKEN } from '../common/keyStore';
@@ -42,9 +43,14 @@ export const StackNavigator = (props: any) => {
             {!isLoading ? (
                 token ?
                     (<>
-                        <Stack.Screen
+                        {/* <Stack.Screen
                             component={Dashboard}
                             name="Dashboard"
+                            initialParams={props.props}
+                        /> */}
+                        <Stack.Screen
+                            component={HomePage}
+                            name="HomePage"
                             initialParams={props.props}
                         />
                     </>)

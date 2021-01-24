@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Text, TextInput, Dimensions, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, TextInput, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
-import { FONT_15 } from '../../../themes/fontSize';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Post } from '../../../library/networking/fetch';
 import { validateEmail } from '../../../library/utils/validate';
@@ -9,13 +8,10 @@ import { TOKEN } from '../../../common/keyStore';
 import { translate } from '../../../library/utils/i18n/translate';
 import { styles } from './style';
 import SvgTitleLogo from '../../../themes/svg';
-import { size } from '../../../themes/size';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
 
-const { width } = Dimensions.get('window');
-
 export const Login = (props: any) => {
-    const { route, navigation } = props;
+    const { route } = props;
     const { actionLogin } = route.params
     const [dataLogin, setDataLogin] = useState({ email: '', password: '' });
     const [validator, setValidator] = useState({ invalidEmail: '', invalidPassword: '' });
