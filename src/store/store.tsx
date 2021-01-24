@@ -50,7 +50,7 @@ export const mapDispatchToProps = (dispatch: any) => {
     actionLogin: (dataAuth: null) => {
       dispatch({ type: 'LOGIN', dataAuth: dataAuth})
     },
-    getTokenAction: (token: null) => {
+    setToken: (token: null) => {
       dispatch({ type: 'TOKEN', token: token })
     },
     actionLogout: () => dispatch({ type:'LOGOUT' }),

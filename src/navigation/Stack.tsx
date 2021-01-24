@@ -10,10 +10,10 @@ const Stack = createStackNavigator();
 
 export const StackNavigator = (props: any) => {
     console.log("stack", props.props)
-    const { stateAuth, getTokenAction } = props.props
-    let dataAuth = "";
+    const { stateAuth, setToken } = props.props
+    let dataAuth = null;
     let isLogout = false;
-    let token = "";
+    let token = null;
     if (stateAuth) {
         dataAuth = stateAuth.dataAuth
         isLogout = stateAuth.isLogout
@@ -26,7 +26,8 @@ export const StackNavigator = (props: any) => {
         setTimeout(() => {
             AsyncStorage.getItem(TOKEN).then((token: any) => {
                 if (token) {
-                    getTokenAction && getTokenAction(token || "");
+                    console.log("token", token)
+                    setToken && setToken(token || "");
                 }
                 setIsLoading(false);
             });
