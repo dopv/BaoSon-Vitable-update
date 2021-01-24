@@ -53,8 +53,10 @@ export const Login = (props: any) => {
                     if (data.message) {
                         DropDownHolder.showError('', data.message)
                     } else {
-                        AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-                        actionLogin && actionLogin(data || "");
+                        if(remember){
+                            AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+                        }
+                        actionLogin && actionLogin(data || null);
                     }
 
                 });
