@@ -77,14 +77,14 @@ export const Login = (props: any) => {
         >
             <ScrollView style={styles.fullScreen}>
                 <View style={styles.header}>
-                    <Text style={styles.titleHeader}>{translate('unauthentic:headerLogin')}</Text>
+                    <Text style={styles.titleHeader}>{translate('UNAUTHENTIC:HEADER_LOGIN')}</Text>
                 </View>
                 <View style={styles.content}>
                     <View style={styles.vLogo}>
                         <SvgTitleLogo />
                     </View>
                     <View style={styles.vInput}>
-                        <Text style={styles.titEmail}>{translate('unauthentic:email') || ""}</Text>
+                        <Text style={styles.titEmail}>{translate('UNAUTHENTIC:EMAIL') || ""}</Text>
                         <TextInput
                             value={dataLogin.email}
                             onChangeText={(email) => onChange ? onChange('email', email) : null}
@@ -98,7 +98,7 @@ export const Login = (props: any) => {
                     </View>
 
                     <View style={styles.vInput}>
-                        <Text style={styles.titEmail}>{translate('unauthentic:pass') || ""}</Text>
+                        <Text style={styles.titEmail}>{translate('UNAUTHENTIC:PASSWORD') || ""}</Text>
                         <TextInput
                             secureTextEntry={true}
                             value={dataLogin.password}
@@ -124,7 +124,7 @@ export const Login = (props: any) => {
                             <Text
                                 style={styles.tLogin}
                             >
-                                {translate('unauthentic:login')}
+                                {translate('UNAUTHENTIC:LOGIN')}
                             </Text>
                             <Image
                                 source={require('../../../../assets/images/ButtonArrow_login.png')}
