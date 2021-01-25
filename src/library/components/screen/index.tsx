@@ -66,7 +66,7 @@ function ScreenWithoutScrolling(props: any) {
   const backgroundStyle = props.backgroundColor
     ? { backgroundColor: props.backgroundColor }
     : {};
-  const Wrapper = props.unsafe ? View : SafeAreaView;
+  const Wrapper = props.unsafe ? View : View;
 
   return (
     <KeyboardAvoidingView

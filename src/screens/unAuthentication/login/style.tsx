@@ -1,16 +1,13 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import R from '../../../../assets/value';
 import {
     FONT_10,
-    FONT_24,
     FONT_16,
     FONT_14,
     FONT_12
 } from '../../../themes/fontSize';
-const { width, height } = Dimensions.get('window');
-import { checkHeight, StatusBarHeight } from '../../../config/heightStatusbar'
+const { width } = Dimensions.get('window');
+import { StatusBarHeight } from '../../../config/heightStatusbar'
 import { size } from '../../../themes/size';
-import { Platform } from 'react-native';
 
 export const styles = StyleSheet.create({
     fullScreen: {
