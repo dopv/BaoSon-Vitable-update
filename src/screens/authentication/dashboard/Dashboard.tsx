@@ -62,7 +62,7 @@ export const Dashboard = (props: DashboardProps) => {
                 <Text
                     style={{ fontSize: FONT_15 }}
                 >
-                    {translate('unauthentic:logout') || ""}
+                    {translate('UNAUTHENTIC:LOGOUT') || ""}
             </Text>
             </TouchableOpacity>
         </View>

@@ -1,15 +1,31 @@
 {
-    "error": {
-       
+    "error": {},
+    "UNAUTHENTIC": {
+        "LOGIN": "Log in",
+        "LOGOUT": "Log out",
+        "EMAL": "Email",
+        "PASSWORD": "Password",
+        "HEADER_LOGIN": "FREE SHIPPING FOR ORDERS OVER $30"
     },
-    "unauthentic": {
-        "login": "Log in",
-        "logout": "Log out",
-        "email": "Email",
-        "pass": "Password",
-        "headerLogin":"FREE SHIPPING FOR ORDERS OVER $30"
-    },
-    "authentic": {
-        
+    "AUTHENTIC": {
+        "HOME": {
+            "DAILY_TRACKER": "Daily tracker",
+            "HI":"Hi, ",
+            "TAKE_THE_QUIZ":"Take the quizz"
+        },
+        "HOME_STREAK_HISTORY": {
+            "CURRENT_STREAK": "Current streak",
+            "BEST_STREAK": "Best streak"
+        },
+        "STREAK_ACCUMULATION": {
+            "POINT": "points",
+            "EARN_EXTRA_POINTS": "Earn extra points",
+            "SPLASH": "/"
+        },
+        "MARK_POINTS": {
+            "TAKEN_VITAMIN_TODAY": "I’ve taken my vitamins today",
+            "POINT": "points",
+            "PLUS": "+"
+        }
     }
 }
