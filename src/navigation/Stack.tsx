@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { Login } from '../screens/unAuthentication/login/Login';
-import { Dashboard } from '../screens/authentication/dashboard/Dashboard';
 import { HomePage } from '../screens/authentication/home/HomePage';
 import { Splash } from '../screens/unAuthentication/splash/Splash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TOKEN } from '../common/keyStore';
+import { Menu } from '../screens/authentication/menu/Menu';
 
 const Stack = createStackNavigator();
 
 export const StackNavigator = (props: any) => {
-    console.log("stack", props.props)
     const { stateAuth, setToken } = props.props
     let dataAuth = null;
     let isLogout = false;
@@ -27,7 +26,6 @@ export const StackNavigator = (props: any) => {
         setTimeout(() => {
             AsyncStorage.getItem(TOKEN).then((token: any) => {
                 if (token) {
-                    console.log("token", token)
                     setToken && setToken(token || "");
                 }
                 setIsLoading(false);
@@ -52,6 +50,11 @@ export const StackNavigator = (props: any) => {
                         <Stack.Screen
                             component={HomePage}
                             name="HomePage"
+                            initialParams={props.props}
+                        />
+                        <Stack.Screen
+                            component={Menu}
+                            name="Menu"
                             initialParams={props.props}
                         />
                     </>)

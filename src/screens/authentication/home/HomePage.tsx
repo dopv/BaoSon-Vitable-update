@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Image, ImageBackground, Text, View } from 'react-native';
+import { Dimensions, Image, ImageBackground, Text, View, TouchableWithoutFeedback } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
 import { FONT_10, FONT_12, FONT_14, FONT_18, FONT_24 } from '../../../themes/fontSize';
 
@@ -10,6 +10,11 @@ interface HomePageProps {
 }
 
 export const HomePage = (props: HomePageProps) => {
+    const { navigation } = props;
+
+    const onPressGoToMenu = () => {
+        navigation && navigation.navigate('Menu');
+    }
 
     return <Screen
         isScroll={false}
@@ -27,16 +32,22 @@ export const HomePage = (props: HomePageProps) => {
                 style={{ width: width, height: height * 0.3328, flex: 1 }}
                 resizeMode='stretch'
             >
-                <Image
-                    source={require('../../../../assets/images/Menu.png')}
+                <TouchableWithoutFeedback onPress={onPressGoToMenu}
                     style={{
-                        position: 'absolute',
-                        width: width * 0.075,
-                        height: height * 0.042253,
-                        top: height * 0.074,
-                        left: width * 0.05
+                        zIndex: 2
                     }}
-                />
+                >
+                    <Image
+                        source={require('../../../../assets/images/Menu.png')}
+                        style={{
+                            position: 'absolute',
+                            width: width * 0.075,
+                            height: height * 0.042253,
+                            top: height * 0.074,
+                            left: width * 0.05
+                        }}
+                    />
+                </TouchableWithoutFeedback>
                 <Image
                     source={require('../../../../assets/images/Mypack.png')}
                     style={{
