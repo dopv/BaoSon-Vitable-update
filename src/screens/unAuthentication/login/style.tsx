@@ -1,17 +1,21 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, StatusBar } from 'react-native';
 import {
     FONT_14,
     FONT_32
 } from '../../../themes/fontSize';
-const { width, height } = Dimensions.get('window');
+const { height: heightScr, width } = Dimensions.get('window');
+const statusBarHeight = StatusBar.currentHeight &&
+    StatusBar.currentHeight >= 38 &&
+    StatusBar.currentHeight || 0;
+const height = heightScr + statusBarHeight;
+
 
 export const styles = StyleSheet.create({
     fullScreen: {
         flex: 1,
-        backgroundColor: '#F7F4EB',
+        backgroundColor: '#F7F4EB'
     },
     vHeader: {
-        width: width * 0.85,
         height: height * 0.2394366,
         top: height * 0.1443662,
         left: width * 0.075

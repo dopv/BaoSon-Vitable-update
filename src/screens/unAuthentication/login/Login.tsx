@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
     Text, TextInput, View, TouchableOpacity,
-    ScrollView, ImageBackground, Dimensions
+    ScrollView, ImageBackground, Dimensions,
+    StatusBar
 } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,13 +11,16 @@ import { validateEmail } from '../../../library/utils/validate';
 import { TOKEN } from '../../../common/keyStore';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
-const { height, width } = Dimensions.get('window');
+const { height: heightScr, width } = Dimensions.get('window');
+const statusBarHeight = StatusBar.currentHeight &&
+    StatusBar.currentHeight >= 38 &&
+    StatusBar.currentHeight || 0;
+const height = heightScr + statusBarHeight;
 
 export const Login = (props: any) => {
     const { route } = props;
     const { actionLogin } = route.params;
     const [dataLogin, setDataLogin] = useState({ email: '', password: '' });
-    const [remember, setRemember] = useState(false);
     const [validateInputEmail, setValidateInputEmail] = useState('');
     const [validateInputPassword, setValidateInputPassword] = useState('');
     const [isLogin, setLogin] = useState(false);
@@ -81,6 +85,7 @@ export const Login = (props: any) => {
                         width: width,
                         height: height
                     }}
+                    resizeMode="stretch"
                 >
                     <View
                         style={styles.vHeader}
