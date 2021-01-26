@@ -12,7 +12,7 @@ import DropDownHolder from '../../../library/utils/dropDownHolder';
 
 export const Login = (props: any) => {
     const { route } = props;
-    const { actionLogin } = route.params
+    const { actionLogin } = route.params;
     const [dataLogin, setDataLogin] = useState({ email: '', password: '' });
     const [validator, setValidator] = useState({ invalidEmail: '', invalidPassword: '' });
     const [remember, setRemember] = useState(false);

@@ -49,6 +49,5 @@ export const Post = async (path: string, body: any) => {
             header.Authorization = `Bearer ${val}`;
         }
     });
-    console.log(`${apiUrl}${path}`)
     return Fetch(`${apiUrl}${path}`, { method: 'POST', headers: header, body: JSON.stringify(body) });
 }
