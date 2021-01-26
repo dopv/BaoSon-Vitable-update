@@ -6,6 +6,7 @@ import { Splash } from '../screens/unAuthentication/splash/Splash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TOKEN } from '../common/keyStore';
 import { Menu } from '../screens/authentication/menu/Menu';
+import { Profile } from '../screens/authentication/profile/Profile';
 
 const Stack = createStackNavigator();
 
@@ -45,6 +46,11 @@ export const StackNavigator = (props: any) => {
                         <Stack.Screen
                             component={HomePage}
                             name="HomePage"
+                            initialParams={props.props}
+                        />
+                        <Stack.Screen
+                            component={Profile}
+                            name="Profile"
                             initialParams={props.props}
                         />
                         <Stack.Screen

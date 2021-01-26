@@ -47,18 +47,26 @@ export const Menu = (props: MenuProps) => {
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:TRACKING_MY_VITAMINS')}`}
                         isActive={true}
+                        route='HomePage'
+                        navigation={navigation}
                     />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:MY_PACK')}`}
                         isActive={false}
+                        route='MyPack'
+                        navigation={navigation}
                     />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:BROWSE_ON_SHOP')}`}
                         isActive={false}
+                        route='BrowseOnShop'
+                        navigation={navigation}
                     />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:MY_PROFILE')}`}
                         isActive={false}
+                        route='Profile'
+                        navigation={navigation}
                     />
                 </View>
                 <View
@@ -70,10 +78,14 @@ export const Menu = (props: MenuProps) => {
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:SUPPORT_HELP')}`}
                         isActive={false}
+                        route='Help'
+                        navigation={navigation}
                     />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:ACCOUNT_DETAILS')}`}
                         isActive={false}
+                        route='AccountDetail'
+                        navigation={navigation}
                     />
                 </View>
             </View>
