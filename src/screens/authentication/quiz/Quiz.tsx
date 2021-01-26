@@ -4,13 +4,13 @@ import { Screen } from '../../../library/components/screen';
 
 const { width } = Dimensions.get('window');
 
-interface ProfileProps {
+interface QuizProps {
     navigation: any,
     actionLogout: any,
     route: any
 }
 
-export const Profile = (props: ProfileProps) => {
+export const Quiz = (props: QuizProps) => {
     const { navigation, route } = props;
 
     return (
@@ -22,7 +22,7 @@ export const Profile = (props: ProfileProps) => {
             draw={true}>
 
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Profile Screen</Text>
+            <Text>Quiz Screen</Text>
         </View>
         </Screen>
     )

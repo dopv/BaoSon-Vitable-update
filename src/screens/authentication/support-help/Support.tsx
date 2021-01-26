@@ -4,13 +4,13 @@ import { Screen } from '../../../library/components/screen';
 
 const { width } = Dimensions.get('window');
 
-interface ProfileProps {
+interface SupportProps {
     navigation: any,
     actionLogout: any,
     route: any
 }
 
-export const Profile = (props: ProfileProps) => {
+export const Support = (props: SupportProps) => {
     const { navigation, route } = props;
 
     return (
@@ -22,7 +22,7 @@ export const Profile = (props: ProfileProps) => {
             draw={true}>
 
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Profile Screen</Text>
+            <Text>Support Help Screen</Text>
         </View>
         </Screen>
     )

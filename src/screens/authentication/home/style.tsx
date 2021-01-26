@@ -7,6 +7,18 @@ export const styles = StyleSheet.create({
     },
     vContent: {
         flex: 1,
-        backgroundColor: '#F7F4EB'
+        backgroundColor: '#F7F4EB',
+        // paddingTop: StatusBarHeight
+    },
+    viewPager: {
+        flex: 1,
+    },
+    dailyScreen: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    vBot: {
+        flex: 1
+        // height: '60%'
     }
 });
