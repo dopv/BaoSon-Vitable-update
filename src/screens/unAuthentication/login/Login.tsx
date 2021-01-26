@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Text, TextInput, Dimensions, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, TextInput, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
-import { FONT_15 } from '../../../themes/fontSize';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Post } from '../../../library/networking/fetch';
 import { validateEmail } from '../../../library/utils/validate';
@@ -9,13 +8,10 @@ import { TOKEN } from '../../../common/keyStore';
 import { translate } from '../../../library/utils/i18n/translate';
 import { styles } from './style';
 import SvgTitleLogo from '../../../themes/svg';
-import { size } from '../../../themes/size';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
 
-const { width } = Dimensions.get('window');
-
 export const Login = (props: any) => {
-    const { route, navigation } = props;
+    const { route } = props;
     const { actionLogin } = route.params
     const [dataLogin, setDataLogin] = useState({ email: '', password: '' });
     const [validator, setValidator] = useState({ invalidEmail: '', invalidPassword: '' });
@@ -57,8 +53,10 @@ export const Login = (props: any) => {
                     if (data.message) {
                         DropDownHolder.showError('', data.message)
                     } else {
-                        AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-                        actionLogin && actionLogin(data || "");
+                        if(remember){
+                            AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+                        }
+                        actionLogin && actionLogin(data || null);
                     }
 
                 });
@@ -79,14 +77,14 @@ export const Login = (props: any) => {
         >
             <ScrollView style={styles.fullScreen}>
                 <View style={styles.header}>
-                    <Text style={styles.titleHeader}>{translate('unauthentic:headerLogin')}</Text>
+                    <Text style={styles.titleHeader}>{translate('UNAUTHENTIC:HEADER_LOGIN')}</Text>
                 </View>
                 <View style={styles.content}>
                     <View style={styles.vLogo}>
                         <SvgTitleLogo />
                     </View>
                     <View style={styles.vInput}>
-                        <Text style={styles.titEmail}>{translate('unauthentic:email') || ""}</Text>
+                        <Text style={styles.titEmail}>{translate('UNAUTHENTIC:EMAIL') || ""}</Text>
                         <TextInput
                             value={dataLogin.email}
                             onChangeText={(email) => onChange ? onChange('email', email) : null}
@@ -100,7 +98,7 @@ export const Login = (props: any) => {
                     </View>
 
                     <View style={styles.vInput}>
-                        <Text style={styles.titEmail}>{translate('unauthentic:pass') || ""}</Text>
+                        <Text style={styles.titEmail}>{translate('UNAUTHENTIC:PASSWORD') || ""}</Text>
                         <TextInput
                             secureTextEntry={true}
                             value={dataLogin.password}
@@ -126,7 +124,7 @@ export const Login = (props: any) => {
                             <Text
                                 style={styles.tLogin}
                             >
-                                {translate('unauthentic:login')}
+                                {translate('UNAUTHENTIC:LOGIN')}
                             </Text>
                             <Image
                                 source={require('../../../../assets/images/ButtonArrow_login.png')}
