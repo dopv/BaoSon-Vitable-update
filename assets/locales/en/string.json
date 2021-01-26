@@ -26,6 +26,16 @@
             "TAKEN_VITAMIN_TODAY": "I’ve taken my vitamins today",
             "POINT": "points",
             "PLUS": "+"
+        },
+        "MENU": {
+            "WANT_TO_AJUST_YOUR_PLAN": "Want to ajust your plan?",
+            "RETAKE_THE_QUIZ": "Retake the quiz",
+            "TRACKING_MY_VITAMINS": "Tracking my vitamins",
+            "MY_PACK": "My pack",
+            "BROWSE_ON_SHOP": "Browse our shop",
+            "MY_PROFILE": "My profile",
+            "SUPPORT_HELP": "Support / Help",
+            "ACCOUNT_DETAILS": "Account details"
         }
     }
 }

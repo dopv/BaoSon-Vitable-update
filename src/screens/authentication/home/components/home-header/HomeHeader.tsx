@@ -1,26 +1,36 @@
 import React from 'react';
-import { Image, ImageBackground, Text, View } from 'react-native';
+import { Image, ImageBackground, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { translate } from '../../../../../library/utils/i18n/translate';
 import { styles } from './styles'
 
 
 interface HomeHeaderProps {
     reminder: string,
-    userName: string
+    userName: string,
+    navigation: any
 }
 
 export const HomeHeader = (props: HomeHeaderProps) => {
-    const { userName, reminder } = props;
+    const { userName, reminder, navigation } = props;
 
+    const onPressGoToMenu = () => {
+        navigation && navigation.navigate('Menu');
+    }
     return <ImageBackground
         source={require('../../../../../../assets/images/Vitable_Hero_Images.png')}
         style={styles.vBackground}
         resizeMode='stretch'
     >
-        <Image
-            source={require('../../../../../../assets/images/Menu.png')}
-            style={styles.vImgMenu}
-        />
+        <TouchableWithoutFeedback onPress={onPressGoToMenu}
+            style={{
+                zIndex: 2
+            }}
+        >
+            <Image
+                source={require('../../../../../../assets/images/Menu.png')}
+                style={styles.vImgMenu}
+            />
+        </TouchableWithoutFeedback>
         <Image
             source={require('../../../../../../assets/images/Mypack.png')}
             style={styles.vImgPack}

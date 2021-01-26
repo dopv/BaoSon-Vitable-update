@@ -30,16 +30,18 @@ export default function App() {
   )(RootNavigator);
 
   return (
-    <Provider reducer={rootReducer} init={{}}>
-      {isDisconnect && <NetworkError />}
-      <AppConnected />
-      <DropdownAlert
-        imageStyle={{ marginTop: StatusBarHeight }}
-        messageStyle={{ marginTop: StatusBarHeight, fontSize: FONT_14, color: '#fff' }}
-        updateStatusBar={false}
-        ref={ref => DropDownHolder.setDropDown(ref)}
-        closeInterval={1000}
-      />
+    <Provider reducer={rootReducer}>
+      <>
+        {isDisconnect && <NetworkError />}
+        <AppConnected />
+        <DropdownAlert
+          imageStyle={{ marginTop: StatusBarHeight }}
+          messageStyle={{ marginTop: StatusBarHeight, fontSize: FONT_14, color: '#fff' }}
+          updateStatusBar={false}
+          ref={ref => DropDownHolder.setDropDown(ref)}
+          closeInterval={1000}
+        />
+      </>
     </Provider>
   );
 }

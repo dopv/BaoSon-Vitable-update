@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
-import { Text, TextInput, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import {
+    Text, TextInput, View, TouchableOpacity,
+    ScrollView, ImageBackground, Dimensions, ActivityIndicator
+} from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Post } from '../../../library/networking/fetch';
 import { validateEmail } from '../../../library/utils/validate';
 import { TOKEN } from '../../../common/keyStore';
-import { translate } from '../../../library/utils/i18n/translate';
 import { styles } from './style';
-import SvgTitleLogo from '../../../themes/svg';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
+const { height, width } = Dimensions.get('window');
 
 export const Login = (props: any) => {
     const { route } = props;
-    const { actionLogin } = route.params
+    const { actionLogin } = route.params;
     const [dataLogin, setDataLogin] = useState({ email: '', password: '' });
-    const [validator, setValidator] = useState({ invalidEmail: '', invalidPassword: '' });
     const [remember, setRemember] = useState(false);
+    const [validateInputEmail, setValidateInputEmail] = useState('');
+    const [validateInputPassword, setValidateInputPassword] = useState('');
+    const [isLogin, setLogin] = useState(false);
+    const [loginState, setLoginState] = useState('');
 
     const onChange = (key: string, value: string) => {
+        if (key === 'email' && value !== '') {
+            setValidateInputEmail('');
+        }
+        if (key === 'password' && value !== '') {
+            setValidateInputPassword('');
+        }
+        setLoginState('');
         setDataLogin({
             ...dataLogin,
             [key]: value
@@ -25,49 +37,38 @@ export const Login = (props: any) => {
     }
 
     const onClickToLogin = () => {
-        if (!dataLogin.email) {
-            setValidator({
-                ...validator,
-                invalidEmail: 'Email is not vacant'
-            })
+        if (isLogin) return;
+        setLoginState('');
+        if (!dataLogin.email || !validateEmail(dataLogin.email)) {
+            setValidateInputEmail('Invalide email address format');
             return;
         }
-        if (!validateEmail(dataLogin.email)) {
-            setValidator({
-                ...validator,
-                invalidEmail: 'Email invalid'
-            })
-            return;
-        }
+        setValidateInputEmail('');
         if (!dataLogin.password) {
-            setValidator({
-                ...validator,
-                invalidPassword: 'Password is not vacant'
-            })
+            setValidateInputPassword('Password cannot be empty');
             return;
         }
-        setValidator({ invalidEmail: '', invalidPassword: '' });
+        setValidateInputPassword('');
+        setLogin(true);
         Post('/api/v1/auth/login', dataLogin)
             .then(response => {
                 response.json().then(data => {
                     if (data.message) {
-                        DropDownHolder.showError('', data.message)
+                        setLoginState(data.message);
                     } else {
-                        if(remember){
+                        if (remember) {
                             AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
                         }
                         actionLogin && actionLogin(data || null);
                     }
-
+                    setLogin(false);
                 });
             }).catch(err => {
+                setLogin(false);
                 console.log('err', err)
             })
     }
 
-    const onRemember = () => {
-        setRemember(!remember)
-    }
     return (
         <Screen
             isScroll={false}
@@ -76,65 +77,102 @@ export const Login = (props: any) => {
             forceInset={{ bottom: 'never', top: 'never' }}
         >
             <ScrollView style={styles.fullScreen}>
-                <View style={styles.header}>
-                    <Text style={styles.titleHeader}>{translate('UNAUTHENTIC:HEADER_LOGIN')}</Text>
-                </View>
-                <View style={styles.content}>
-                    <View style={styles.vLogo}>
-                        <SvgTitleLogo />
-                    </View>
-                    <View style={styles.vInput}>
-                        <Text style={styles.titEmail}>{translate('UNAUTHENTIC:EMAIL') || ""}</Text>
-                        <TextInput
-                            value={dataLogin.email}
-                            onChangeText={(email) => onChange ? onChange('email', email) : null}
-                            style={styles.input}
-                        />
-                        {validator.invalidEmail !== '' && <Text
-                            style={styles.invalid}
+                <ImageBackground
+                    source={require('../../../../assets/images/login-bg.png')}
+                    style={{
+                        width: width,
+                        height: height
+                    }}
+                >
+                    <View
+                        style={styles.vHeader}
+                    >
+                        <Text
+                            style={styles.sTextTopHeader}
                         >
-                            {validator.invalidEmail}
-                        </Text>}
-                    </View>
-
-                    <View style={styles.vInput}>
-                        <Text style={styles.titEmail}>{translate('UNAUTHENTIC:PASSWORD') || ""}</Text>
-                        <TextInput
-                            secureTextEntry={true}
-                            value={dataLogin.password}
-                            onChangeText={(password) => onChange ? onChange('password', password) : null}
-                            style={styles.input}
-                        />
-                        {validator.invalidPassword !== '' && <Text
-                            style={styles.invalid}
+                            First, please sign in
+                        </Text>
+                        <Text
+                            style={styles.sTextContentHeader}
                         >
-                            {validator.invalidPassword}
-                        </Text>}
+                            For the moment the Vitable App is only accessible pour our clients.{'\n'}
+                            To discover our offer, you can go check our website<Text> </Text>
+                            <Text style={styles.sTextLink}>vitable.com.au</Text>
+                        </Text>
                     </View>
-                    <View style={styles.vBottom}>
-                        <TouchableOpacity onPress={onRemember} style={styles.btnRemember}>
-                            <View style={remember ? styles.vRemember : styles.vUnRemember} />
-                            <Text style={styles.tRemember}>REMEMBER ME</Text>
-                        </TouchableOpacity>
-
+                    <View
+                        style={styles.vFormInput}
+                    >
+                        <View
+                            style={styles.vInputEmail}
+                        >
+                            <Text style={[styles.sTextLabel, validateInputEmail !== ''
+                                && { color: '#F5785A' }]}
+                            >
+                                Email address
+                            </Text>
+                            <View>
+                                <TextInput
+                                    value={dataLogin.email}
+                                    onChangeText={(email) => onChange ? onChange('email', email) : null}
+                                    style={[styles.sInput, validateInputEmail !== '' && { color: '#F5785A' }]}
+                                    placeholder='Your mail address here...'
+                                />
+                            </View>
+                            {validateInputEmail !== '' && <Text
+                                style={styles.sTextInvalid}
+                            >
+                                {validateInputEmail}
+                            </Text>}
+                        </View>
+                        <View
+                            style={[styles.vInputEmail, { marginTop: height * 0.028169 }]}
+                        >
+                            <Text style={[styles.sTextLabel, validateInputPassword !== ''
+                                && { color: '#F5785A' }]}>
+                                Password
+                            </Text>
+                            <View>
+                                <TextInput
+                                    value={dataLogin.password}
+                                    onChangeText={(password) => onChange ? onChange('password', password) : null}
+                                    style={styles.sInput}
+                                    secureTextEntry={true}
+                                    placeholder='Your password here...'
+                                />
+                            </View>
+                            {validateInputPassword !== '' && <Text
+                                style={styles.sTextInvalid}
+                            >
+                                {validateInputPassword}
+                            </Text>}
+                        </View>
+                    </View>
+                    {loginState !== '' && <Text
+                        style={styles.sTextLoginFailed}
+                    >
+                        {loginState}
+                    </Text>}
+                    <View
+                        style={styles.vFormAction}
+                    >
                         <TouchableOpacity
-                            style={styles.btnLogin}
+                            style={styles.vButton}
                             onPress={onClickToLogin}
                         >
                             <Text
-                                style={styles.tLogin}
+                                style={styles.sTextSingIn}
                             >
-                                {translate('UNAUTHENTIC:LOGIN')}
+                                Sing in
                             </Text>
-                            <Image
-                                source={require('../../../../assets/images/ButtonArrow_login.png')}
-                                style={styles.imgLogin}
-                            />
                         </TouchableOpacity>
+                        <Text
+                            style={styles.sTextForgot}
+                        >
+                            Forgot my password
+                        </Text>
                     </View>
-                </View>
-
-
+                </ImageBackground>
             </ScrollView>
         </Screen>
     )

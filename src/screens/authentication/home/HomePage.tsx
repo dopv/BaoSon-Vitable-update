@@ -13,6 +13,11 @@ interface HomePageProps {
 }
 
 export const HomePage = (props: HomePageProps) => {
+    const { navigation } = props;
+
+    const onPressGoToMenu = () => {
+        navigation && navigation.navigate('Menu');
+    }
 
     return <Screen
         isScroll={false}
@@ -25,6 +30,7 @@ export const HomePage = (props: HomePageProps) => {
             <HomeHeader
                 userName={`aimee`}
                 reminder={`It's been two months since you reassessed your needs.`}
+                navigation={navigation}
             />
             <HomeTabs />
             <HomeStreakHistory
