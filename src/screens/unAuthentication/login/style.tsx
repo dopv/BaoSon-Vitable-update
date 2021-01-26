@@ -122,5 +122,8 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         width: width,
         textAlign: 'center'
+    },
+    vContent: {
+        width: width * 0.85
     }
 });
