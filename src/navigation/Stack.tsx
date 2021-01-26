@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators, TransitionSpecs, HeaderStyleInterpolators } from '@react-navigation/stack';
 import { Login } from '../screens/unAuthentication/login/Login';
 import { HomePage } from '../screens/authentication/home/HomePage';
 import { Splash } from '../screens/unAuthentication/splash/Splash';
@@ -42,11 +42,6 @@ export const StackNavigator = (props: any) => {
             {!isLoading ? (
                 token ?
                     (<>
-                        {/* <Stack.Screen
-                            component={Dashboard}
-                            name="Dashboard"
-                            initialParams={props.props}
-                        /> */}
                         <Stack.Screen
                             component={HomePage}
                             name="HomePage"
@@ -56,6 +51,27 @@ export const StackNavigator = (props: any) => {
                             component={Menu}
                             name="Menu"
                             initialParams={props.props}
+                            options={{
+                                transitionSpec: {
+                                    open: TransitionSpecs.TransitionIOSSpec,
+                                    close: TransitionSpecs.TransitionIOSSpec,
+                                },
+                                headerStyleInterpolator: HeaderStyleInterpolators.forFade,
+                                cardStyleInterpolator: ({ current, layouts }) => {
+                                    return {
+                                        cardStyle: {
+                                            transform: [
+                                                {
+                                                    translateX: current.progress.interpolate({
+                                                        inputRange: [0, 1],
+                                                        outputRange: [-layouts.screen.width, 0]
+                                                    })
+                                                }
+                                            ]
+                                        }
+                                    };
+                                }
+                            }}
                         />
                     </>)
                     :
