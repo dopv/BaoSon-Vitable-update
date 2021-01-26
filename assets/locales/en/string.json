@@ -3,9 +3,21 @@
     "UNAUTHENTIC": {
         "LOGIN": "Log in",
         "LOGOUT": "Log out",
-        "EMAL": "Email",
+        "EMAIL": "Email address",
         "PASSWORD": "Password",
-        "HEADER_LOGIN": "FREE SHIPPING FOR ORDERS OVER $30"
+        "HEADER_LOGIN": "FREE SHIPPING FOR ORDERS OVER $30",
+        "INVALID_EMAIL": "Invalide email address format",
+        "INVALID_PASSWORD": "Password cannot be empty",
+        "FIRST_SIGNIN": "First, please sign in",
+        "FOR_THE_MOMENT": "For the moment the Vitable App is only accessible pour our clients.",
+        "TO_DISCOVER_OUR_OFFER": "To discover our offer, you can go check our website",
+        "LINK": "vitable.com.au",
+        "ENTER_MAIL_HERE": "Your mail address here...",
+        "ENTER_PASSWORD_HERE": "Your password here...",
+        "FORGOT_PASSWORD": "Forgot my password",
+        "NEW_LINE": "\n",
+        "SPACE": " ",
+        "SIGNIN": "Sing in"
     },
     "AUTHENTIC": {
         "HOME": {
