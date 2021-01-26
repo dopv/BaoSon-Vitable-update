@@ -91,18 +91,21 @@ export const Login = (props: any) => {
                         style={styles.vHeader}
                     >
                         <Text
+                            allowFontScaling={false}
                             style={styles.sTextTopHeader}
                         >
                             {translate('UNAUTHENTIC:FIRST_SIGNIN')}
                         </Text>
                         <Text
+                            allowFontScaling={false}
                             style={styles.sTextContentHeader}
                         >
                             {translate('UNAUTHENTIC:FOR_THE_MOMENT')}
                             {translate('UNAUTHENTIC:NEW_LINE')}
                             {translate('UNAUTHENTIC:TO_DISCOVER_OUR_OFFER')}
                             {translate('UNAUTHENTIC:SPACE')}
-                            <Text style={styles.sTextLink}>{translate('UNAUTHENTIC:LINK')}</Text>
+                            <Text
+                                allowFontScaling={false} style={styles.sTextLink}>{translate('UNAUTHENTIC:LINK')}</Text>
                         </Text>
                     </View>
                     <View
@@ -111,13 +114,15 @@ export const Login = (props: any) => {
                         <View
                             style={styles.vInputEmail}
                         >
-                            <Text style={[styles.sTextLabel, validateInputEmail !== ''
-                                && { color: '#F5785A' }]}
+                            <Text
+                                allowFontScaling={false} style={[styles.sTextLabel, validateInputEmail !== ''
+                                    && { color: '#F5785A' }]}
                             >
                                 {translate('UNAUTHENTIC:EMAIL')}
                             </Text>
                             <View>
                                 <TextInput
+                                    allowFontScaling={false}
                                     value={dataLogin.email}
                                     onChangeText={(email) => onChange ? onChange('email', email) : null}
                                     style={[styles.sInput, validateInputEmail !== '' && { color: '#F5785A' }]}
@@ -125,6 +130,7 @@ export const Login = (props: any) => {
                                 />
                             </View>
                             {validateInputEmail !== '' && <Text
+                                allowFontScaling={false}
                                 style={styles.sTextInvalid}
                             >
                                 {validateInputEmail}
@@ -133,12 +139,14 @@ export const Login = (props: any) => {
                         <View
                             style={[styles.vInputEmail, { marginTop: height * 0.028169 }]}
                         >
-                            <Text style={[styles.sTextLabel, validateInputPassword !== ''
-                                && { color: '#F5785A' }]}>
+                            <Text
+                                allowFontScaling={false} style={[styles.sTextLabel, validateInputPassword !== ''
+                                    && { color: '#F5785A' }]}>
                                 {translate('UNAUTHENTIC:PASSWORD')}
                             </Text>
                             <View>
                                 <TextInput
+                                    allowFontScaling={false}
                                     value={dataLogin.password}
                                     onChangeText={(password) => onChange ? onChange('password', password) : null}
                                     style={styles.sInput}
@@ -147,6 +155,7 @@ export const Login = (props: any) => {
                                 />
                             </View>
                             {validateInputPassword !== '' && <Text
+                                allowFontScaling={false}
                                 style={styles.sTextInvalid}
                             >
                                 {validateInputPassword}
@@ -154,6 +163,7 @@ export const Login = (props: any) => {
                         </View>
                     </View>
                     {loginState !== '' && <Text
+                        allowFontScaling={false}
                         style={styles.sTextLoginFailed}
                     >
                         {loginState}
@@ -166,12 +176,14 @@ export const Login = (props: any) => {
                             onPress={onClickToLogin}
                         >
                             <Text
+                                allowFontScaling={false}
                                 style={styles.sTextSingIn}
                             >
                                 {translate('UNAUTHENTIC:SIGNIN')}
                             </Text>
                         </TouchableOpacity>
                         <Text
+                            allowFontScaling={false}
                             style={styles.sTextForgot}
                         >
                             {translate('UNAUTHENTIC:FORGOT_PASSWORD')}

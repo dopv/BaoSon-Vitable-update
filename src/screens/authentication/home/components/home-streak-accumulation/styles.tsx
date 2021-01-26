@@ -1,24 +1,26 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { FONT_10, FONT_12, FONT_14, FONT_24 } from '../../../../../themes/fontSize';
-const { width, height } = Dimensions.get('window');
+const { height: heightScr, width } = Dimensions.get('window');
+const statusBarHeight = StatusBar.currentHeight &&
+    StatusBar.currentHeight >= 38 &&
+    StatusBar.currentHeight || 0;
+const height = heightScr + statusBarHeight;
+
 export const styles = StyleSheet.create({
     vStreakAccumu: {
         width: width * 0.85,
         height: height * 0.22535,
-        top: height * 0.579225,
-        position: 'absolute',
-        left: width * 0.075,
+        marginTop: height * 0.0422535,
         borderRadius: 3,
         padding: 16,
         borderColor: '#BED0A2',
         borderStyle: 'solid',
-        borderWidth: 1
+        borderWidth: width * 0.003125
     },
     vPointInfo: {
         width: width * 0.475,
         height: height * 0.091549,
-        padding: 0,
-
+        padding: 0
     },
     vCurrentPoint: {
         width: width * 0.6625,
@@ -34,7 +36,6 @@ export const styles = StyleSheet.create({
     sTextPointUnit: {
         fontWeight: '400',
         fontSize: FONT_14,
-        lineHeight: FONT_14 * 1.3,
         letterSpacing: FONT_14 * 0.015,
     },
     vPointCondition: {
@@ -56,7 +57,7 @@ export const styles = StyleSheet.create({
         top: height * 0.028169,
         opacity: 0.3,
         borderColor: '#272626',
-        borderWidth: 1,
+        borderWidth: width * 0.003125,
         borderStyle: 'solid',
         borderRadius: 50,
         justifyContent: 'center',

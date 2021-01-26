@@ -8,22 +8,23 @@ interface ItemMenuProps {
     name: string,
     isActive: boolean,
     route: string,
-    navigation: any
+    navigation: any,
 }
 
 export const ItemMenu = (props: ItemMenuProps) => {
     const { name, isActive, route, navigation } = props;
 
     const onPressGoto = () => {
-        console.log('zoooooooooooooo', navigation)
         navigation && navigation.navigate(route);
     }
 
     return <TouchableOpacity
+        style={styles.btnItem}
         onPress={() => onPressGoto()}
     >
         <>
             <Text
+                allowFontScaling={false}
                 style={[styles.vMenuItem, isActive ?
                     styles.vItemActive : styles.vItemNormal]}
             >
@@ -32,11 +33,11 @@ export const ItemMenu = (props: ItemMenuProps) => {
             <Image
                 source={require('../../../../../assets/images/Arrow_Right.png')}
                 style={{
-                    width: width * 0.03646875,
-                    height: height * 0.0352113,
+                    width: width * 0.04,
+                    height: width * 0.06,
                     position: 'absolute',
-                    top: height * 0.0176056,
-                    left: width * 0.84490625
+                    // top: height * 0.0176056,
+                    right: width * 0.1
                 }}
             />
         </>

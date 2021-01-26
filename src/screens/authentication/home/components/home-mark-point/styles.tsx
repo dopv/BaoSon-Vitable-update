@@ -1,23 +1,22 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { FONT_10, FONT_12, FONT_14, FONT_24 } from '../../../../../themes/fontSize';
-const { width, height } = Dimensions.get('window');
+import { StyleSheet, Dimensions, StatusBar } from 'react-native';
+import { FONT_12, FONT_14 } from '../../../../../themes/fontSize';
+const { height: heightScr, width } = Dimensions.get('window');
+const statusBarHeight = StatusBar.currentHeight &&
+    StatusBar.currentHeight >= 38 &&
+    StatusBar.currentHeight || 0;
+const height = heightScr + statusBarHeight;
+
 export const styles = StyleSheet.create({
     vMarkPoint: {
-        width: width * 0.85,
-        height: height * 0.1161972,
-        top: height * 0.846831,
-        left: width * 0.075,
-        padding: 0,
-        position: 'absolute'
+        marginTop: height * 0.0429577
     },
     vMarkBtn: {
-        width: width * 0.734375,
-        left: width * 0.0578125,
-        borderWidth: 0.5,
+        borderWidth: width * 0.0015625,
         borderStyle: 'solid',
         borderColor: '#272626',
         backgroundColor: '#F5785A',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     sTextMarkBtn: {
         paddingHorizontal: height * 0.042254,
@@ -25,6 +24,7 @@ export const styles = StyleSheet.create({
         fontSize: FONT_14,
         fontWeight: '400',
         lineHeight: FONT_14 * 1.5714,
+        textAlign: 'center',
         letterSpacing: FONT_14 * 0.015
     },
     sTextMarkPoint: {

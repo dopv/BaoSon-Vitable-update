@@ -7,6 +7,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TOKEN } from '../common/keyStore';
 import { Menu } from '../screens/authentication/menu/Menu';
 import { Profile } from '../screens/authentication/profile/Profile';
+import { MyDrawer } from './Drawer';
+import { HOME_SCREEN, PROFILE_SCREEN, QUIZ_SCREEN } from './TypeScreen';
+import { Quiz } from '../screens/authentication/quiz/Quiz';
 
 const Stack = createStackNavigator();
 
@@ -44,40 +47,14 @@ export const StackNavigator = (props: any) => {
                 token ?
                     (<>
                         <Stack.Screen
-                            component={HomePage}
-                            name="HomePage"
+                            component={MyDrawer}
+                            name='MyDrawer'
                             initialParams={props.props}
                         />
                         <Stack.Screen
-                            component={Profile}
-                            name="Profile"
+                            component={Quiz}
+                            name={QUIZ_SCREEN}
                             initialParams={props.props}
-                        />
-                        <Stack.Screen
-                            component={Menu}
-                            name="Menu"
-                            initialParams={props.props}
-                            options={{
-                                transitionSpec: {
-                                    open: TransitionSpecs.TransitionIOSSpec,
-                                    close: TransitionSpecs.TransitionIOSSpec,
-                                },
-                                headerStyleInterpolator: HeaderStyleInterpolators.forFade,
-                                cardStyleInterpolator: ({ current, layouts }) => {
-                                    return {
-                                        cardStyle: {
-                                            transform: [
-                                                {
-                                                    translateX: current.progress.interpolate({
-                                                        inputRange: [0, 1],
-                                                        outputRange: [-layouts.screen.width, 0]
-                                                    })
-                                                }
-                                            ]
-                                        }
-                                    };
-                                }
-                            }}
                         />
                     </>)
                     :

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Image, ImageBackground, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Image, ImageBackground, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { translate } from '../../../../../library/utils/i18n/translate';
 import { styles } from './styles'
-
+import { useRoute } from '@react-navigation/native';
+import { PACK_SCREEN, QUIZ_SCREEN } from '../../../../../navigation/TypeScreen';
 
 interface HomeHeaderProps {
     reminder: string,
@@ -12,10 +13,24 @@ interface HomeHeaderProps {
 
 export const HomeHeader = (props: HomeHeaderProps) => {
     const { userName, reminder, navigation } = props;
+    const route = useRoute();
 
     const onPressGoToMenu = () => {
-        navigation && navigation.navigate('Menu');
+        navigation && navigation.openDrawer();
+
+        // navigation && navigation.navigate('Menu', {
+        //     currentRoute: route.name
+        // });
     }
+
+    const onPressGoToQuiz = () => {
+        navigation && navigation.navigate(QUIZ_SCREEN);
+    }
+
+    const onPressGoToPack = () => {
+        navigation && navigation.navigate(PACK_SCREEN);
+    }
+
     return <ImageBackground
         source={require('../../../../../../assets/images/Vitable_Hero_Images.png')}
         style={styles.vBackground}
@@ -31,15 +46,22 @@ export const HomeHeader = (props: HomeHeaderProps) => {
                 style={styles.vImgMenu}
             />
         </TouchableWithoutFeedback>
-        <Image
-            source={require('../../../../../../assets/images/Mypack.png')}
-            style={styles.vImgPack}
-        />
+        <TouchableWithoutFeedback style={{
+            zIndex: 2
+        }}
+            onPress={onPressGoToPack}
+        >
+            <Image
+                source={require('../../../../../../assets/images/Mypack.png')}
+                style={styles.vImgPack}
+            />
+        </TouchableWithoutFeedback>
         <View
             style={styles.vContent}
         >
             <View>
                 <Text
+                    allowFontScaling={false}
                     style={styles.sTextHi}
                 >
                     {translate('AUTHENTIC:HOME:HI')}{userName || ''},
@@ -47,14 +69,21 @@ export const HomeHeader = (props: HomeHeaderProps) => {
             </View>
             <View>
                 <Text
+                    allowFontScaling={false}
                     style={styles.sTextRemider}
                 >
                     {reminder || ''}
                 </Text>
             </View>
-            <Text
-                style={styles.sTextTakeQuiz}
-            >{translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}</Text>
+            <TouchableWithoutFeedback
+                onPress={onPressGoToQuiz}
+                style={{ zIndex: 2 }}
+            >
+                <Text
+                    allowFontScaling={false}
+                    style={styles.sTextTakeQuiz}
+                >{translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}</Text>
+            </TouchableWithoutFeedback>
         </View>
     </ImageBackground>
 }

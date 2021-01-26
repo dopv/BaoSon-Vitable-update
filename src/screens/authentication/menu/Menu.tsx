@@ -4,16 +4,14 @@ import { Screen } from '../../../library/components/screen/index';
 import { styles } from './style';
 import { ItemMenu } from './components/MenuItem';
 import { translate } from '../../../library/utils/i18n/translate';
+import { PACK_SCREEN, PROFILE_SCREEN, TRACKING_SCREEN, BROWSER_SHOP_SCREEN, HOME_SCREEN, SUPPORT_SCREEN, ACCOUNT_DETAIL_SCREEN } from '../../../navigation/TypeScreen';
 
-interface MenuProps {
-    navigation: any
-}
-
-export const Menu = (props: MenuProps) => {
-    const { navigation } = props;
+export const Menu = (props: any) => {
+    const { navigation, route } = props;
+    // const currentRoute = route.params && route.params.currentRoute || '';
 
     const goBack = () => {
-        navigation && navigation.goBack();
+        navigation && navigation.navigate(HOME_SCREEN)
     }
 
     return <Screen
@@ -23,6 +21,7 @@ export const Menu = (props: MenuProps) => {
         forceInset={{ bottom: 'never', top: 'never' }}
         draw={true}
     >
+
         <View style={styles.vMenu}>
             <TouchableWithoutFeedback onPress={goBack}>
                 <View
@@ -47,25 +46,25 @@ export const Menu = (props: MenuProps) => {
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:TRACKING_MY_VITAMINS')}`}
                         isActive={true}
-                        route='HomePage'
+                        route={HOME_SCREEN}
                         navigation={navigation}
                     />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:MY_PACK')}`}
                         isActive={false}
-                        route='MyPack'
+                        route={PACK_SCREEN}
                         navigation={navigation}
                     />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:BROWSE_ON_SHOP')}`}
                         isActive={false}
-                        route='BrowseOnShop'
+                        route={BROWSER_SHOP_SCREEN}
                         navigation={navigation}
                     />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:MY_PROFILE')}`}
                         isActive={false}
-                        route='Profile'
+                        route={PROFILE_SCREEN}
                         navigation={navigation}
                     />
                 </View>
@@ -78,13 +77,13 @@ export const Menu = (props: MenuProps) => {
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:SUPPORT_HELP')}`}
                         isActive={false}
-                        route='Help'
+                        route={SUPPORT_SCREEN}
                         navigation={navigation}
                     />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:ACCOUNT_DETAILS')}`}
                         isActive={false}
-                        route='AccountDetail'
+                        route={ACCOUNT_DETAIL_SCREEN}
                         navigation={navigation}
                     />
                 </View>
@@ -96,11 +95,13 @@ export const Menu = (props: MenuProps) => {
                     style={styles.vContentFooter}
                 >
                     <Text
+                        allowFontScaling={false}
                         style={styles.sTextAjust}
                     >
                         {translate('AUTHENTIC:MENU:WANT_TO_AJUST_YOUR_PLAN')}
                     </Text>
                     <Text
+                        allowFontScaling={false}
                         style={styles.sTextReTakeQuiz}
                     >
                         {translate('AUTHENTIC:MENU:RETAKE_THE_QUIZ')}

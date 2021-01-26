@@ -18,6 +18,7 @@ export const HomeStreakHistory = (props: HomeStreakHistoryProps) => {
             style={styles.vStreakCurrent}
         >
             <Text
+                allowFontScaling={false}
                 style={styles.sTextStreakCurrent}
             >
                 {currentStreak || ''}
@@ -26,6 +27,7 @@ export const HomeStreakHistory = (props: HomeStreakHistoryProps) => {
                 style={styles.vSubStreakCurrent}
             />
             <Text
+                allowFontScaling={false}
                 style={styles.vTextSubStreakCurrent}
             >
                 {translate('AUTHENTIC:HOME_STREAK_HISTORY:CURRENT_STREAK')}
@@ -35,6 +37,7 @@ export const HomeStreakHistory = (props: HomeStreakHistoryProps) => {
             style={styles.vStreakBest}
         >
             <Text
+                allowFontScaling={false}
                 style={styles.sTextStreakBest}
             >
                 {bestStreak || ''}
@@ -43,6 +46,7 @@ export const HomeStreakHistory = (props: HomeStreakHistoryProps) => {
                 style={styles.vSubStreakBest}
             />
             <Text
+                allowFontScaling={false}
                 style={styles.sTextSubStreakBest}
             >
                 {translate('AUTHENTIC:HOME_STREAK_HISTORY:BEST_STREAK')}

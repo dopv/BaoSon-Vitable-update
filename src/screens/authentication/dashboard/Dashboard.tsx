@@ -38,6 +38,7 @@ export const Dashboard = (props: DashboardProps) => {
             alignContent: 'center'
         }}>
             <Text
+                allowFontScaling={false}
                 style={{
                     fontSize: FONT_15,
                     alignContent: 'center',
@@ -60,10 +61,11 @@ export const Dashboard = (props: DashboardProps) => {
                 }}
             >
                 <Text
+                    allowFontScaling={false}
                     style={{ fontSize: FONT_15 }}
                 >
                     {translate('UNAUTHENTIC:LOGOUT') || ""}
-            </Text>
+                </Text>
             </TouchableOpacity>
         </View>
     </Screen>
