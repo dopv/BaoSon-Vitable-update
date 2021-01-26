@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
         backgroundColor: '#F7F4EB',
     },
     vHeader: {
-        width: width * 0.85,
         height: height * 0.2394366,
         top: height * 0.1443662,
         left: width * 0.075

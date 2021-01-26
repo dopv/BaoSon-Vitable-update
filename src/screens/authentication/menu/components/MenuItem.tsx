@@ -25,6 +25,7 @@ export const ItemMenu = (props: ItemMenuProps) => {
     >
         <>
             <Text
+                            allowFontScaling={false}
                 style={[styles.vMenuItem, isActive ?
                     styles.vItemActive : styles.vItemNormal]}
             >

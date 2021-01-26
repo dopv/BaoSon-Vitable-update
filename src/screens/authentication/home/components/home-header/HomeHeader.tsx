@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, ImageBackground, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { translate } from '../../../../../library/utils/i18n/translate';
 import { styles } from './styles'
-import {useRoute} from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 interface HomeHeaderProps {
     reminder: string,
@@ -43,6 +43,7 @@ export const HomeHeader = (props: HomeHeaderProps) => {
         >
             <View>
                 <Text
+                    allowFontScaling={false}
                     style={styles.sTextHi}
                 >
                     {translate('AUTHENTIC:HOME:HI')}{userName || ''},
@@ -50,12 +51,14 @@ export const HomeHeader = (props: HomeHeaderProps) => {
             </View>
             <View>
                 <Text
+                    allowFontScaling={false}
                     style={styles.sTextRemider}
                 >
                     {reminder || ''}
                 </Text>
             </View>
             <Text
+                allowFontScaling={false}
                 style={styles.sTextTakeQuiz}
             >{translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}</Text>
         </View>

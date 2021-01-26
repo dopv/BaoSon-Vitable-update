@@ -17,8 +17,7 @@ export const styles = StyleSheet.create({
     vPointInfo: {
         width: width * 0.475,
         height: height * 0.091549,
-        padding: 0,
-
+        padding: 0
     },
     vCurrentPoint: {
         width: width * 0.6625,
@@ -34,7 +33,6 @@ export const styles = StyleSheet.create({
     sTextPointUnit: {
         fontWeight: '400',
         fontSize: FONT_14,
-        lineHeight: FONT_14 * 1.3,
         letterSpacing: FONT_14 * 0.015,
     },
     vPointCondition: {

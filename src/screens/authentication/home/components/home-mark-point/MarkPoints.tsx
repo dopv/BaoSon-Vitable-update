@@ -17,12 +17,14 @@ export const MarkWork = (props: MarkWorkProps) => {
             style={styles.vMarkBtn}
         >
             <Text
+                            allowFontScaling={false}
                 style={styles.sTextMarkBtn}
             >
                 {translate('AUTHENTIC:MARK_POINTS:TAKEN_VITAMIN_TODAY')}
             </Text>
         </View>
         <Text
+                            allowFontScaling={false}
             style={styles.sTextMarkPoint}
         >
 

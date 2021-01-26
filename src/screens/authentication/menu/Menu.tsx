@@ -104,11 +104,13 @@ export const Menu = (props: MenuProps) => {
                     style={styles.vContentFooter}
                 >
                     <Text
+                            allowFontScaling={false}
                         style={styles.sTextAjust}
                     >
                         {translate('AUTHENTIC:MENU:WANT_TO_AJUST_YOUR_PLAN')}
                     </Text>
                     <Text
+                            allowFontScaling={false}
                         style={styles.sTextReTakeQuiz}
                     >
                         {translate('AUTHENTIC:MENU:RETAKE_THE_QUIZ')}
