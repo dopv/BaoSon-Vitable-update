@@ -96,17 +96,19 @@ export const Login = (props: any) => {
                         >
                             {translate('UNAUTHENTIC:FIRST_SIGNIN')}
                         </Text>
-                        <Text
-                            allowFontScaling={false}
-                            style={styles.sTextContentHeader}
-                        >
-                            {translate('UNAUTHENTIC:FOR_THE_MOMENT')}
-                            {translate('UNAUTHENTIC:NEW_LINE')}
-                            {translate('UNAUTHENTIC:TO_DISCOVER_OUR_OFFER')}
-                            {translate('UNAUTHENTIC:SPACE')}
+                        <View style={styles.vContent}>
                             <Text
-                                allowFontScaling={false} style={styles.sTextLink}>{translate('UNAUTHENTIC:LINK')}</Text>
-                        </Text>
+                                allowFontScaling={false}
+                                style={styles.sTextContentHeader}
+                            >
+                                {translate('UNAUTHENTIC:FOR_THE_MOMENT')}
+                                {translate('UNAUTHENTIC:NEW_LINE')}
+                                {translate('UNAUTHENTIC:TO_DISCOVER_OUR_OFFER')}
+                                {translate('UNAUTHENTIC:SPACE')}
+                                <Text
+                                    allowFontScaling={false} style={styles.sTextLink}>{translate('UNAUTHENTIC:LINK')}</Text>
+                            </Text>
+                        </View>
                     </View>
                     <View
                         style={styles.vFormInput}
