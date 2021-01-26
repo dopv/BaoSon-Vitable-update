@@ -20,10 +20,9 @@ export const StackNavigator = (props: any) => {
         isLogout = stateAuth.isLogout
         token = stateAuth.token
     }
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        setIsLoading(true)
         setTimeout(() => {
             AsyncStorage.getItem(TOKEN).then((token: any) => {
                 if (token) {
@@ -39,6 +38,7 @@ export const StackNavigator = (props: any) => {
                 headerShown: false,
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
             }}
+            initialRouteName="Splash"
         >
             {!isLoading ? (
                 token ?

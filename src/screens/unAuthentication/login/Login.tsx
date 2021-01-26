@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
     Text, TextInput, View, TouchableOpacity,
-    ScrollView, ImageBackground, Dimensions, ActivityIndicator
+    ScrollView, ImageBackground, Dimensions
 } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,7 +9,7 @@ import { Post } from '../../../library/networking/fetch';
 import { validateEmail } from '../../../library/utils/validate';
 import { TOKEN } from '../../../common/keyStore';
 import { styles } from './style';
-import DropDownHolder from '../../../library/utils/dropDownHolder';
+import { translate } from '../../../library/utils/i18n/translate';
 const { height, width } = Dimensions.get('window');
 
 export const Login = (props: any) => {
@@ -40,12 +40,12 @@ export const Login = (props: any) => {
         if (isLogin) return;
         setLoginState('');
         if (!dataLogin.email || !validateEmail(dataLogin.email)) {
-            setValidateInputEmail('Invalide email address format');
+            setValidateInputEmail(`${translate('UNAUTHENTIC:INVALID_EMAIL')}`);
             return;
         }
         setValidateInputEmail('');
         if (!dataLogin.password) {
-            setValidateInputPassword('Password cannot be empty');
+            setValidateInputPassword(`${translate('UNAUTHENTIC:INVALID_PASSWORD')}`);
             return;
         }
         setValidateInputPassword('');
@@ -56,9 +56,7 @@ export const Login = (props: any) => {
                     if (data.message) {
                         setLoginState(data.message);
                     } else {
-                        if (remember) {
-                            AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-                        }
+                        AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
                         actionLogin && actionLogin(data || null);
                     }
                     setLogin(false);
@@ -90,14 +88,16 @@ export const Login = (props: any) => {
                         <Text
                             style={styles.sTextTopHeader}
                         >
-                            First, please sign in
+                            {translate('UNAUTHENTIC:FIRST_SIGNIN')}
                         </Text>
                         <Text
                             style={styles.sTextContentHeader}
                         >
-                            For the moment the Vitable App is only accessible pour our clients.{'\n'}
-                            To discover our offer, you can go check our website<Text> </Text>
-                            <Text style={styles.sTextLink}>vitable.com.au</Text>
+                            {translate('UNAUTHENTIC:FOR_THE_MOMENT')}
+                            {translate('UNAUTHENTIC:NEW_LINE')}
+                            {translate('UNAUTHENTIC:TO_DISCOVER_OUR_OFFER')}
+                            {translate('UNAUTHENTIC:SPACE')}
+                            <Text style={styles.sTextLink}>{translate('UNAUTHENTIC:LINK')}</Text>
                         </Text>
                     </View>
                     <View
@@ -109,14 +109,14 @@ export const Login = (props: any) => {
                             <Text style={[styles.sTextLabel, validateInputEmail !== ''
                                 && { color: '#F5785A' }]}
                             >
-                                Email address
+                                {translate('UNAUTHENTIC:EMAIL')}
                             </Text>
                             <View>
                                 <TextInput
                                     value={dataLogin.email}
                                     onChangeText={(email) => onChange ? onChange('email', email) : null}
                                     style={[styles.sInput, validateInputEmail !== '' && { color: '#F5785A' }]}
-                                    placeholder='Your mail address here...'
+                                    placeholder={`${translate('UNAUTHENTIC:ENTER_MAIL_HERE')}`}
                                 />
                             </View>
                             {validateInputEmail !== '' && <Text
@@ -130,7 +130,7 @@ export const Login = (props: any) => {
                         >
                             <Text style={[styles.sTextLabel, validateInputPassword !== ''
                                 && { color: '#F5785A' }]}>
-                                Password
+                                {translate('UNAUTHENTIC:PASSWORD')}
                             </Text>
                             <View>
                                 <TextInput
@@ -138,7 +138,7 @@ export const Login = (props: any) => {
                                     onChangeText={(password) => onChange ? onChange('password', password) : null}
                                     style={styles.sInput}
                                     secureTextEntry={true}
-                                    placeholder='Your password here...'
+                                    placeholder={`${translate('UNAUTHENTIC:ENTER_PASSWORD_HERE')}`}
                                 />
                             </View>
                             {validateInputPassword !== '' && <Text
@@ -163,13 +163,13 @@ export const Login = (props: any) => {
                             <Text
                                 style={styles.sTextSingIn}
                             >
-                                Sing in
+                                {translate('UNAUTHENTIC:SIGNIN')}
                             </Text>
                         </TouchableOpacity>
                         <Text
                             style={styles.sTextForgot}
                         >
-                            Forgot my password
+                            {translate('UNAUTHENTIC:FORGOT_PASSWORD')}
                         </Text>
                     </View>
                 </ImageBackground>
