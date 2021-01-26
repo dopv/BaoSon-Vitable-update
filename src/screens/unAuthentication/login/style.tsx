@@ -1,114 +1,122 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import {
-    FONT_10,
-    FONT_16,
     FONT_14,
-    FONT_12
+    FONT_32
 } from '../../../themes/fontSize';
-const { width } = Dimensions.get('window');
-import { StatusBarHeight } from '../../../config/heightStatusbar'
-import { size } from '../../../themes/size';
+const { width, height } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
     fullScreen: {
         flex: 1,
         backgroundColor: '#F7F4EB',
     },
-    header: {
-        backgroundColor: '#BDCFA3',
-        width: '100%',
-        paddingHorizontal: size[20],
-        paddingVertical: size[5],
-        paddingTop: StatusBarHeight,
-        alignItems: 'center'
+    vHeader: {
+        width: width * 0.85,
+        height: height * 0.2394366,
+        top: height * 0.1443662,
+        left: width * 0.075
     },
-    titleHeader: {
-        textAlign: 'center',
+    sTextTopHeader: {
+        fontWeight: '400',
+        fontSize: FONT_32,
+        lineHeight: FONT_32 * 1.5,
+        letterSpacing: FONT_32 * 0.0034375,
+        color: '#272626',
+        left: 0,
+        top: 0
+    },
+    sTextContentHeader: {
+        fontWeight: '500',
         fontSize: FONT_14,
-        color: '#272626'
-    },
-    content: {
-        flex: 1,
-        alignItems: 'center'
-    },
-    vLogo: {
-        paddingTop: size[19],
-        paddingBottom: size[36]
-    },
-    vInput: {
-        marginTop: size[10],
-        width: '100%',
-        paddingHorizontal: size[24]
-    },
-    titEmail: {
+        lineHeight: FONT_14 * 1.3,
+        letterSpacing: FONT_14 * 0.015,
         color: '#272626',
-        fontSize: FONT_10,
-        fontWeight: 'bold'
+        left: 0,
+        top: height * 0.028169
     },
-    input: {
-        // height: width * 0.12,
-        fontSize: FONT_16,
+    sTextLink: {
         fontWeight: 'bold',
-        // paddingLeft: size[10],
+        textDecorationLine: 'underline'
+    },
+    vFormInput: {
+        width: width * 0.85,
+        position: 'absolute',
+        top: height * 0.4401408,
+        left: width * 0.075
+    },
+    vInputEmail: {
+        left: 0,
+        top: 0,
+        width: width * 0.85
+    },
+    sTextLabel: {
+        fontSize: FONT_14,
+        fontWeight: '500',
+        lineHeight: FONT_14 * 1.3,
+        letterSpacing: FONT_14 * 0.005,
+        color: '#000000',
+        paddingBottom: height * 0.00704
+    },
+    sInput: {
+        backgroundColor: '#F7F4EB',
+        height: height * 0.059859,
+        borderWidth: width * 0.0015625,
+        borderColor: '#000000',
+        borderStyle: 'solid',
+        paddingLeft: width * 0.025,
+        fontSize: FONT_14,
+        fontWeight: '400',
+        lineHeight: FONT_14 * 1.3,
+        letterSpacing: FONT_14 * 0.015
+    },
+    vFormAction: {
+        width: width * 0.85,
+        height: height * 0.14612676,
+        position: 'absolute',
+        top: height * 0.7834507,
+        left: width * 0.075
+    },
+    vButton: {
+        backgroundColor: '#F5785A',
+        height: height * 0.065141,
+        width: width * 0.85,
+        justifyContent: 'center',
+        borderWidth: width * 0.0015625,
+        borderColor: '#000000',
+        borderStyle: 'solid'
+    },
+    sTextSingIn: {
+        fontSize: FONT_14,
+        lineHeight: FONT_14 * 1.5714286,
+        letterSpacing: FONT_14 * 0.015,
         color: '#272626',
-        borderBottomWidth: 1,
-        borderColor: '#DCD2BD',
-        paddingVertical: size[5]
+        textAlign: 'center'
     },
-    invalid: {
-        color: 'red',
-        fontStyle: 'italic',
-        marginBottom: size[5]
+    sTextForgot: {
+        fontSize: FONT_14,
+        fontWeight: '500',
+        lineHeight: FONT_14 * 1.5714286,
+        letterSpacing: FONT_14 * 0.018571,
+        textAlign: 'center',
+        marginTop: height * 0.0422535,
+        textDecorationLine: 'underline'
     },
-    vBottom: {
-        width: '100%',
-        marginTop: size[30],
-        paddingHorizontal: size[24],
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+    sTextInvalid: {
+        paddingTop: height * 0.007042,
+        fontSize: FONT_14,
+        lineHeight: FONT_14 * 1.3,
+        letterSpacing: FONT_14 * 0.005,
+        color: '#F5785A'
     },
-    btnRemember: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    vRemember: {
-        borderRadius: 100,
-        width: size[30],
-        height: size[30],
-        borderColor: '#272626',
-        borderWidth: 1,
-        backgroundColor: '#BDCFA3'
-    },
-    vUnRemember: {
-        borderRadius: 100,
-        width: size[30],
-        height: size[30],
-        borderColor: '#272626',
-        borderWidth: 1
-    },
-    tRemember: {
-        marginLeft: size[10],
-        fontSize: FONT_12,
-        fontWeight: 'bold'
-    },
-    btnLogin: {
-        width: width * 0.359,
-        height: width * 0.13,
-        backgroundColor: '#BDCFA3',
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        borderWidth: 1,
-        borderColor: '#000000'
-    },
-    tLogin: {
-        fontSize: FONT_16,
-        color: '#5C6252'
-    },
-    imgLogin: {
-        width: width * 0.125,
-        height: width * 0.0678,
-        marginRight: size[3],
-        marginLeft: size[8]
+    sTextLoginFailed: {
+        paddingTop: height * 0.007042,
+        fontSize: FONT_14,
+        lineHeight: FONT_14 * 1.3,
+        letterSpacing: FONT_14 * 0.005,
+        color: '#F5785A',
+        top: height * 0.7,
+        position: 'absolute',
+        width: width,
+        textAlign: 'center'
     }
 });
