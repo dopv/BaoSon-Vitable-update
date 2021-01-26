@@ -15,10 +15,6 @@ interface HomePageProps {
 export const HomePage = (props: HomePageProps) => {
     const { navigation } = props;
 
-    const onPressGoToMenu = () => {
-        navigation && navigation.navigate('Menu');
-    }
-
     return <Screen
         isScroll={false}
         hidden={false}
