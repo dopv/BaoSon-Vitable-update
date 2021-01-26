@@ -1,11 +1,53 @@
 {
-    "error": {
-       
+    "error": {},
+    "UNAUTHENTIC": {
+        "LOGIN": "Log in",
+        "LOGOUT": "Log out",
+        "EMAIL": "Email address",
+        "PASSWORD": "Password",
+        "HEADER_LOGIN": "FREE SHIPPING FOR ORDERS OVER $30",
+        "INVALID_EMAIL": "Invalide email address format",
+        "INVALID_PASSWORD": "Password cannot be empty",
+        "FIRST_SIGNIN": "First, please sign in",
+        "FOR_THE_MOMENT": "For the moment the Vitable App is only accessible pour our clients.",
+        "TO_DISCOVER_OUR_OFFER": "To discover our offer, you can go check our website",
+        "LINK": "vitable.com.au",
+        "ENTER_MAIL_HERE": "Your mail address here...",
+        "ENTER_PASSWORD_HERE": "Your password here...",
+        "FORGOT_PASSWORD": "Forgot my password",
+        "NEW_LINE": "\n",
+        "SPACE": " ",
+        "SIGNIN": "Sing in"
     },
-    "unauthentic": {
-        "login":"Log in",
-        "logout":"Log out",
-        "email":"Email",
-        "pass":"Password"
+    "AUTHENTIC": {
+        "HOME": {
+            "DAILY_TRACKER": "Daily tracker",
+            "HI":"Hi, ",
+            "TAKE_THE_QUIZ":"Take the quizz"
+        },
+        "HOME_STREAK_HISTORY": {
+            "CURRENT_STREAK": "Current streak",
+            "BEST_STREAK": "Best streak"
+        },
+        "STREAK_ACCUMULATION": {
+            "POINT": "points",
+            "EARN_EXTRA_POINTS": "Earn extra points",
+            "SPLASH": "/"
+        },
+        "MARK_POINTS": {
+            "TAKEN_VITAMIN_TODAY": "I’ve taken my vitamins today",
+            "POINT": "points",
+            "PLUS": "+"
+        },
+        "MENU": {
+            "WANT_TO_AJUST_YOUR_PLAN": "Want to ajust your plan?",
+            "RETAKE_THE_QUIZ": "Retake the quiz",
+            "TRACKING_MY_VITAMINS": "Tracking my vitamins",
+            "MY_PACK": "My pack",
+            "BROWSE_ON_SHOP": "Browse our shop",
+            "MY_PROFILE": "My profile",
+            "SUPPORT_HELP": "Support / Help",
+            "ACCOUNT_DETAILS": "Account details"
+        }
     }
 }

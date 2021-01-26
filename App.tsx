@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { RootNavigator } from './src/navigation/Root';
 import NetInfo from "@react-native-community/netinfo";
 import { NetworkError } from './src/components/NetworkError';
-import { StoreContainer } from "./src/store/store"
+import { rootReducer, mapStateToProps, mapDispatchToProps } from "./src/store/store";
+import Provider, { connect } from 'un-redux';
+import DropDownHolder from './src/library/utils/dropDownHolder';
+import DropdownAlert from 'react-native-dropdownalert';
+import { StatusBarHeight } from './src/config/heightStatusbar';
+import { FONT_14 } from './src/themes/fontSize';
 
 export default function App() {
   const [isDisconnect, setDisconnect] = useState(false);
@@ -19,10 +24,24 @@ export default function App() {
       unsubcribe();
   }, [isDisconnect]);
 
+  const AppConnected = connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(RootNavigator);
+
   return (
-    <StoreContainer.Provider>
-      {isDisconnect && <NetworkError />}
-        <RootNavigator />
-    </StoreContainer.Provider>
+    <Provider reducer={rootReducer}>
+      <>
+        {isDisconnect && <NetworkError />}
+        <AppConnected />
+        <DropdownAlert
+          imageStyle={{ marginTop: StatusBarHeight }}
+          messageStyle={{ marginTop: StatusBarHeight, fontSize: FONT_14, color: '#fff' }}
+          updateStatusBar={false}
+          ref={ref => DropDownHolder.setDropDown(ref)}
+          closeInterval={1000}
+        />
+      </>
+    </Provider>
   );
 }

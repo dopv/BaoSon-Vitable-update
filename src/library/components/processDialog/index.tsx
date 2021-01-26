@@ -11,7 +11,6 @@ import {
 import PropTypes from 'prop-types';
 import R from '../../../../assets/value';
 import { FONT_16 } from '../../../themes/fontSize';
-import FastImage from "react-native-fast-image"
 
 const { width } = Dimensions.get('window');
 export function ProcessDialog(props: any) {
@@ -37,12 +36,12 @@ export function ProcessDialog(props: any) {
         <View
           style={styles.wrapDialogColumn}>
 
-          <FastImage
-                    style={{width: 60, height: 60}}
-                    source={require('../../../assets/icon/ic_loadding.gif')}
-                      resizeMode={FastImage.resizeMode.stretch}
-                    />
-         
+          <Image
+            style={{ width: 60, height: 60 }}
+            source={require('../../../assets/icon/ic_loadding.gif')}
+            resizeMode={'contain'}
+          />
+
         </View>
       </View>
     </Modal>

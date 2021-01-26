@@ -1,21 +1,58 @@
 import { useState } from "react";
-import { createContainer } from 'unstated-next'
-export const useStore = () => {
-  const initAuthState: any = undefined;
-  const [isAuth, setAuth] = useState(initAuthState);
+import { combineReducers } from 'un-redux';
 
-  const login = () => {
-    setAuth(true);
-  };
+interface StateAuth {
+  isLogout: false,
+  dataAuth: null,
+  token: null
+}
+export const rootReducer = combineReducers({
 
-  const logout = () => {
-    setAuth(false);
-  };
+  reducerAuth: (state: StateAuth, action: any) => {
+   
+    if (action.type === 'TOKEN') {
+      return {
+        ...state,
+        token: action.token,
+      };
+    } 
+    if (action.type === 'LOGIN') {
+      return {
+        ...state, 
+        dataAuth: action.dataAuth,
+        isLogout: false,
+        token: action.dataAuth && action.dataAuth.access_token 
+      };
+    } 
+   
+    if (action.type === 'LOGOUT') {
+      return {
+        ...state,
+        dataAuth: null,
+        isLogout: true,
+        token: null
+      };
+    }
+  }
+});
 
+interface StateMapProps {
+  reducerAuth: {}
+}
+export const mapStateToProps = (state: StateMapProps) => {
   return {
-    login,
-    logout,
-    isAuth
+    stateAuth: state.reducerAuth
+  }
+}
+
+export const mapDispatchToProps = (dispatch: any) => {
+  return {
+    actionLogin: (dataAuth: null) => {
+      dispatch({ type: 'LOGIN', dataAuth: dataAuth})
+    },
+    setToken: (token: null) => {
+      dispatch({ type: 'TOKEN', token: token })
+    },
+    actionLogout: () => dispatch({ type:'LOGOUT' }),
   };
 }
-export const StoreContainer = createContainer(useStore);

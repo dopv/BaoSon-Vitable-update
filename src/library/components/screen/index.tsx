@@ -66,7 +66,7 @@ function ScreenWithoutScrolling(props: any) {
   const backgroundStyle = props.backgroundColor
     ? { backgroundColor: props.backgroundColor }
     : {};
-  const Wrapper = props.unsafe ? View : SafeAreaView;
+  const Wrapper = props.unsafe ? View : View;
 
   return (
     <KeyboardAvoidingView
@@ -75,15 +75,15 @@ function ScreenWithoutScrolling(props: any) {
       keyboardVerticalOffset={0}>
       <StatusBar
         hidden={props.hidden === true ? true : false}
-        backgroundColor={props.statusColor || "#eb3323"}
+        backgroundColor={props.statusColor || "transparent"}
         translucent={true}
-        barStyle={props.statusBar || 'light-content'}
+        barStyle={props.statusBar || 'dark-content'}
       />
       {props.draw === false && (
         <SafeAreaView
           style={[
             preset.outer0,
-            { backgroundColor: props.statusColor || "#eb3323" },
+            { backgroundColor: props.statusColor || "transparent" },
           ]}
         />
       )}

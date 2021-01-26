@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
-import { Text, TextInput, Dimensions, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {
+    Text, TextInput, View, TouchableOpacity,
+    ScrollView, ImageBackground, Dimensions
+} from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
-import { FONT_15 } from '../../../themes/fontSize';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Post } from '../../../library/networking/fetch';
 import { validateEmail } from '../../../library/utils/validate';
-import { TOKEN_AUTHENTICATION } from '../../../common/keyStore';
-import { StoreContainer } from "../../../store/store";
+import { TOKEN } from '../../../common/keyStore';
+import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
+const { height, width } = Dimensions.get('window');
 
-const { width } = Dimensions.get('window');
-
-export const Login = () => {
-    const { login } = StoreContainer.useContainer();
+export const Login = (props: any) => {
+    const { route } = props;
+    const { actionLogin } = route.params;
     const [dataLogin, setDataLogin] = useState({ email: '', password: '' });
-    const [validator, setValidator] = useState({ invalidEmail: '', invalidPassword: '' });
+    const [validateInputEmail, setValidateInputEmail] = useState('');
+    const [validateInputPassword, setValidateInputPassword] = useState('');
+    const [isLogin, setLogin] = useState(false);
+    const [loginState, setLoginState] = useState('');
 
     const onChange = (key: string, value: string) => {
+        if (key === 'email' && value !== '') {
+            setValidateInputEmail('');
+        }
+        if (key === 'password' && value !== '') {
+            setValidateInputPassword('');
+        }
+        setLoginState('');
         setDataLogin({
             ...dataLogin,
             [key]: value
@@ -25,117 +36,155 @@ export const Login = () => {
     }
 
     const onClickToLogin = () => {
-        if (!dataLogin.email) {
-            setValidator({
-                ...validator,
-                invalidEmail: 'Email is not vacant'
-            })
+        if (isLogin) return;
+        setLoginState('');
+        if (!dataLogin.email || !validateEmail(dataLogin.email)) {
+            setValidateInputEmail(`${translate('UNAUTHENTIC:INVALID_EMAIL')}`);
             return;
         }
-        if (!validateEmail(dataLogin.email)) {
-            setValidator({
-                ...validator,
-                invalidEmail: 'Email invalid'
-            })
-            return;
-        }
+        setValidateInputEmail('');
         if (!dataLogin.password) {
-            setValidator({
-                ...validator,
-                invalidEmail: 'Password is not vacant'
-            })
+            setValidateInputPassword(`${translate('UNAUTHENTIC:INVALID_PASSWORD')}`);
             return;
         }
-        setValidator({ invalidEmail: '', invalidPassword: '' });
+        setValidateInputPassword('');
+        setLogin(true);
         Post('/api/v1/auth/login', dataLogin)
             .then(response => {
                 response.json().then(data => {
-                    AsyncStorage.setItem(TOKEN_AUTHENTICATION, JSON.stringify(data));
-                    login && login();
+                    if (data.message) {
+                        setLoginState(data.message);
+                    } else {
+                        AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+                        actionLogin && actionLogin(data || null);
+                    }
+                    setLogin(false);
                 });
             }).catch(err => {
+                setLogin(false);
                 console.log('err', err)
             })
     }
 
-    return <Screen
-        hidden={false}
-        backgroundColor={'transparent'}
-        forceInset={{ bottom: 'never', top: 'never' }}
-    >
-        <View style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignContent: 'center'
-        }}>
-            <View style={{ flexDirection: 'column' }}>
-                <TextInput
-                    value={dataLogin.email}
-                    onChangeText={(email) => onChange ? onChange('email', email) : null}
+    return (
+        <Screen
+            isScroll={false}
+            hidden={false}
+            backgroundColor={'#fff'}
+            forceInset={{ bottom: 'never', top: 'never' }}
+        >
+            <ScrollView style={styles.fullScreen}>
+                <ImageBackground
+                    source={require('../../../../assets/images/login-bg.png')}
                     style={{
-                        backgroundColor: '#fff',
-                        minHeight: width * 0.12,
-                        borderRadius: 10,
-                        width: width * 0.95,
-                        marginHorizontal: width * 0.025,
-                        paddingLeft: width * 0.04
+                        width: width,
+                        height: height
                     }}
-                    placeholder={translate('unauthentic:email') || ""}
-                />
-            </View>
-            {validator.invalidEmail !== '' && <Text
-                style={{
-                    color: 'red',
-                    fontStyle: 'italic',
-                    marginLeft: width * 0.025
-                }}
-            >
-                {validator.invalidEmail}
-            </Text>}
-            <TextInput
-                secureTextEntry={true}
-                value={dataLogin.password}
-                onChangeText={(password) => onChange ? onChange('password', password) : null}
-                style={{
-                    backgroundColor: '#fff',
-                    minHeight: width * 0.12,
-                    borderRadius: 10,
-                    marginTop: 20,
-                    width: width * 0.95,
-                    marginHorizontal: width * 0.025,
-                    paddingLeft: width * 0.04
-                }}
-                placeholder={translate('unauthentic:pass') || ""}
-            />
-            {validator.invalidPassword !== '' && <Text
-                style={{
-                    color: 'red',
-                    fontStyle: 'italic',
-                    marginLeft: width * 0.025
-                }}
-            >
-                {validator.invalidPassword}
-            </Text>}
-            <TouchableOpacity
-                style={{
-                    backgroundColor: 'green',
-                    alignItems: 'center',
-                    marginTop: 20,
-                    minHeight: width * 0.1,
-                    justifyContent: 'center',
-                    borderRadius: 5,
-                    width: width * 0.95,
-                    marginHorizontal: width * 0.025
-                }}
-                onPress={onClickToLogin}
-            >
-                <Text
-                    style={{ fontSize: FONT_15 }}
                 >
-                    {translate('unauthentic:login')}
-                </Text>
-            </TouchableOpacity>
-        </View>
-    </Screen>
-
+                    <View
+                        style={styles.vHeader}
+                    >
+                        <Text
+                            allowFontScaling={false}
+                            style={styles.sTextTopHeader}
+                        >
+                            {translate('UNAUTHENTIC:FIRST_SIGNIN')}
+                        </Text>
+                        <Text
+                            allowFontScaling={false}
+                            style={styles.sTextContentHeader}
+                        >
+                            {translate('UNAUTHENTIC:FOR_THE_MOMENT')}
+                            {translate('UNAUTHENTIC:NEW_LINE')}
+                            {translate('UNAUTHENTIC:TO_DISCOVER_OUR_OFFER')}
+                            {translate('UNAUTHENTIC:SPACE')}
+                            <Text
+                                allowFontScaling={false} style={styles.sTextLink}>{translate('UNAUTHENTIC:LINK')}</Text>
+                        </Text>
+                    </View>
+                    <View
+                        style={styles.vFormInput}
+                    >
+                        <View
+                            style={styles.vInputEmail}
+                        >
+                            <Text
+                                allowFontScaling={false} style={[styles.sTextLabel, validateInputEmail !== ''
+                                    && { color: '#F5785A' }]}
+                            >
+                                {translate('UNAUTHENTIC:EMAIL')}
+                            </Text>
+                            <View>
+                                <TextInput
+                                    allowFontScaling={false}
+                                    value={dataLogin.email}
+                                    onChangeText={(email) => onChange ? onChange('email', email) : null}
+                                    style={[styles.sInput, validateInputEmail !== '' && { color: '#F5785A' }]}
+                                    placeholder={`${translate('UNAUTHENTIC:ENTER_MAIL_HERE')}`}
+                                />
+                            </View>
+                            {validateInputEmail !== '' && <Text
+                                allowFontScaling={false}
+                                style={styles.sTextInvalid}
+                            >
+                                {validateInputEmail}
+                            </Text>}
+                        </View>
+                        <View
+                            style={[styles.vInputEmail, { marginTop: height * 0.028169 }]}
+                        >
+                            <Text
+                                allowFontScaling={false} style={[styles.sTextLabel, validateInputPassword !== ''
+                                    && { color: '#F5785A' }]}>
+                                {translate('UNAUTHENTIC:PASSWORD')}
+                            </Text>
+                            <View>
+                                <TextInput
+                                    allowFontScaling={false}
+                                    value={dataLogin.password}
+                                    onChangeText={(password) => onChange ? onChange('password', password) : null}
+                                    style={styles.sInput}
+                                    secureTextEntry={true}
+                                    placeholder={`${translate('UNAUTHENTIC:ENTER_PASSWORD_HERE')}`}
+                                />
+                            </View>
+                            {validateInputPassword !== '' && <Text
+                                allowFontScaling={false}
+                                style={styles.sTextInvalid}
+                            >
+                                {validateInputPassword}
+                            </Text>}
+                        </View>
+                    </View>
+                    {loginState !== '' && <Text
+                        allowFontScaling={false}
+                        style={styles.sTextLoginFailed}
+                    >
+                        {loginState}
+                    </Text>}
+                    <View
+                        style={styles.vFormAction}
+                    >
+                        <TouchableOpacity
+                            style={styles.vButton}
+                            onPress={onClickToLogin}
+                        >
+                            <Text
+                                allowFontScaling={false}
+                                style={styles.sTextSingIn}
+                            >
+                                {translate('UNAUTHENTIC:SIGNIN')}
+                            </Text>
+                        </TouchableOpacity>
+                        <Text
+                            allowFontScaling={false}
+                            style={styles.sTextForgot}
+                        >
+                            {translate('UNAUTHENTIC:FORGOT_PASSWORD')}
+                        </Text>
+                    </View>
+                </ImageBackground>
+            </ScrollView>
+        </Screen>
+    )
 }
