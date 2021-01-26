@@ -52,6 +52,7 @@ export const Profile = (props: ProfileProps) => {
                 }}
             >
                 <Text
+                            allowFontScaling={false}
                     style={{ fontSize: FONT_15 }}
                 >
                     {translate('UNAUTHENTIC:LOGOUT') || ""}

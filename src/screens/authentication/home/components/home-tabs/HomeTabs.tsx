@@ -15,6 +15,7 @@ export const HomeTabs = (props: HomeTabsProps) => {
             style={styles.vTabsLeftRight}
         >
             <Text
+                            allowFontScaling={false}
                 style={styles.sTitleTracker}
             >
                 {translate('AUTHENTIC:HOME:DAILY_TRACKER') || ""}
@@ -24,6 +25,7 @@ export const HomeTabs = (props: HomeTabsProps) => {
             style={styles.vTabsLeftRight}
         >
             <Text
+                            allowFontScaling={false}
                 style={styles.sTitleProgress}
             >
                 Progress

@@ -11,7 +11,8 @@ export const NetworkError = () => {
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <Text allowFontScaling={false} style={styles.textConfirm}>Please check your internet connection...</Text>
+                    <Text
+                        allowFontScaling={false} style={styles.textConfirm}>Please check your internet connection...</Text>
                 </View>
             </View>
         </Modal>

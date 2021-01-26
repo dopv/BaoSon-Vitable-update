@@ -8,14 +8,15 @@ interface ItemMenuProps {
     name: string,
     isActive: boolean,
     route: string,
-    navigation: any
+    navigation: any,
+    currentRoute: string
 }
 
 export const ItemMenu = (props: ItemMenuProps) => {
-    const { name, isActive, route, navigation } = props;
+    const { name, isActive, route, navigation, currentRoute } = props;
 
     const onPressGoto = () => {
-        console.log('zoooooooooooooo', navigation)
+        if (route === currentRoute) return;
         navigation && navigation.navigate(route);
     }
 
@@ -24,6 +25,7 @@ export const ItemMenu = (props: ItemMenuProps) => {
     >
         <>
             <Text
+                            allowFontScaling={false}
                 style={[styles.vMenuItem, isActive ?
                     styles.vItemActive : styles.vItemNormal]}
             >

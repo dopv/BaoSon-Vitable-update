@@ -6,11 +6,13 @@ import { ItemMenu } from './components/MenuItem';
 import { translate } from '../../../library/utils/i18n/translate';
 
 interface MenuProps {
-    navigation: any
+    navigation: any,
+    route: any
 }
 
 export const Menu = (props: MenuProps) => {
-    const { navigation } = props;
+    const { navigation, route } = props;
+    const currentRoute = route.params && route.params.currentRoute || '';
 
     const goBack = () => {
         navigation && navigation.goBack();
@@ -49,29 +51,33 @@ export const Menu = (props: MenuProps) => {
                         isActive={true}
                         route='HomePage'
                         navigation={navigation}
-                    />
+                        currentRoute={currentRoute}
+                        />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:MY_PACK')}`}
                         isActive={false}
                         route='MyPack'
                         navigation={navigation}
-                    />
+                        currentRoute={currentRoute}
+                        />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:BROWSE_ON_SHOP')}`}
                         isActive={false}
                         route='BrowseOnShop'
                         navigation={navigation}
-                    />
+                        currentRoute={currentRoute}
+                        />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:MY_PROFILE')}`}
                         isActive={false}
                         route='Profile'
                         navigation={navigation}
-                    />
+                        currentRoute={currentRoute}
+                        />
                 </View>
                 <View
                     style={styles.vLineMenu}
-                />
+                    />
                 <View
                     style={styles.vListMenuUnder}
                 >
@@ -80,12 +86,14 @@ export const Menu = (props: MenuProps) => {
                         isActive={false}
                         route='Help'
                         navigation={navigation}
-                    />
+                        currentRoute={currentRoute}
+                        />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:ACCOUNT_DETAILS')}`}
                         isActive={false}
                         route='AccountDetail'
                         navigation={navigation}
+                        currentRoute={currentRoute}
                     />
                 </View>
             </View>
@@ -96,11 +104,13 @@ export const Menu = (props: MenuProps) => {
                     style={styles.vContentFooter}
                 >
                     <Text
+                            allowFontScaling={false}
                         style={styles.sTextAjust}
                     >
                         {translate('AUTHENTIC:MENU:WANT_TO_AJUST_YOUR_PLAN')}
                     </Text>
                     <Text
+                            allowFontScaling={false}
                         style={styles.sTextReTakeQuiz}
                     >
                         {translate('AUTHENTIC:MENU:RETAKE_THE_QUIZ')}

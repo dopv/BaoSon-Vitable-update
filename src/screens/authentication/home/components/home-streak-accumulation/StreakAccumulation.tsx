@@ -21,10 +21,12 @@ export const StreakAccumulation = (props: StreakAccumulationProps) => {
                 style={styles.vCurrentPoint}
             >
                 <Text
+                    allowFontScaling={false}
                     style={styles.sTextPoints}
                 >
                     {currentPoint || '0'}
                     <Text
+                        allowFontScaling={false}
                         style={styles.sTextPointUnit}
                     >
                         {translate('AUTHENTIC:STREAK_ACCUMULATION:POINT')}
@@ -35,6 +37,7 @@ export const StreakAccumulation = (props: StreakAccumulationProps) => {
                 style={styles.vPointCondition}
             >
                 <Text
+                    allowFontScaling={false}
                     style={styles.sTextPointCondition}
                 >
                     {translate('AUTHENTIC:STREAK_ACCUMULATION:SPLASH')}{conditionPoint || '0'} {translate('AUTHENTIC:STREAK_ACCUMULATION:POINT')}
@@ -52,6 +55,7 @@ export const StreakAccumulation = (props: StreakAccumulationProps) => {
                     style={styles.sImgTags}
                 />
                 <Text
+                    allowFontScaling={false}
                     style={styles.sTextGet}
                 >
                     Get - 10$
@@ -66,6 +70,7 @@ export const StreakAccumulation = (props: StreakAccumulationProps) => {
             />
         </View>
         <Text
+            allowFontScaling={false}
             style={styles.sTextEarnExtra}
         >
             {translate('AUTHENTIC:STREAK_ACCUMULATION:EARN_EXTRA_POINTS')}
