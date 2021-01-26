@@ -1,0 +1,7 @@
+export const TRACKING_SCREEN = 'TRACKING_SCREEN';
+export const PACK_SCREEN = 'PACK_SCREEN';
+export const PROFILE_SCREEN = 'PROFILE_SCREEN';
+export const BROWSER_SHOP_SCREEN = 'BROWSER_SHOP_SCREEN';
+export const HOME_SCREEN = 'HOME_SCREEN';
+
+

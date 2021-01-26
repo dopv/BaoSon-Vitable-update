@@ -4,8 +4,8 @@ const { width, height } = Dimensions.get('window');
 export const styles = StyleSheet.create({
     vHomeTabs: {
         width: width,
-        position: 'absolute',
-        top: height * 0.3327465,
+        // position: 'absolute',
+        // top: height * 0.3327465,
         flexDirection: 'row'
     },
     vTabsLeftRight: {

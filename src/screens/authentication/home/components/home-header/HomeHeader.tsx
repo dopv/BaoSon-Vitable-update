@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ImageBackground, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Image, ImageBackground, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { translate } from '../../../../../library/utils/i18n/translate';
 import { styles } from './styles'
 import { useRoute } from '@react-navigation/native';
@@ -15,9 +15,11 @@ export const HomeHeader = (props: HomeHeaderProps) => {
     const route = useRoute();
 
     const onPressGoToMenu = () => {
-        navigation && navigation.navigate('Menu', {
-            currentRoute: route.name
-        });
+        navigation && navigation.openDrawer();
+
+        // navigation && navigation.navigate('Menu', {
+        //     currentRoute: route.name
+        // });
     }
     return <ImageBackground
         source={require('../../../../../../assets/images/Vitable_Hero_Images.png')}
@@ -34,10 +36,14 @@ export const HomeHeader = (props: HomeHeaderProps) => {
                 style={styles.vImgMenu}
             />
         </TouchableWithoutFeedback>
-        <Image
-            source={require('../../../../../../assets/images/Mypack.png')}
-            style={styles.vImgPack}
-        />
+        <TouchableWithoutFeedback style={{
+            zIndex: 2
+        }}>
+            <Image
+                source={require('../../../../../../assets/images/Mypack.png')}
+                style={styles.vImgPack}
+            />
+        </TouchableWithoutFeedback>
         <View
             style={styles.vContent}
         >

@@ -1,10 +1,14 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { FONT_12, FONT_18 } from '../../../../../themes/fontSize';
+import { size } from '../../../../../themes/size';
 const { width, height } = Dimensions.get('window');
 export const styles = StyleSheet.create({
+    
     vStreakHistory: {
-        top: height * 0.4419014,
-        position: 'absolute'
+        width:'100%',
+        marginTop: size[28]
+        // top: height * 0.4419014,
+        // position: 'absolute'
     },
     vStreakCurrent: {
         flexDirection: 'column',

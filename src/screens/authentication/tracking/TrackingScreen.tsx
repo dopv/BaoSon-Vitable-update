@@ -1,18 +1,7 @@
-import React, { useEffect } from 'react';
-import { Text, Dimensions, View, TouchableOpacity } from 'react-native';
+import * as React from 'react';
+import { View, Text } from 'react-native';
 import { Screen } from '../../../library/components/screen';
-
-const { width } = Dimensions.get('window');
-
-interface ProfileProps {
-    navigation: any,
-    actionLogout: any,
-    route: any
-}
-
-export const Profile = (props: ProfileProps) => {
-    const { navigation, route } = props;
-
+export const TrackingScreen = () => {
     return (
         <Screen
             isScroll={false}
@@ -22,9 +11,8 @@ export const Profile = (props: ProfileProps) => {
             draw={true}>
 
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Profile Screen</Text>
+            <Text>Tracking My Vitamin Screen</Text>
         </View>
         </Screen>
-    )
-
+    );
 }

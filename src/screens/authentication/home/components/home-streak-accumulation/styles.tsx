@@ -1,13 +1,15 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { FONT_10, FONT_12, FONT_14, FONT_24 } from '../../../../../themes/fontSize';
+import { size } from '../../../../../themes/size';
 const { width, height } = Dimensions.get('window');
 export const styles = StyleSheet.create({
     vStreakAccumu: {
         width: width * 0.85,
         height: height * 0.22535,
-        top: height * 0.579225,
-        position: 'absolute',
-        left: width * 0.075,
+        // top: height * 0.579225,
+        // position: 'absolute',
+        // left: width * 0.075,
+        marginTop: size[28],
         borderRadius: 3,
         padding: 16,
         borderColor: '#BED0A2',

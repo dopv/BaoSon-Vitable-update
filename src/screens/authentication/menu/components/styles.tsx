@@ -17,5 +17,8 @@ export const styles = StyleSheet.create({
     vItemNormal: {
         fontWeight: '400',
         color: '#272626'
+    },
+    btnItem:{
+        justifyContent:'center'
     }
 });
