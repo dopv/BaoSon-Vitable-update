@@ -4,7 +4,7 @@ import { Screen } from '../../../library/components/screen/index';
 import { styles } from './style';
 import { ItemMenu } from './components/MenuItem';
 import { translate } from '../../../library/utils/i18n/translate';
-import { PACK_SCREEN, PROFILE_SCREEN, TRACKING_SCREEN, BROWSER_SHOP_SCREEN, HOME_SCREEN } from '../../../navigation/TypeScreen';
+import { PACK_SCREEN, PROFILE_SCREEN, TRACKING_SCREEN, BROWSER_SHOP_SCREEN, HOME_SCREEN, SUPPORT_SCREEN, ACCOUNT_DETAIL_SCREEN } from '../../../navigation/TypeScreen';
 
 export const Menu = (props: any) => {
     const { navigation, route } = props;
@@ -46,7 +46,7 @@ export const Menu = (props: any) => {
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:TRACKING_MY_VITAMINS')}`}
                         isActive={true}
-                        route={TRACKING_SCREEN}
+                        route={HOME_SCREEN}
                         navigation={navigation}
                     />
                     <ItemMenu
@@ -77,13 +77,13 @@ export const Menu = (props: any) => {
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:SUPPORT_HELP')}`}
                         isActive={false}
-                        route='Help'
+                        route={SUPPORT_SCREEN}
                         navigation={navigation}
                     />
                     <ItemMenu
                         name={`${translate('AUTHENTIC:MENU:ACCOUNT_DETAILS')}`}
                         isActive={false}
-                        route='AccountDetail'
+                        route={ACCOUNT_DETAIL_SCREEN}
                         navigation={navigation}
                     />
                 </View>
@@ -109,6 +109,6 @@ export const Menu = (props: any) => {
                 </View>
             </View>
         </View>
-        </Screen>
-    
+    </Screen>
+
 }

@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { StatusBarHeight } from '../../../config/heightStatusbar';
 
 export const styles = StyleSheet.create({
     fullScreen: {
@@ -9,17 +8,17 @@ export const styles = StyleSheet.create({
     vContent: {
         flex: 1,
         backgroundColor: '#F7F4EB',
-        paddingTop: StatusBarHeight
+        // paddingTop: StatusBarHeight
     },
-     viewPager: {
+    viewPager: {
         flex: 1,
     },
-    dailyScreen:{
-        flex:1,
-        alignItems:'center',
+    dailyScreen: {
+        flex: 1,
+        alignItems: 'center',
     },
-    vBot:{
-        flex:1
+    vBot: {
+        flex: 1
         // height: '60%'
     }
 });

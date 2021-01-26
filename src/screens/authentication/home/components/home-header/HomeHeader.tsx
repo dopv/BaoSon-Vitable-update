@@ -3,6 +3,7 @@ import { Image, ImageBackground, Text, TouchableOpacity, TouchableWithoutFeedbac
 import { translate } from '../../../../../library/utils/i18n/translate';
 import { styles } from './styles'
 import { useRoute } from '@react-navigation/native';
+import { PACK_SCREEN, QUIZ_SCREEN } from '../../../../../navigation/TypeScreen';
 
 interface HomeHeaderProps {
     reminder: string,
@@ -21,6 +22,15 @@ export const HomeHeader = (props: HomeHeaderProps) => {
         //     currentRoute: route.name
         // });
     }
+
+    const onPressGoToQuiz = () => {
+        navigation && navigation.navigate(QUIZ_SCREEN);
+    }
+
+    const onPressGoToPack = () => {
+        navigation && navigation.navigate(PACK_SCREEN);
+    }
+
     return <ImageBackground
         source={require('../../../../../../assets/images/Vitable_Hero_Images.png')}
         style={styles.vBackground}
@@ -38,7 +48,9 @@ export const HomeHeader = (props: HomeHeaderProps) => {
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback style={{
             zIndex: 2
-        }}>
+        }}
+            onPress={onPressGoToPack}
+        >
             <Image
                 source={require('../../../../../../assets/images/Mypack.png')}
                 style={styles.vImgPack}
@@ -63,10 +75,15 @@ export const HomeHeader = (props: HomeHeaderProps) => {
                     {reminder || ''}
                 </Text>
             </View>
-            <Text
-                allowFontScaling={false}
-                style={styles.sTextTakeQuiz}
-            >{translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}</Text>
+            <TouchableWithoutFeedback
+                onPress={onPressGoToQuiz}
+                style={{ zIndex: 2 }}
+            >
+                <Text
+                    allowFontScaling={false}
+                    style={styles.sTextTakeQuiz}
+                >{translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}</Text>
+            </TouchableWithoutFeedback>
         </View>
     </ImageBackground>
 }

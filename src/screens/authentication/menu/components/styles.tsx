@@ -1,6 +1,10 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { FONT_16 } from '../../../../themes/fontSize';
-const { width, height } = Dimensions.get('window');
+const { height: heightScr, width } = Dimensions.get('window');
+const statusBarHeight = StatusBar.currentHeight &&
+    StatusBar.currentHeight >= 38 &&
+    StatusBar.currentHeight || 0;
+const height = heightScr + statusBarHeight;
 
 export const styles = StyleSheet.create({
     vMenuItem: {
@@ -18,7 +22,7 @@ export const styles = StyleSheet.create({
         fontWeight: '400',
         color: '#272626'
     },
-    btnItem:{
-        justifyContent:'center'
+    btnItem: {
+        justifyContent: 'center'
     }
 });

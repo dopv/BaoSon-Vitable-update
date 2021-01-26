@@ -8,7 +8,8 @@ import { TOKEN } from '../common/keyStore';
 import { Menu } from '../screens/authentication/menu/Menu';
 import { Profile } from '../screens/authentication/profile/Profile';
 import { MyDrawer } from './Drawer';
-import { HOME_SCREEN, PROFILE_SCREEN } from './TypeScreen';
+import { HOME_SCREEN, PROFILE_SCREEN, QUIZ_SCREEN } from './TypeScreen';
+import { Quiz } from '../screens/authentication/quiz/Quiz';
 
 const Stack = createStackNavigator();
 
@@ -48,6 +49,11 @@ export const StackNavigator = (props: any) => {
                         <Stack.Screen
                             component={MyDrawer}
                             name='MyDrawer'
+                            initialParams={props.props}
+                        />
+                        <Stack.Screen
+                            component={Quiz}
+                            name={QUIZ_SCREEN}
                             initialParams={props.props}
                         />
                     </>)
