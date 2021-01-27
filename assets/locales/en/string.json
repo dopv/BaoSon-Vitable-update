@@ -17,7 +17,7 @@
         "FORGOT_PASSWORD": "Forgot my password",
         "NEW_LINE": "\n",
         "SPACE": " ",
-        "SIGNIN": "Sing in"
+        "SIGNIN": "Sign in"
     },
     "AUTHENTIC": {
         "HOME": {
@@ -40,9 +40,9 @@
             "PLUS": "+"
         },
         "MENU": {
-            "WANT_TO_AJUST_YOUR_PLAN": "Want to ajust your plan?",
+            "WANT_TO_AJUST_YOUR_PLAN": "Want to adjust your plan?",
             "RETAKE_THE_QUIZ": "Retake the quiz",
-            "TRACKING_MY_VITAMINS": "Tracking my vitamins",
+            "TRACKING_MY_VITAMINS": "Track my vitamins",
             "MY_PACK": "My pack",
             "BROWSE_ON_SHOP": "Browse our shop",
             "MY_PROFILE": "My profile",
