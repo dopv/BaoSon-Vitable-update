@@ -17,6 +17,6 @@ export const styles = StyleSheet.create({
     },
     sImgClose: {
         width: width * 0.046875,
-        height: width * 0.046875,
+        height: width * 0.046875
     }
 });

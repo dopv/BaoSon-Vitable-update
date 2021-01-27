@@ -24,17 +24,17 @@ export const Support = (props: SupportProps) => {
             forceInset={{ bottom: 'never', top: 'never' }}
             draw={true}
         >
-            <TouchableWithoutFeedback onPress={onPressGoToMenu}
-                style={{
-                    zIndex: 2
-                }}
-            >
-                <Image
-                    source={require('../../../../assets/images/Menu.png')}
-                    style={styles.vImgMenu}
-                />
-            </TouchableWithoutFeedback>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableWithoutFeedback onPress={onPressGoToMenu}
+                    style={{
+                        zIndex: 2
+                    }}
+                >
+                    <Image
+                        source={require('../../../../assets/images/Menu.png')}
+                        style={styles.vImgMenu}
+                    />
+                </TouchableWithoutFeedback>
                 <Text>Support Help Screen</Text>
             </View>
         </Screen>

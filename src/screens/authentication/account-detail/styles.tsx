@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         width: width * 0.075,
         height: height * 0.042253,
-        marginLeft: width * 0.05,
+        left: width * 0.05,
         top: height * 0.074,
     }
 });

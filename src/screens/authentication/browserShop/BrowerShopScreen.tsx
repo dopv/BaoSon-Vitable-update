@@ -24,6 +24,7 @@ export const BrowserShopScreen = (props: BrowserShopProps) => {
             forceInset={{ bottom: 'never', top: 'never' }}
             draw={true}
         >
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <TouchableWithoutFeedback onPress={onPressGoToMenu}
                 style={{
                     zIndex: 2
@@ -34,7 +35,6 @@ export const BrowserShopScreen = (props: BrowserShopProps) => {
                     style={styles.vImgMenu}
                 />
             </TouchableWithoutFeedback>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Text>Browser Shop screen</Text>
             </View>
         </Screen>

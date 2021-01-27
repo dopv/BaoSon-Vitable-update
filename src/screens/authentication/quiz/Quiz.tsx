@@ -22,18 +22,22 @@ export const Quiz = (props: QuizProps) => {
             hidden={false}
             backgroundColor={'transparent'}
             forceInset={{ bottom: 'never', top: 'never' }}
-            draw={true}>
-            <TouchableWithoutFeedback onPress={goBack}>
-                <View
-                    style={styles.vClose}
-                >
-                    <Image
-                        source={require('../../../../assets/images/Close.png')}
-                        style={styles.sImgClose}
-                    />
-                </View>
-            </TouchableWithoutFeedback>
+            draw={true}
+        >
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableWithoutFeedback
+                    onPress={goBack}
+                    style={{ zIndex: 999 }}
+                >
+                    <View
+                        style={styles.vClose}
+                    >
+                        <Image
+                            source={require('../../../../assets/images/Close.png')}
+                            style={styles.sImgClose}
+                        />
+                    </View>
+                </TouchableWithoutFeedback>
                 <Text>Quiz Screen</Text>
             </View>
         </Screen>
