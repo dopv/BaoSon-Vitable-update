@@ -17,10 +17,6 @@ export const HomeHeader = (props: HomeHeaderProps) => {
 
     const onPressGoToMenu = () => {
         navigation && navigation.openDrawer();
-
-        // navigation && navigation.navigate('Menu', {
-        //     currentRoute: route.name
-        // });
     }
 
     const onPressGoToQuiz = () => {
