@@ -4,14 +4,18 @@ import { Screen } from '../../../library/components/screen/index';
 import { styles } from './style';
 import { ItemMenu } from './components/MenuItem';
 import { translate } from '../../../library/utils/i18n/translate';
-import { PACK_SCREEN, PROFILE_SCREEN, TRACKING_SCREEN, BROWSER_SHOP_SCREEN, HOME_SCREEN, SUPPORT_SCREEN, ACCOUNT_DETAIL_SCREEN } from '../../../navigation/TypeScreen';
+import { PACK_SCREEN, PROFILE_SCREEN, TRACKING_SCREEN, BROWSER_SHOP_SCREEN, HOME_SCREEN, SUPPORT_SCREEN, ACCOUNT_DETAIL_SCREEN, QUIZ_SCREEN } from '../../../navigation/TypeScreen';
 
 export const Menu = (props: any) => {
     const { navigation, route } = props;
     // const currentRoute = route.params && route.params.currentRoute || '';
 
     const goBack = () => {
-        navigation && navigation.navigate(HOME_SCREEN)
+        navigation && navigation.goBack();
+    }
+
+    const onPressGoToQuiz = () => {
+        navigation && navigation.navigate(QUIZ_SCREEN);
     }
 
     return <Screen
@@ -100,12 +104,17 @@ export const Menu = (props: any) => {
                     >
                         {translate('AUTHENTIC:MENU:WANT_TO_AJUST_YOUR_PLAN')}
                     </Text>
-                    <Text
-                        allowFontScaling={false}
-                        style={styles.sTextReTakeQuiz}
+                    <TouchableWithoutFeedback
+                        style={{zIndex: 2}}
+                        onPress={onPressGoToQuiz}
                     >
-                        {translate('AUTHENTIC:MENU:RETAKE_THE_QUIZ')}
-                    </Text>
+                        <Text
+                            allowFontScaling={false}
+                            style={styles.sTextReTakeQuiz}
+                        >
+                            {translate('AUTHENTIC:MENU:RETAKE_THE_QUIZ')}
+                        </Text>
+                    </TouchableWithoutFeedback>
                 </View>
             </View>
         </View>
