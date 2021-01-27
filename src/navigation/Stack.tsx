@@ -35,6 +35,7 @@ export const StackNavigator = (props: any) => {
             });
         }, 2000)
     }, []);
+
     return (
         <Stack.Navigator
             screenOptions={{
@@ -49,7 +50,7 @@ export const StackNavigator = (props: any) => {
                         <Stack.Screen
                             component={MyDrawer}
                             name='MyDrawer'
-                            initialParams={props.props}
+                            initialParams={props}
                         />
                         <Stack.Screen
                             component={Quiz}
