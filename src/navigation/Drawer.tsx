@@ -17,21 +17,30 @@ import { AccountDetail } from '../screens/authentication/account-detail/AccountD
 import { Quiz } from '../screens/authentication/quiz/Quiz';
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window')
-export const MyDrawer = () => {
+export const MyDrawer = (props: any) => {
     return (
         <Drawer.Navigator
             drawerContent={(props) => <Menu {...props} />}
             drawerStyle={{
-                width: width,
+                width: width
             }}
         >
             <Drawer.Screen name={HOME_SCREEN} component={HomePage} />
             {/* <Drawer.Screen name={TRACKING_SCREEN} component={TrackingScreen} /> */}
             <Drawer.Screen name={PACK_SCREEN} component={PackScreen} />
             <Drawer.Screen name={BROWSER_SHOP_SCREEN} component={BrowserShopScreen} />
-            <Drawer.Screen name={PROFILE_SCREEN} component={Profile} />
+            <Drawer.Screen
+                name={PROFILE_SCREEN}
+                component={Profile}
+            />
             <Drawer.Screen name={SUPPORT_SCREEN} component={Support} />
-            <Drawer.Screen name={ACCOUNT_DETAIL_SCREEN} component={AccountDetail} />
+            <Drawer.Screen
+                name={ACCOUNT_DETAIL_SCREEN}
+                component={AccountDetail}
+                initialParams={props && props.route && props.route.params
+                    && props.route.params.props
+                }
+            />
         </Drawer.Navigator>
     );
 }

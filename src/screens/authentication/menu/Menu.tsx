@@ -11,7 +11,7 @@ export const Menu = (props: any) => {
     // const currentRoute = route.params && route.params.currentRoute || '';
 
     const goBack = () => {
-        navigation && navigation.navigate(HOME_SCREEN)
+        navigation && navigation.goBack();
     }
 
     return <Screen
