@@ -11,6 +11,7 @@ import { validateEmail } from '../../../library/utils/validate';
 import { TOKEN } from '../../../common/keyStore';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
+import { ProcessDialog } from '../../../library/components/processDialog';
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
     StatusBar.currentHeight >= 38 &&
@@ -87,6 +88,7 @@ export const Login = (props: any) => {
                     }}
                     resizeMode="stretch"
                 >
+                    <ProcessDialog visible={isLogin} />
                     <View
                         style={styles.vHeader}
                     >

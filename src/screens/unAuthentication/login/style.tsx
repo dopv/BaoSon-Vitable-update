@@ -27,7 +27,8 @@ export const styles = StyleSheet.create({
         letterSpacing: FONT_32 * 0.0034375,
         color: '#272626',
         left: 0,
-        top: 0
+        top: 0,
+        fontFamily: 'SolaireDT'
     },
     sTextContentHeader: {
         fontWeight: '500',
@@ -36,11 +37,13 @@ export const styles = StyleSheet.create({
         letterSpacing: FONT_14 * 0.015,
         color: '#272626',
         left: 0,
-        top: height * 0.028169
+        top: height * 0.028169,
+        fontFamily: 'NHaasGroteskTXPro'
     },
     sTextLink: {
         fontWeight: 'bold',
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        fontFamily: 'NHaasGroteskTXProBold'
     },
     vFormInput: {
         width: width * 0.85,
@@ -59,7 +62,8 @@ export const styles = StyleSheet.create({
         lineHeight: FONT_14 * 1.3,
         letterSpacing: FONT_14 * 0.005,
         color: '#000000',
-        paddingBottom: height * 0.00704
+        paddingBottom: height * 0.00704,
+        fontFamily: 'NHaasGroteskTXProBold'
     },
     sInput: {
         backgroundColor: '#F7F4EB',
@@ -71,7 +75,8 @@ export const styles = StyleSheet.create({
         fontSize: FONT_14,
         fontWeight: '400',
         lineHeight: FONT_14 * 1.3,
-        letterSpacing: FONT_14 * 0.015
+        letterSpacing: FONT_14 * 0.015,
+        fontFamily: 'NHaasGroteskTXPro'
     },
     vFormAction: {
         width: width * 0.85,
@@ -94,7 +99,8 @@ export const styles = StyleSheet.create({
         lineHeight: FONT_14 * 1.5714286,
         letterSpacing: FONT_14 * 0.015,
         color: '#272626',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'NHaasGroteskTXPro'
     },
     sTextForgot: {
         fontSize: FONT_14,
@@ -103,14 +109,16 @@ export const styles = StyleSheet.create({
         letterSpacing: FONT_14 * 0.018571,
         textAlign: 'center',
         marginTop: height * 0.0422535,
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        fontFamily: 'NHaasGroteskTXProBold'
     },
     sTextInvalid: {
         paddingTop: height * 0.007042,
         fontSize: FONT_14,
         lineHeight: FONT_14 * 1.3,
         letterSpacing: FONT_14 * 0.005,
-        color: '#F5785A'
+        color: '#F5785A',
+        fontFamily: 'NHaasGroteskTXPro'
     },
     sTextLoginFailed: {
         paddingTop: height * 0.007042,
@@ -121,7 +129,8 @@ export const styles = StyleSheet.create({
         top: height * 0.7,
         position: 'absolute',
         width: width,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'NHaasGroteskTXPro'
     },
     vContent: {
         width: width * 0.85
