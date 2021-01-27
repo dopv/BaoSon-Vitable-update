@@ -13,19 +13,23 @@ import R from '../../../../assets/value';
 import { FONT_16 } from '../../../themes/fontSize';
 
 const { width } = Dimensions.get('window');
-export function ProcessDialog(props: any) {
+
+interface ProcessDialogProps {
+  visible: boolean
+}
+
+export function ProcessDialog(props: ProcessDialogProps) {
   const [delay, setDelay] = useState(false)
-  const { visible, message } = props;
+  const { visible } = props;
 
   useEffect(() => {
     if (!visible) {
-      setTimeout(() => {
-        setDelay(false)
-      }, 1000)
+      setDelay(false);
     } else {
-      setDelay(true)
+      setDelay(true);
     }
-  }, [visible])
+  }, [visible]);
+
   return (
     <Modal
       visible={delay}
@@ -38,7 +42,7 @@ export function ProcessDialog(props: any) {
 
           <Image
             style={{ width: 60, height: 60 }}
-            source={require('../../../assets/icon/ic_loadding.gif')}
+            source={require('../../../../assets/images/icons/ic_loadding.gif')}
             resizeMode={'contain'}
           />
 
@@ -97,6 +101,5 @@ const styles = StyleSheet.create({
 });
 
 ProcessDialog.prototype = {
-  visible: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired,
+  visible: PropTypes.bool.isRequired
 };

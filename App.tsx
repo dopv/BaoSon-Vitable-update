@@ -8,9 +8,26 @@ import DropDownHolder from './src/library/utils/dropDownHolder';
 import DropdownAlert from 'react-native-dropdownalert';
 import { StatusBarHeight } from './src/config/heightStatusbar';
 import { FONT_14 } from './src/themes/fontSize';
+import * as Font from 'expo-font';
+import { ProcessDialog } from './src/library/components/processDialog';
 
 export default function App() {
   const [isDisconnect, setDisconnect] = useState(false);
+  const [fontsLoaded, setLoadFont] = useState(false);
+
+
+  const loadFonts = async () => {
+    await Font.loadAsync({
+      SolaireDT: require('./assets/font/SolaireDT-Regular.ttf'),
+      NHaasGroteskTXPro: require('./assets/font/Linotype-NHaasGroteskTXPro-55Rg.ttf'),
+      NHaasGroteskTXProBold: require('./assets/font/Linotype-NHaasGroteskTXPro-65Md.ttf')
+    });
+    setLoadFont(true);
+  }
+
+  useEffect(() => {
+    loadFonts();
+  }, []);
 
   useEffect(() => {
     const unsubcribe = NetInfo.addEventListener((state: any) => {
@@ -28,6 +45,8 @@ export default function App() {
     mapStateToProps,
     mapDispatchToProps
   )(RootNavigator);
+
+  if (!fontsLoaded) return null;
 
   return (
     <Provider reducer={rootReducer}>
