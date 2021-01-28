@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { createStackNavigator, CardStyleInterpolators, TransitionSpecs, HeaderStyleInterpolators } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import { Login } from '../screens/unAuthentication/login/Login';
-import { HomePage } from '../screens/authentication/home/HomePage';
 import { Splash } from '../screens/unAuthentication/splash/Splash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TOKEN } from '../common/keyStore';
-import { Menu } from '../screens/authentication/menu/Menu';
-import { Profile } from '../screens/authentication/profile/Profile';
 import { MyDrawer } from './Drawer';
-import { HOME_SCREEN, PROFILE_SCREEN, QUIZ_SCREEN } from './TypeScreen';
+import { QUIZ_SCREEN } from './TypeScreen';
 import { Quiz } from '../screens/authentication/quiz/Quiz';
+import { ForgotPassword } from '../screens/unAuthentication/forgot-password/ForgotPassword';
 
 const Stack = createStackNavigator();
 
@@ -68,6 +66,11 @@ export const StackNavigator = (props: any) => {
                                 options={{
                                     animationTypeForReplace: isLogout ? 'pop' : 'push'
                                 }}
+                            />
+                            <Stack.Screen
+                                component={ForgotPassword}
+                                name="ForgotPassword"
+                                initialParams={props.props}
                             />
                         </>
                     )
