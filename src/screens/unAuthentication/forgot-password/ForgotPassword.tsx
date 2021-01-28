@@ -4,7 +4,8 @@ import {
     ScrollView, ImageBackground, Dimensions,
     StatusBar,
     Modal,
-    TouchableHighlight
+    TouchableHighlight,
+    Image
 } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
 import { Post } from '../../../library/networking/fetch';
@@ -91,6 +92,10 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
                     resizeMode="stretch"
                 >
                     <ProcessDialog visible={isLoadForgot} />
+                    <Image
+                        source={require('../../../../assets/images/Logo-black.png')}
+                        style={styles.sImgLogo}
+                    />
                     <View
                         style={styles.vHeader}
                     >
@@ -179,17 +184,22 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
                         visible={visible}
                     >
                         <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
+                            <ImageBackground
+                                source={require('../../../../assets/images/popup-bg.png')}
+                                style={styles.modalView}>
                                 <Text style={styles.modalText}>{translate('UNAUTHENTIC:REQUEST_FORGOT_SUCCESS')}</Text>
-                                <TouchableHighlight
-                                    style={{ ...styles.openButton, backgroundColor: "#F5785A" }}
-                                    onPress={() => {
-                                        onPressToLogin();
-                                    }}
+                                <TouchableOpacity
+                                    style={{ zIndex: 2 }}
+                                    onPress={onPressToLogin}
                                 >
-                                    <Text style={styles.textStyle}>{translate('UNAUTHENTIC:GO_TO_LOGIN')}</Text>
-                                </TouchableHighlight>
-                            </View>
+                                    <Text
+                                        allowFontScaling={false}
+                                        style={styles.sTextForgotModal}
+                                    >
+                                        {translate('UNAUTHENTIC:BACK_TO_LOGIN')}
+                                    </Text>
+                                </TouchableOpacity>
+                            </ImageBackground>
                         </View>
                     </Modal>
                 </ImageBackground>
