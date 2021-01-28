@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>466213880795-35dvmds6i634l94n23dmh1pjmk15ovlh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.466213880795-35dvmds6i634l94n23dmh1pjmk15ovlh</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAGqCgBWfJjA6sSwZN3ESRwXJi04F98H1I</string>
+	<key>GCM_SENDER_ID</key>
+	<string>466213880795</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.vitable.local</string>
+	<key>PROJECT_ID</key>
+	<string>vitable-mobile-local</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vitable-mobile-local.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:466213880795:ios:f64a036bf6df8b69f35dfe</string>
+</dict>
+</plist>
