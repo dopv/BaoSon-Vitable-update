@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {
     Text, TextInput, View, TouchableOpacity,
     ScrollView, ImageBackground, Dimensions,
-    StatusBar
+    StatusBar, Linking, TouchableWithoutFeedback,
+    Image
 } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -81,6 +82,10 @@ export const Login = (props: LoginProps) => {
         navigation && navigation.navigate('ForgotPassword');
     }
 
+    const onPressGoToWeb = () => {
+        Linking.openURL('https://www.vitable.com.au/');
+    }
+
     return (
         <Screen
             isScroll={false}
@@ -98,6 +103,10 @@ export const Login = (props: LoginProps) => {
                     resizeMode="stretch"
                 >
                     <ProcessDialog visible={isLogin} />
+                    <Image 
+                        source={require('../../../../assets/images/Logo-black.png')}
+                        style={styles.sImgLogo}
+                    />
                     <View
                         style={styles.vHeader}
                     >
@@ -116,8 +125,14 @@ export const Login = (props: LoginProps) => {
                                 {translate('UNAUTHENTIC:NEW_LINE')}
                                 {translate('UNAUTHENTIC:TO_DISCOVER_OUR_OFFER')}
                                 {translate('UNAUTHENTIC:SPACE')}
-                                <Text
-                                    allowFontScaling={false} style={styles.sTextLink}>{translate('UNAUTHENTIC:LINK')}</Text>
+                                <TouchableWithoutFeedback
+                                    onPress={onPressGoToWeb}
+                                    style={{ zIndex: 2 }}
+                                >
+                                    <Text
+                                        allowFontScaling={false} style={styles.sTextLink}>{translate('UNAUTHENTIC:LINK')}
+                                    </Text>
+                                </TouchableWithoutFeedback>
                             </Text>
                         </View>
                     </View>
@@ -179,7 +194,7 @@ export const Login = (props: LoginProps) => {
                         allowFontScaling={false}
                         style={styles.sTextLoginFailed}
                     >
-                        {loginState}
+                        {translate('UNAUTHENTIC:INCORRECT_LOGIN')}
                     </Text>}
                     <View
                         style={styles.vFormAction}
