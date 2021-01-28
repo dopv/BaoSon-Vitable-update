@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "323439434532",
+    "project_id": "trongdai-firebase",
+    "storage_bucket": "trongdai-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323439434532:android:f10b912ba128944994b1b1",
+        "android_client_info": {
+          "package_name": "com.vitable.local"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "323439434532-37ntnk9ccj46s7honom9nk5hl35k459s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC89Ve8a3h03cuTkJrLsdya9zhfiGWUYsc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "323439434532-37ntnk9ccj46s7honom9nk5hl35k459s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

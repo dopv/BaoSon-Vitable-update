@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>323439434532-tk0ita3gnfe98gv2krgtj6aqop75cde4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.323439434532-tk0ita3gnfe98gv2krgtj6aqop75cde4</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDuEzVWnZ-9aG-F1OulMK2WFVT3Wxn8T_g</string>
+	<key>GCM_SENDER_ID</key>
+	<string>323439434532</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.vitable.local</string>
+	<key>PROJECT_ID</key>
+	<string>trongdai-firebase</string>
+	<key>STORAGE_BUCKET</key>
+	<string>trongdai-firebase.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:323439434532:ios:d5858370907d95ef94b1b1</string>
+</dict>
+</plist>
