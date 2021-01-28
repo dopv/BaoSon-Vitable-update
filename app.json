@@ -13,29 +13,33 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vitable.local",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.vitable.local"
+      "package": "com.vitable.local",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "config": {
         "firebase": {
-          "apiKey": "AIzaSyCuqSIzuzKBNzF6fVfgb18m_zMcU_wIcVg",
-          "authDomain": "testcrash-2ed7b.firebaseapp.com",
-          "databaseURL": "https://testcrash-2ed7b.firebaseio.com",
-          "projectId": "testcrash-2ed7b",
-          "storageBucket": "testcrash-2ed7b.appspot.com",
-          "messagingSenderId": "1065947483",
-          "appId": "1:1065947483:web:0ca8da61e0a8c0519e8a7e",
-          "measurementId": "G-6M35D184LB"
+          "apiKey": "AIzaSyCPE4ftspnCAkZDJAtn6iVN6eYvm3BGB74",
+          "authDomain": "trongdai-firebase.firebaseapp.com",
+          "projectId": "trongdai-firebase",
+          "storageBucket": "trongdai-firebase.appspot.com",
+          "messagingSenderId": "323439434532",
+          "appId": "1:323439434532:web:1e55a895f109683694b1b1",
+          "measurementId": "G-HZ6QBQ8DYZ"
         }
       }
     },
