@@ -24,7 +24,8 @@
         "BEFORE_REQUEST": "To reset your password, please enter your email in the box below and submit your request.",
         "AFTER_REQUEST": "After submitting your request successfully, please visit your email to confirm.",
         "REQUEST_FORGOT_SUCCESS": "Successful request submission, please access email to confirm.",
-        "GO_TO_LOGIN": "Go to login"
+        "GO_TO_LOGIN": "Go to login",
+        "INCORRECT_LOGIN": "Incorrect email or password"
     },
     "AUTHENTIC": {
         "HOME": {
