@@ -134,5 +134,12 @@ export const styles = StyleSheet.create({
     },
     vContent: {
         width: width * 0.85
+    },
+    sImgLogo: {
+        position: 'absolute',
+        width: width * 0.075,
+        height: width * 0.075,
+        top: height * 0.07394,
+        left: width * 0.4625
     }
 });
