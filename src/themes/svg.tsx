@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { SvgProps, Path } from "react-native-svg"
 
-export default function SvgTitleLogo(props: SvgProps) {
+export const SvgTitleLogo = (props: SvgProps) => {
     return (
         <Svg
             {...props}
@@ -21,4 +21,25 @@ export default function SvgTitleLogo(props: SvgProps) {
             />
         </Svg>
     );
+}
+
+export const SvgArrowNext = (props: SvgProps) => {
+    return (
+        <Svg
+            width={14}
+            height={22}
+            // viewBox="0 0 14 22"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            {...props}
+        >
+            <Path
+                d="M1.375 1l11.667 9.995L1.375 21"
+                stroke="#202020"
+                strokeMiterlimit={10}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </Svg>
+    )
 }
