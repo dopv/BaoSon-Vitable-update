@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import {
     Text, TextInput, View, TouchableOpacity,
     ScrollView, ImageBackground, Dimensions,
-    StatusBar
+    StatusBar,
+    Modal,
+    TouchableHighlight
 } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Post } from '../../../library/networking/fetch';
 import { validateEmail } from '../../../library/utils/validate';
-import { TOKEN } from '../../../common/keyStore';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
 import { ProcessDialog } from '../../../library/components/processDialog';
@@ -18,67 +18,59 @@ const statusBarHeight = StatusBar.currentHeight &&
     StatusBar.currentHeight || 0;
 const height = heightScr + statusBarHeight;
 
-interface LoginProps {
-    route: any,
+interface ForgotPasswordProps {
     navigation: any
 }
 
-export const Login = (props: LoginProps) => {
-    const { route, navigation } = props;
-    const { actionLogin } = route.params;
-    const [dataLogin, setDataLogin] = useState({ email: '', password: '' });
+export const ForgotPassword = (props: ForgotPasswordProps) => {
+    const { navigation } = props;
+    const [email, setEmail] = useState('');
     const [validateInputEmail, setValidateInputEmail] = useState('');
-    const [validateInputPassword, setValidateInputPassword] = useState('');
-    const [isLogin, setLogin] = useState(false);
-    const [loginState, setLoginState] = useState('');
+    const [isLoadForgot, setLoadForgot] = useState(false);
+    const [forgotState, setForgotState] = useState('');
+    const [visible, setVisible] = useState(false);
 
-    const onChange = (key: string, value: string) => {
-        if (key === 'email' && value !== '') {
+    const onChange = (value: string) => {
+        if (value !== '') {
             setValidateInputEmail('');
         }
-        if (key === 'password' && value !== '') {
-            setValidateInputPassword('');
-        }
-        setLoginState('');
-        setDataLogin({
-            ...dataLogin,
-            [key]: value
-        })
+        setForgotState('');
+        setEmail(value);
     }
 
-    const onPressToLogin = () => {
-        if (isLogin) return;
-        setLoginState('');
-        if (!dataLogin.email || !validateEmail(dataLogin.email)) {
+    const onPressToReset = () => {
+        if (isLoadForgot) return;
+        setForgotState('');
+        if (!email || !validateEmail(email)) {
             setValidateInputEmail(`${translate('UNAUTHENTIC:INVALID_EMAIL')}`);
             return;
         }
-        setValidateInputEmail('');
-        if (!dataLogin.password) {
-            setValidateInputPassword(`${translate('UNAUTHENTIC:INVALID_PASSWORD')}`);
-            return;
-        }
-        setValidateInputPassword('');
-        setLogin(true);
-        Post('/api/v1/auth/login', dataLogin)
+        setLoadForgot(true);
+        Post('/api/v1/auth/forgot-password', { email })
             .then(response => {
                 response.json().then(data => {
                     if (data.message) {
-                        setLoginState(data.message);
-                    } else {
-                        AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-                        actionLogin && actionLogin(data || null);
+                        setForgotState(data.message);
+                        setLoadForgot(false);
+                        return;
                     }
-                    setLogin(false);
+                    if (data.data && data.data.success) {
+                        setLoadForgot(false);
+                        setVisible(true);
+                        return;
+                    }
+                    setLoadForgot(false);
                 });
             }).catch(err => {
-                setLogin(false);
+                setLoadForgot(false);
+                setForgotState(err);
                 console.log('err', err)
             })
     }
 
-    const onPressToForgot = () => {
-        navigation && navigation.navigate('ForgotPassword');
+    const onPressToLogin = () => {
+        setVisible(false);
+        navigation && navigation.goBack()
     }
 
     return (
@@ -93,11 +85,12 @@ export const Login = (props: LoginProps) => {
                     source={require('../../../../assets/images/login-bg.png')}
                     style={{
                         width: width,
-                        height: height
+                        height: height,
+                        opacity: visible ? 0.3 : 1
                     }}
                     resizeMode="stretch"
                 >
-                    <ProcessDialog visible={isLogin} />
+                    <ProcessDialog visible={isLoadForgot} />
                     <View
                         style={styles.vHeader}
                     >
@@ -105,19 +98,17 @@ export const Login = (props: LoginProps) => {
                             allowFontScaling={false}
                             style={styles.sTextTopHeader}
                         >
-                            {translate('UNAUTHENTIC:FIRST_SIGNIN')}
+                            {translate('UNAUTHENTIC:PASSWORD_RETRIEVAL')}
                         </Text>
                         <View style={styles.vContent}>
                             <Text
                                 allowFontScaling={false}
                                 style={styles.sTextContentHeader}
                             >
-                                {translate('UNAUTHENTIC:FOR_THE_MOMENT')}
+                                {translate('UNAUTHENTIC:BEFORE_REQUEST')}
                                 {translate('UNAUTHENTIC:NEW_LINE')}
-                                {translate('UNAUTHENTIC:TO_DISCOVER_OUR_OFFER')}
+                                {translate('UNAUTHENTIC:AFTER_REQUEST')}
                                 {translate('UNAUTHENTIC:SPACE')}
-                                <Text
-                                    allowFontScaling={false} style={styles.sTextLink}>{translate('UNAUTHENTIC:LINK')}</Text>
                             </Text>
                         </View>
                     </View>
@@ -136,8 +127,8 @@ export const Login = (props: LoginProps) => {
                             <View>
                                 <TextInput
                                     allowFontScaling={false}
-                                    value={dataLogin.email}
-                                    onChangeText={(email) => onChange ? onChange('email', email) : null}
+                                    value={email}
+                                    onChangeText={(email) => onChange ? onChange(email) : null}
                                     style={[styles.sInput, validateInputEmail !== '' && { color: '#F5785A' }]}
                                     placeholder={`${translate('UNAUTHENTIC:ENTER_MAIL_HERE')}`}
                                 />
@@ -149,64 +140,58 @@ export const Login = (props: LoginProps) => {
                                 {validateInputEmail}
                             </Text>}
                         </View>
-                        <View
-                            style={[styles.vInputEmail, { marginTop: height * 0.028169 }]}
-                        >
-                            <Text
-                                allowFontScaling={false} style={[styles.sTextLabel, validateInputPassword !== ''
-                                    && { color: '#F5785A' }]}>
-                                {translate('UNAUTHENTIC:PASSWORD')}
-                            </Text>
-                            <View>
-                                <TextInput
-                                    allowFontScaling={false}
-                                    value={dataLogin.password}
-                                    onChangeText={(password) => onChange ? onChange('password', password) : null}
-                                    style={styles.sInput}
-                                    secureTextEntry={true}
-                                    placeholder={`${translate('UNAUTHENTIC:ENTER_PASSWORD_HERE')}`}
-                                />
-                            </View>
-                            {validateInputPassword !== '' && <Text
-                                allowFontScaling={false}
-                                style={styles.sTextInvalid}
-                            >
-                                {validateInputPassword}
-                            </Text>}
-                        </View>
                     </View>
-                    {loginState !== '' && <Text
+                    {forgotState !== '' && <Text
                         allowFontScaling={false}
                         style={styles.sTextLoginFailed}
                     >
-                        {loginState}
+                        {forgotState}
                     </Text>}
                     <View
                         style={styles.vFormAction}
                     >
                         <TouchableOpacity
                             style={styles.vButton}
-                            onPress={onPressToLogin}
+                            onPress={onPressToReset}
                         >
                             <Text
                                 allowFontScaling={false}
                                 style={styles.sTextSingIn}
                             >
-                                {translate('UNAUTHENTIC:SIGNIN')}
+                                {translate('UNAUTHENTIC:SEND')}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ zIndex: 2 }}
-                            onPress={onPressToForgot}
+                            onPress={onPressToLogin}
                         >
                             <Text
                                 allowFontScaling={false}
                                 style={styles.sTextForgot}
                             >
-                                {translate('UNAUTHENTIC:FORGOT_PASSWORD')}
+                                {translate('UNAUTHENTIC:BACK_TO_LOGIN')}
                             </Text>
                         </TouchableOpacity>
                     </View>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={visible}
+                    >
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>{translate('UNAUTHENTIC:REQUEST_FORGOT_SUCCESS')}</Text>
+                                <TouchableHighlight
+                                    style={{ ...styles.openButton, backgroundColor: "#F5785A" }}
+                                    onPress={() => {
+                                        onPressToLogin();
+                                    }}
+                                >
+                                    <Text style={styles.textStyle}>{translate('UNAUTHENTIC:GO_TO_LOGIN')}</Text>
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+                    </Modal>
                 </ImageBackground>
             </ScrollView>
         </Screen>
