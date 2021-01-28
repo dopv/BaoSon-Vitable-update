@@ -13,4 +13,3 @@ web-build/
 .DS_Store
 yarn.lock
 debug.log
-package-lock.json
