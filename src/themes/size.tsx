@@ -18,6 +18,7 @@ export const size = {
     18: width * 0.048,
     19: width * 0.0506,
     20: width * 0.053,
+    22: width * 0.0586,
     24: width * 0.064,
     25: width * 0.06667,
     26: width * 0.0693,

@@ -17,20 +17,34 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vitable.local",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.vitable.local"
+      "package": "com.vitable.local",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyCPE4ftspnCAkZDJAtn6iVN6eYvm3BGB74",
+          "authDomain": "trongdai-firebase.firebaseapp.com",
+          "projectId": "trongdai-firebase",
+          "storageBucket": "trongdai-firebase.appspot.com",
+          "messagingSenderId": "323439434532",
+          "appId": "1:323439434532:web:1e55a895f109683694b1b1",
+          "measurementId": "G-HZ6QBQ8DYZ"
+        }
+      }
     },
-    "extra":{
-      "apiUrl":"https://api-dev.vitable.com.au"
+    "extra": {
+      "apiUrl": "https://api-dev.vitable.com.au"
     }
   }
 }
