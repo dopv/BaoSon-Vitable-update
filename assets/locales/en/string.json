@@ -6,7 +6,7 @@
         "EMAIL": "Email address",
         "PASSWORD": "Password",
         "HEADER_LOGIN": "FREE SHIPPING FOR ORDERS OVER $30",
-        "INVALID_EMAIL": "Invalide email address format",
+        "INVALID_EMAIL": "Please enter a valid email",
         "INVALID_PASSWORD": "Password cannot be empty",
         "FIRST_SIGNIN": "First, please sign in",
         "FOR_THE_MOMENT": "For the moment the Vitable App is only accessible for our clients.",
