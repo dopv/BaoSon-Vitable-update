@@ -10,11 +10,16 @@ import { StatusBarHeight } from './src/config/heightStatusbar';
 import { FONT_14 } from './src/themes/fontSize';
 import * as Font from 'expo-font';
 import { ProcessDialog } from './src/library/components/processDialog';
+import { Analytics, PageHit, Event } from 'expo-analytics';
+import * as firebase from 'firebase';
+// import * as Analytics from 'expo-firebase-analytics';
 
 export default function App() {
   const [isDisconnect, setDisconnect] = useState(false);
   const [fontsLoaded, setLoadFont] = useState(false);
-
+  const analytics = new Analytics('GA-6M35D184LB');
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  // const analytics = firebase.analytics();
 
   const loadFonts = async () => {
     await Font.loadAsync({
@@ -25,8 +30,25 @@ export default function App() {
     setLoadFont(true);
   }
 
-  useEffect(() => {
+  useEffect( () => {
     loadFonts();
+    const analyticsAsync = async () => {
+      analytics.hit(new PageHit('Home'))
+        .then(() => console.log("success"))
+        .catch(e => console.log(e.message));
+      analytics.event(new Event('Video', 'Play', 'The Big Lebowski', 123))
+        .then(() => console.log("success event"))
+        .catch(e => console.log(e.message));
+      // await Analytics.setAnalyticsCollectionEnabled(true);
+      // await Analytics.setDebugModeEnabled(true)
+      // firebase.analytics().logEvent('notification_received');
+      // await Analytics.logEvent('ButtonTapped', {
+      //   name: 'settings',
+      //   screen: 'profile',
+      //   purpose: 'Opens the internal settings',
+      // });
+    }
+    analyticsAsync()
   }, []);
 
   useEffect(() => {
