@@ -13,7 +13,7 @@ import { validateEmail } from '../../../library/utils/validate';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
 import { ProcessDialog } from '../../../library/components/processDialog';
-import { tracking, trackCurrentScreen } from '../../../library/analytics-tracking';
+import { trackEvent, trackCurrentScreen } from '../../../library/analytics-tracking';
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
     StatusBar.currentHeight >= 38 &&
@@ -46,7 +46,7 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
 
     const onPressToReset = () => {
         if (isLoadForgot) return;
-        tracking('CLICKED_FORGOT', 'clicked_forgot ', 'ForgotPassword');
+        trackEvent('CLICKED_FORGOT', 'clicked_forgot ', 'ForgotPassword');
         setForgotState('');
         if (!email || !validateEmail(email)) {
             setValidateInputEmail(`${translate('UNAUTHENTIC:INVALID_EMAIL')}`);
@@ -59,13 +59,13 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
                     if (data.message) {
                         setForgotState(data.message);
                         setLoadForgot(false);
-                        tracking('FORGOT_FAILURE', 'forgot_failure', 'ForgotPassword');
+                        trackEvent('FORGOT_FAILURE', 'forgot_failure', 'ForgotPassword');
                         return;
                     }
                     if (data.data && data.data.success) {
                         setLoadForgot(false);
                         setVisible(true);
-                        tracking('FORGOT_SUCCESS', 'forgot_success', 'ForgotPassword');
+                        trackEvent('FORGOT_SUCCESS', 'forgot_success', 'ForgotPassword');
                         return;
                     }
                     setLoadForgot(false);
