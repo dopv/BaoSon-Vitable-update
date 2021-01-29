@@ -1,15 +1,15 @@
 {
     "error": {},
     "UNAUTHENTIC": {
-        "LOGIN": "Log in",
+        "LOGIN": "Login",
         "LOGOUT": "Log out",
         "EMAIL": "Email address",
         "PASSWORD": "Password",
         "HEADER_LOGIN": "FREE SHIPPING FOR ORDERS OVER $30",
-        "INVALID_EMAIL": "Invalide email address format",
+        "INVALID_EMAIL": "Please enter a valid email",
         "INVALID_PASSWORD": "Password cannot be empty",
         "FIRST_SIGNIN": "First, please sign in",
-        "FOR_THE_MOMENT": "For the moment the Vitable App is only accessible pour our clients.",
+        "FOR_THE_MOMENT": "For the moment the Vitable App is only accessible for our clients.",
         "TO_DISCOVER_OUR_OFFER": "To discover our offer, you can go check our website",
         "LINK": "vitable.com.au",
         "ENTER_MAIL_HERE": "Your mail address here...",
@@ -17,13 +17,21 @@
         "FORGOT_PASSWORD": "Forgot my password",
         "NEW_LINE": "\n",
         "SPACE": " ",
-        "SIGNIN": "Sign in"
+        "SIGNIN": "Sign in",
+        "SEND": "Send",
+        "BACK_TO_LOGIN": "Back to login",
+        "PASSWORD_RETRIEVAL": "Password Retrieval",
+        "BEFORE_REQUEST": "To reset your password, please enter your email in the box below and submit your request.",
+        "AFTER_REQUEST": "After submitting your request successfully, please visit your email to confirm.",
+        "REQUEST_FORGOT_SUCCESS": "We've just emailed you instructions on how to reset your password.",
+        "GO_TO_LOGIN": "Go to login",
+        "INCORRECT_LOGIN": "Incorrect email or password"
     },
     "AUTHENTIC": {
         "HOME": {
             "DAILY_TRACKER": "Daily tracker",
-            "HI":"Hi, ",
-            "TAKE_THE_QUIZ":"Take the quizz"
+            "HI": "Hi, ",
+            "TAKE_THE_QUIZ": "Take the quizz"
         },
         "HOME_STREAK_HISTORY": {
             "CURRENT_STREAK": "Current streak",

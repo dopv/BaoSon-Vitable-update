@@ -9,12 +9,11 @@ import DropdownAlert from 'react-native-dropdownalert';
 import { StatusBarHeight } from './src/config/heightStatusbar';
 import { FONT_14 } from './src/themes/fontSize';
 import * as Font from 'expo-font';
-import { ProcessDialog } from './src/library/components/processDialog';
+import * as Analytics from 'expo-firebase-analytics';
 
 export default function App() {
   const [isDisconnect, setDisconnect] = useState(false);
   const [fontsLoaded, setLoadFont] = useState(false);
-
 
   const loadFonts = async () => {
     await Font.loadAsync({
@@ -28,6 +27,20 @@ export default function App() {
   useEffect(() => {
     loadFonts();
   }, []);
+
+  useEffect(() => {
+    logEventOpenApp();
+  }, []);
+
+  const logEventOpenApp = async () => {
+    await Analytics.setCurrentScreen('App');
+
+    await Analytics.logEvent('APP_OPEN', {
+      name: 'app_open',
+      screen: 'app',
+      purpose: 'Opens app',
+    });
+  }
 
   useEffect(() => {
     const unsubcribe = NetInfo.addEventListener((state: any) => {
