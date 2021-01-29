@@ -13,6 +13,8 @@ import { TOKEN } from '../../../common/keyStore';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
 import { ProcessDialog } from '../../../library/components/processDialog';
+import { tracking } from '../../../library/analytics-tracking';
+
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
     StatusBar.currentHeight >= 38 &&
@@ -49,6 +51,7 @@ export const Login = (props: LoginProps) => {
 
     const onPressToLogin = () => {
         if (isLogin) return;
+        tracking('CLICKED_LOGIN', 'clicked login', 'login', 'login action');
         setLoginState('');
         if (!dataLogin.email || !validateEmail(dataLogin.email)) {
             setValidateInputEmail(`${translate('UNAUTHENTIC:INVALID_EMAIL')}`);
@@ -66,15 +69,18 @@ export const Login = (props: LoginProps) => {
                 response.json().then(data => {
                     if (data.message) {
                         setLoginState(data.message);
+                        tracking('LOGIN_FAILURE', 'login_failure', 'login');
                     } else {
                         AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
                         actionLogin && actionLogin(data || null);
+                        tracking('LOGIN_SUCCESS', 'login_success', 'login', 'go to home screen');
                     }
                     setLogin(false);
                 });
             }).catch(err => {
+                tracking('LOGIN_EXCEPTION', 'login_exception', 'login');
                 setLogin(false);
-                console.log('err', err)
+                console.log('err', err);
             })
     }
 
@@ -103,7 +109,7 @@ export const Login = (props: LoginProps) => {
                     resizeMode="stretch"
                 >
                     <ProcessDialog visible={isLogin} />
-                    <Image 
+                    <Image
                         source={require('../../../../assets/images/Logo-black.png')}
                         style={styles.sImgLogo}
                     />
