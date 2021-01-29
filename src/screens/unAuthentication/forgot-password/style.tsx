@@ -40,11 +40,6 @@ export const styles = StyleSheet.create({
         top: height * 0.028169,
         fontFamily: 'NHaasGroteskTXPro'
     },
-    sTextLink: {
-        fontWeight: 'bold',
-        textDecorationLine: 'underline',
-        fontFamily: 'NHaasGroteskTXProBold'
-    },
     vFormInput: {
         width: width * 0.85,
         position: 'absolute',
@@ -145,10 +140,10 @@ export const styles = StyleSheet.create({
     },
     modalView: {
         margin: width * 0.053333333,
-        backgroundColor: "#bcdda6",
         padding: width * 0.0625,
         alignItems: "center",
         shadowColor: "#000",
+        backgroundColor: '#F7F4EB',
         shadowOffset: {
             width: 0,
             height: 2
@@ -156,12 +151,6 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center",
-        fontFamily: 'NHaasGroteskTXProBold'
     },
     modalText: {
         marginBottom: width * 0.046875,
@@ -175,15 +164,23 @@ export const styles = StyleSheet.create({
         width: width * 0.075,
         height: width * 0.075,
         top: height * 0.07394,
-        left: width * 0.4625
+        left: width * 0.075
     },
-    sTextForgotModal: {
+    vButtonModal: {
+        backgroundColor: '#F5785A',
+        height: height * 0.065141,
+        justifyContent: 'center',
+        borderWidth: width * 0.0015625,
+        borderColor: '#000000',
+        borderStyle: 'solid'
+    },
+    sTextToLoginModal: {
         fontSize: FONT_14,
-        fontWeight: '500',
         lineHeight: FONT_14 * 1.5714286,
-        letterSpacing: FONT_14 * 0.018571,
+        letterSpacing: FONT_14 * 0.015,
+        color: '#272626',
         textAlign: 'center',
-        textDecorationLine: 'underline',
-        fontFamily: 'NHaasGroteskTXProBold'
+        fontFamily: 'NHaasGroteskTXPro',
+        paddingHorizontal: width * 0.05
     },
 });
