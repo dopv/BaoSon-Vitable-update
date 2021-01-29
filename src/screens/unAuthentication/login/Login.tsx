@@ -13,7 +13,7 @@ import { TOKEN } from '../../../common/keyStore';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
 import { ProcessDialog } from '../../../library/components/processDialog';
-import { tracking, trackingCurrentScreen } from '../../../library/analytics-tracking';
+import { tracking, trackCurrentScreen } from '../../../library/analytics-tracking';
 
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
@@ -36,7 +36,7 @@ export const Login = (props: LoginProps) => {
     const [loginState, setLoginState] = useState('');
 
     useEffect(() => {
-        trackingCurrentScreen('ForgotPassword');
+        trackCurrentScreen('ForgotPassword');
     }, [])
 
     const onChange = (key: string, value: string) => {

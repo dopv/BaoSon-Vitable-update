@@ -13,7 +13,7 @@ import { validateEmail } from '../../../library/utils/validate';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
 import { ProcessDialog } from '../../../library/components/processDialog';
-import { tracking, trackingCurrentScreen } from '../../../library/analytics-tracking';
+import { tracking, trackCurrentScreen } from '../../../library/analytics-tracking';
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
     StatusBar.currentHeight >= 38 &&
@@ -33,7 +33,7 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        trackingCurrentScreen('ForgotPassword');
+        trackCurrentScreen('ForgotPassword');
     }, [])
 
     const onChange = (value: string) => {
