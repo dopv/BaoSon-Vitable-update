@@ -7,3 +7,7 @@ export const tracking = async (event: string, name: string, screen: string, purp
         purpose
     });
 }
+
+export const trackingCurrentScreen = async (name: string) => {
+    await Analytics.setCurrentScreen(name);
+}

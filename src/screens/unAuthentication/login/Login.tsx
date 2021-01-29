@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Text, TextInput, View, TouchableOpacity,
     ScrollView, ImageBackground, Dimensions,
@@ -13,7 +13,7 @@ import { TOKEN } from '../../../common/keyStore';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
 import { ProcessDialog } from '../../../library/components/processDialog';
-import { tracking } from '../../../library/analytics-tracking';
+import { tracking, trackingCurrentScreen } from '../../../library/analytics-tracking';
 
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
@@ -34,6 +34,10 @@ export const Login = (props: LoginProps) => {
     const [validateInputPassword, setValidateInputPassword] = useState('');
     const [isLogin, setLogin] = useState(false);
     const [loginState, setLoginState] = useState('');
+
+    useEffect(() => {
+        trackingCurrentScreen('ForgotPassword');
+    }, [])
 
     const onChange = (key: string, value: string) => {
         if (key === 'email' && value !== '') {
