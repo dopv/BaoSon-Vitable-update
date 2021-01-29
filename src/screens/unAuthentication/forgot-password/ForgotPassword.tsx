@@ -86,8 +86,7 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
                     source={require('../../../../assets/images/login-bg.png')}
                     style={{
                         width: width,
-                        height: height,
-                        opacity: visible ? 0.3 : 1
+                        height: height
                     }}
                     resizeMode="stretch"
                 >
@@ -184,22 +183,21 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
                         visible={visible}
                     >
                         <View style={styles.centeredView}>
-                            <ImageBackground
-                                source={require('../../../../assets/images/popup-bg.png')}
+                            <View
                                 style={styles.modalView}>
                                 <Text style={styles.modalText}>{translate('UNAUTHENTIC:REQUEST_FORGOT_SUCCESS')}</Text>
                                 <TouchableOpacity
-                                    style={{ zIndex: 2 }}
+                                    style={styles.vButtonModal}
                                     onPress={onPressToLogin}
                                 >
                                     <Text
                                         allowFontScaling={false}
-                                        style={styles.sTextForgotModal}
+                                        style={styles.sTextToLoginModal}
                                     >
                                         {translate('UNAUTHENTIC:BACK_TO_LOGIN')}
                                     </Text>
                                 </TouchableOpacity>
-                            </ImageBackground>
+                            </View>
                         </View>
                     </Modal>
                 </ImageBackground>
