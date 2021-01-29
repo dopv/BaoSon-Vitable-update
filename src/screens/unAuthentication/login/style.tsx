@@ -140,6 +140,6 @@ export const styles = StyleSheet.create({
         width: width * 0.075,
         height: width * 0.075,
         top: height * 0.07394,
-        left: width * 0.4625
+        left: width * 0.075
     }
 });
