@@ -142,39 +142,48 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center"
-      },
-      modalView: {
+    },
+    modalView: {
         margin: width * 0.053333333,
         backgroundColor: "#bcdda6",
-        borderRadius: 10,
         padding: width * 0.0625,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
-          width: 0,
-          height: 2
+            width: 0,
+            height: 2
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5
-      },
-      openButton: {
-        backgroundColor: "#F194FF",
-        borderRadius: 10,
-        padding: width * 0.03125,
-        elevation: 2
-      },
-      textStyle: {
+    },
+    textStyle: {
         color: "white",
         fontWeight: "bold",
         textAlign: "center",
         fontFamily: 'NHaasGroteskTXProBold'
-      },
-      modalText: {
+    },
+    modalText: {
         marginBottom: width * 0.046875,
         textAlign: "center",
         fontSize: FONT_14,
         lineHeight: FONT_14 * 1.3,
         letterSpacing: FONT_14 * 0.005,
-      }
+    },
+    sImgLogo: {
+        position: 'absolute',
+        width: width * 0.075,
+        height: width * 0.075,
+        top: height * 0.07394,
+        left: width * 0.4625
+    },
+    sTextForgotModal: {
+        fontSize: FONT_14,
+        fontWeight: '500',
+        lineHeight: FONT_14 * 1.5714286,
+        letterSpacing: FONT_14 * 0.018571,
+        textAlign: 'center',
+        textDecorationLine: 'underline',
+        fontFamily: 'NHaasGroteskTXProBold'
+    },
 });

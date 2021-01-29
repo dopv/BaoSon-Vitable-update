@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     marginLeft: 10
   },
   logoImage:{
-    width: width*0.5,
-    height: width * 0.5
+    width: width*0.37,
+    height: width * 0.37
   }
 })

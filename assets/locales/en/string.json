@@ -6,7 +6,7 @@
         "EMAIL": "Email address",
         "PASSWORD": "Password",
         "HEADER_LOGIN": "FREE SHIPPING FOR ORDERS OVER $30",
-        "INVALID_EMAIL": "Invalide email address format",
+        "INVALID_EMAIL": "Please enter a valid email",
         "INVALID_PASSWORD": "Password cannot be empty",
         "FIRST_SIGNIN": "First, please sign in",
         "FOR_THE_MOMENT": "For the moment the Vitable App is only accessible for our clients.",
@@ -23,7 +23,7 @@
         "PASSWORD_RETRIEVAL": "Password Retrieval",
         "BEFORE_REQUEST": "To reset your password, please enter your email in the box below and submit your request.",
         "AFTER_REQUEST": "After submitting your request successfully, please visit your email to confirm.",
-        "REQUEST_FORGOT_SUCCESS": "Successful request submission, please access email to confirm.",
+        "REQUEST_FORGOT_SUCCESS": "We've just emailed you instructions on how to reset your password.",
         "GO_TO_LOGIN": "Go to login",
         "INCORRECT_LOGIN": "Incorrect email or password"
     },
