@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "576801227148",
+    "project_id": "vitable-mobile-staging",
+    "storage_bucket": "vitable-mobile-staging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576801227148:android:78a50ee8f8b464979496a9",
+        "android_client_info": {
+          "package_name": "com.vitable.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576801227148-842t6k5d5g11uveucbi48arsiad98sb6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTARBOx3d_Wcn31Pz6R1a70kKZCzzFJ-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576801227148-842t6k5d5g11uveucbi48arsiad98sb6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "576801227148-hbv9c41hvrf8i1q4kbqldabm9r844is0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vitable.staging"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

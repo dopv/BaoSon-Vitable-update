@@ -17,17 +17,31 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vitable",
+      "googleServicesFile": "./env/production/GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.vitable"
+      "package": "com.vitable",
+      "googleServicesFile": "./env/production/google-services.json"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyAqDIFleIv7jMMvcgeZo3iMuiISAK7YVcU",
+          "authDomain": "vitable-mobile.firebaseapp.com",
+          "projectId": "vitable-mobile",
+          "storageBucket": "vitable-mobile.appspot.com",
+          "messagingSenderId": "186507531827",
+          "appId": "1:186507531827:web:aeee71bea012316f41f546",
+          "measurementId": "G-BDG25KVLE3"
+        }
+      }
     },
     "extra":{
       "apiUrl":"https://api.vitable.com.au"
