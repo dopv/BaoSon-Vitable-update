@@ -94,7 +94,8 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
                     source={require('../../../../assets/images/login-bg.png')}
                     style={{
                         width: width,
-                        height: height
+                        height: height,
+                        opacity: visible ? 0.5 : 1
                     }}
                     resizeMode="stretch"
                 >
