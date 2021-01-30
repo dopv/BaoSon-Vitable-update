@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Text, TextInput, View, TouchableOpacity,
     ScrollView, ImageBackground, Dimensions,
@@ -13,6 +13,8 @@ import { TOKEN } from '../../../common/keyStore';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
 import { ProcessDialog } from '../../../library/components/processDialog';
+import { trackEvent, trackCurrentScreen } from '../../../library/analytics-tracking';
+
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
     StatusBar.currentHeight >= 38 &&
@@ -33,6 +35,10 @@ export const Login = (props: LoginProps) => {
     const [isLogin, setLogin] = useState(false);
     const [loginState, setLoginState] = useState('');
 
+    useEffect(() => {
+        trackCurrentScreen('ForgotPassword');
+    }, [])
+
     const onChange = (key: string, value: string) => {
         if (key === 'email' && value !== '') {
             setValidateInputEmail('');
@@ -49,6 +55,7 @@ export const Login = (props: LoginProps) => {
 
     const onPressToLogin = () => {
         if (isLogin) return;
+        trackEvent('CLICKED_LOGIN', 'clicked login', 'login', 'login action');
         setLoginState('');
         if (!dataLogin.email || !validateEmail(dataLogin.email)) {
             setValidateInputEmail(`${translate('UNAUTHENTIC:INVALID_EMAIL')}`);
@@ -66,15 +73,18 @@ export const Login = (props: LoginProps) => {
                 response.json().then(data => {
                     if (data.message) {
                         setLoginState(data.message);
+                        trackEvent('LOGIN_FAILURE', 'login_failure', 'login');
                     } else {
                         AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
                         actionLogin && actionLogin(data || null);
+                        trackEvent('LOGIN_SUCCESS', 'login_success', 'login', 'go to home screen');
                     }
                     setLogin(false);
                 });
             }).catch(err => {
+                trackEvent('LOGIN_EXCEPTION', 'login_exception', 'login');
                 setLogin(false);
-                console.log('err', err)
+                console.log('err', err);
             })
     }
 
@@ -103,7 +113,7 @@ export const Login = (props: LoginProps) => {
                     resizeMode="stretch"
                 >
                     <ProcessDialog visible={isLogin} />
-                    <Image 
+                    <Image
                         source={require('../../../../assets/images/Logo-black.png')}
                         style={styles.sImgLogo}
                     />
