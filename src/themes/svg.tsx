@@ -69,3 +69,20 @@ export const SvgTracker = (props: SvgProps) => {
         </Svg>
     )
 }
+export const SvgEdit = (props: SvgProps) => {
+    return (
+        <Svg
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            {...props}
+        >
+            <Path
+                d="M9.905 3.497L11 2.402 9.6 1 8.504 2.095m1.4 1.402L3.516 9.885m6.39-6.388L8.504 2.095m0 0l-6.39 6.388m1.401 1.402L1 11l1.114-2.517m1.401 1.402l-1.4-1.402"
+                stroke="#F5785A"
+                strokeMiterlimit={10}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </Svg>
+    )
+}

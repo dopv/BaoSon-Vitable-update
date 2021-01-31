@@ -1,5 +1,7 @@
 {
-    "error": {},
+    "MESS": {
+        "error": "An error occurred, please try again"
+    },
     "UNAUTHENTIC": {
         "LOGIN": "Login",
         "LOGOUT": "Log out",
@@ -30,7 +32,7 @@
     "AUTHENTIC": {
         "HOME": {
             "DAILY_TRACKER": "Daily tracker",
-            "HI": "Hi, ",
+            "HI": "Hi ",
             "TAKE_THE_QUIZ": "Take the quizz"
         },
         "HOME_STREAK_HISTORY": {

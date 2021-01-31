@@ -29,7 +29,8 @@ export const Get = async (path: string, param?: any) => {
     };
     await AsyncStorage.getItem(TOKEN).then(val => {
         if (val && typeof val == 'string') {
-            header.Authorization = `Bearer ${JSON.parse(val) && JSON.parse(val).access_token || ''}`;
+            console.log("token", val)
+            header.Authorization = `Bearer ${JSON.parse(val) && JSON.parse(val) || ''}`;
         }
     });
     let url = new URL(`${apiUrl}${path}`);
@@ -46,7 +47,7 @@ export const Post = async (path: string, body: any) => {
     await AsyncStorage.getItem(TOKEN).then(val => {
       
         if (val && typeof val == 'string') {
-            header.Authorization = `Bearer ${val}`;
+            header.Authorization = `Bearer ${JSON.parse(val) && JSON.parse(val) || ''}`;
         }
     });
     return Fetch(`${apiUrl}${path}`, { method: 'POST', headers: header, body: JSON.stringify(body) });

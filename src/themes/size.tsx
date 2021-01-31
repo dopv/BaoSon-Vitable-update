@@ -10,6 +10,7 @@ export const size = {
     7: width * 0.018667,
     8: width * 0.021,
     10: width * 0.026667,
+    11: width * 0.029333,
     12: width * 0.032,
     14: width * 0.0373,
     15: width * 0.04,
@@ -41,6 +42,7 @@ export const size = {
     130: width *0.346,
     140: width * 0.373,
     150: width * 0.4,
+    240: width * 0.64,
     300: width * 0.8,
     400: height* 0.492,
 }

@@ -5,6 +5,7 @@ import { useRoute } from '@react-navigation/native';
 import { FONT_14 } from '../themes/fontSize';
 import { size } from '../themes/size';
 import { StatusBarHeight } from '../config/heightStatusbar';
+import { QUIZ_SCREEN } from '../navigation/TypeScreen';
 const { width, height } = Dimensions.get('window');
 
 export const CustomHeader = (props: any) => {
@@ -14,11 +15,16 @@ export const CustomHeader = (props: any) => {
         logoRight,
         onPressRight,
         userName,
-        reminder
+        reminder,
+        isTakeQuiz
     } = props;
 
     const onPressGoToMenu = () => {
         navigation && navigation.openDrawer();
+    }
+
+    const onPressGoToQuiz = () => {
+        navigation && navigation.navigate(QUIZ_SCREEN);
     }
 
     return (
@@ -45,34 +51,30 @@ export const CustomHeader = (props: any) => {
                     style={styles.imgRight}
                 />
             </TouchableOpacity>
-            <View
-                style={styles.vContent}
-            >
-                <View>
+            <View style={styles.vContent}>
                     <Text
                         allowFontScaling={false}
-                        style={styles.sTextHi}
-                    >
+                        style={styles.sTextHi}>
                         {translate('AUTHENTIC:HOME:HI')}{userName || ''},
                 </Text>
-                </View>
-                <View>
                     <Text
                         allowFontScaling={false}
                         style={styles.sTextRemider}
                     >
                         {reminder || ''}
                     </Text>
-                </View>
-                {/* <TouchableWithoutFeedback
-                    onPress={onPressGoToQuiz}
-                    style={{ zIndex: 2 }}
-                >
-                    <Text
-                        allowFontScaling={false}
-                        style={styles.sTextTakeQuiz}
-                    >{translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}</Text>
-                </TouchableWithoutFeedback> */}
+                {isTakeQuiz &&
+                    <TouchableOpacity
+                        onPress={onPressGoToQuiz}
+                        style={styles.btnTakeQuiz}
+                    >
+                        <Text
+                            allowFontScaling={false}
+                            style={styles.sTextTakeQuiz}
+                        >{translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}</Text>
+                    </TouchableOpacity>
+                }
+               
             </View>
         </ImageBackground>
     )
@@ -82,13 +84,11 @@ const styles = StyleSheet.create({
     vBackground: {
         width: width,
         justifyContent: 'center',
-        height: 200,
-        paddingTop: StatusBarHeight
-
+        paddingTop: StatusBarHeight,
     },
     btnMenu: {
         position: 'absolute',
-        top: size[30],
+        top: size[40],
         left: 0
     },
     vImgMenu: {
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderTopLeftRadius: size[50],
         borderBottomLeftRadius: size[50],
-        top: size[40],
+        top: size[50],
         position: 'absolute',
         right: 0,
         shadowColor: "#000",
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
         width: width * 0.33125,
     },
     vContent: {
+        marginTop: size[80],
         width: width * 0.9,
         alignSelf: 'center'
     },
@@ -133,8 +134,9 @@ const styles = StyleSheet.create({
     sTextRemider: {
         textAlign: 'center',
         fontSize: FONT_14,
-        lineHeight: FONT_14 * 1.3,
+        lineHeight: size[22],
         letterSpacing: FONT_14 * 0.015,
+        marginBottom: size[24]
     },
     sTextTakeQuiz: {
         textAlign: 'center',
@@ -147,5 +149,8 @@ const styles = StyleSheet.create({
         textDecorationStyle: 'solid',
         textDecorationLine: 'underline',
     },
+    btnTakeQuiz:{
+        paddingBottom: size[16]
+    }
 
 })
