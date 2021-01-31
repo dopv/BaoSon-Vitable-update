@@ -33,8 +33,6 @@ export default function App() {
   }, []);
 
   const logEventOpenApp = async () => {
-    await Analytics.setCurrentScreen('App');
-
     await Analytics.logEvent('APP_OPEN', {
       name: 'app_open',
       screen: 'app',
