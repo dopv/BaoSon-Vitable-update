@@ -2,7 +2,8 @@
   "expo": {
     "name": "vitable-mobile-staging",
     "slug": "vitable-mobile-staging",
-    "version": "1.0.0",
+    "version": "1.0.1",
+    "owner": "vitable",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -28,7 +29,8 @@
       },
       "package": "com.vitable.staging",
       "permissions":[],
-      "googleServicesFile": "./env/staging/google-services.json"
+      "googleServicesFile": "./env/staging/google-services.json",
+      "versionCode" : 4
     },
     "web": {
       "favicon": "./assets/favicon.png",

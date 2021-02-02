@@ -3,6 +3,7 @@
     "name": "vitable-mobile-dev",
     "slug": "vitable-mobile-dev",
     "version": "1.0.0",
+    "owner": "vitable",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
