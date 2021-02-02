@@ -86,3 +86,43 @@ export const SvgEdit = (props: SvgProps) => {
         </Svg>
     )
 }
+
+export const SvgBack = (props: SvgProps) => {
+    return (
+        <Svg
+            
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            {...props}
+        >
+            <Path
+                d="M16.5 4.5l-9 7.496 9 7.504"
+                stroke="#202020"
+                strokeMiterlimit={10}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </Svg>
+    )
+}
+
+export const SvgDelete = (props: SvgProps) => {
+    return (
+        <Svg
+            width={24}
+            height={24}
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            {...props}
+        >
+            <Path
+                d="M17.913 5.675l-.836 13.541a1.435 1.435 0 01-.422.988 1.445 1.445 0 01-.992.421H8.338a1.445 1.445 0 01-.992-.42 1.435 1.435 0 01-.422-.989L6.087 5.675m-1.587 0h15-15zm4.615 0V4.496a1.12 1.12 0 011.125-1.121h3.52a1.128 1.128 0 011.039.692c.056.136.086.282.086.43v1.178h-5.77zM15 7.875l-.6 10.5M12 7.875v10.5-10.5zm-3 0l.6 10.5-.6-10.5z"
+                stroke="#F5785A"
+                strokeMiterlimit={10}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </Svg>
+    )
+}

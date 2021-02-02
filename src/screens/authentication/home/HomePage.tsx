@@ -8,9 +8,10 @@ import { StreakAccumulation } from './components/home-streak-accumulation/Streak
 import { MarkWork } from './components/home-mark-point/MarkPoints';
 import { styles } from './style';
 import ViewPager from '@react-native-community/viewpager';
-import { PACK_SCREEN } from '../../../navigation/TypeScreen';
+import { PACK_SCREEN, QUIZ_SCREEN } from '../../../navigation/TypeScreen';
 import { CustomHeader } from '../../../components/header';
 import { CustomPage } from '../../../components/page';
+import { translate } from '../../../library/utils/i18n/translate';
 
 interface HomePageProps {
     navigation: any
@@ -23,7 +24,12 @@ export const HomePage = (props: HomePageProps) => {
     const onGoPack = () => {
         navigation.navigate(PACK_SCREEN)
     }
-
+    const onPressGoToMenu = () => {
+        navigation && navigation.openDrawer();
+    }
+    const onPressGoToQuiz = () => {
+        navigation && navigation.navigate(QUIZ_SCREEN);
+    }
     return <Screen
         isScroll={false}
         hidden={false}
@@ -33,13 +39,17 @@ export const HomePage = (props: HomePageProps) => {
     >
         <View style={styles.fullScreen}>
             <CustomHeader
+                isButtonRight={true}
                 navigation={navigation}
                 onPressRight={onGoPack}
                 userName={`aimee`}
-                isTakeQuiz={true}
+                titleButton={translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}
+                onPressTitleButton={onPressGoToQuiz}
                 reminder={`It's been two months since you reassessed your needs.`}
                 imgBackground={require('../../../../assets/images/Vitable_Hero_Images.png')}
                 logoRight={require('../../../../assets/images/Mypack.png')}
+                logoLeft={require('../../../../assets/images/Menu.png')}
+                onPressLeft={onPressGoToMenu}
             />
             <CustomPage
                 navigation={navigation}

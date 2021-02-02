@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
-import { Image, ImageBackground, Text, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet, Dimensions } from 'react-native';
+import { Image, ImageBackground, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet, Dimensions } from 'react-native';
 import { translate } from '../library/utils/i18n/translate';
 import { useRoute } from '@react-navigation/native';
-import { FONT_14 } from '../themes/fontSize';
+import { FONT_14, FONT_24 } from '../themes/fontSize';
 import { size } from '../themes/size';
 import { StatusBarHeight } from '../config/heightStatusbar';
 import ViewPager from '@react-native-community/viewpager';
@@ -16,9 +16,8 @@ export const CustomPage = (props: any) => {
         titleLeft,
         titleRight,
         setTabIndex,
-        title,
         viewPageLeft,
-        viewPageRight
+        viewPageRight,
     } = props;
 
     const _viewPager = useRef<ViewPager>(null);
@@ -36,42 +35,55 @@ export const CustomPage = (props: any) => {
     return (
         <View style={styles.vContent}>
             <View style={styles.vTab}>
-                <TouchableOpacity
-                    onPress={() => { onChangeTab && onChangeTab(0) }}
-                    style={tabIndex === 0 ? [styles.vTabsLeftRight, styles.borderPageLeft] : styles.vTabsLeftRight}
-                >
-                    <Text
-                        allowFontScaling={false}
-                        style={styles.sTitleTracker}
+                {titleLeft &&
+                    <TouchableOpacity
+                        onPress={() => { onChangeTab && onChangeTab(0) }}
+                    style={tabIndex === 0 ? [styles.vTabsLeftRight, styles.borderPageLeft] : [styles.vTabsLeftRight]}
                     >
-                        {titleLeft}
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => { onChangeTab && onChangeTab(1) }}
-                    style={tabIndex === 1 ? [styles.vTabsLeftRight, styles.borderPageRight] : styles.vTabsLeftRight}
-                >
-                    <Text
-                        allowFontScaling={false}
-                        style={styles.sTitleTracker}
+                        <Text
+                            allowFontScaling={false}
+                            style={styles.sTitleTracker}
+                        >
+                            {titleLeft}
+                        </Text>
+                    </TouchableOpacity>
+                }
+                {titleRight &&
+                    <TouchableOpacity
+                        onPress={() => { onChangeTab && onChangeTab(1) }}
+                    style={tabIndex === 1 ? [styles.vTabsLeftRight, styles.borderPageRight] : [styles.vTabsLeftRight]}
                     >
-                        {titleRight}
-                    </Text>
-                </TouchableOpacity>
+                        <Text
+                            allowFontScaling={false}
+                            style={styles.sTitleTracker}
+                        >
+                            {titleRight}
+                        </Text>
+                    </TouchableOpacity>
+                }
+              
             </View>
-            <ViewPager
-                scrollEnabled={false}
-                ref={_viewPager}
-                onPageSelected={_onScrollEnd}
-                style={styles.viewPager}
-                initialPage={0}>
-                <View key="0" style={styles.vPageLeft}>
-                    {viewPageLeft}
-                </View>
+        
+            {viewPageLeft ?
+                <ViewPager
+                    scrollEnabled={false}
+                    ref={_viewPager}
+                    onPageSelected={_onScrollEnd}
+                    style={styles.viewPager}
+                    initialPage={0}>
+                    <View key="0" style={styles.vPageLeft}>
+                        {viewPageLeft}
+                    </View>
+                    <View key="1" style={styles.vPageLeft}>
+                        {viewPageRight}
+                    </View>
+                </ViewPager>
+                :
                 <View key="1" style={styles.vPageLeft}>
                     {viewPageRight}
                 </View>
-            </ViewPager>
+            }
+
         </View>
     )
 }

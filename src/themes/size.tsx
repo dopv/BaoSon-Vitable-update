@@ -12,6 +12,7 @@ export const size = {
     10: width * 0.026667,
     11: width * 0.029333,
     12: width * 0.032,
+    13: width * 0.0346,
     14: width * 0.0373,
     15: width * 0.04,
     16: width * 0.042,

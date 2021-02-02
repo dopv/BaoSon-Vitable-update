@@ -2,30 +2,27 @@ import React from 'react';
 import { Image, ImageBackground, Text, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet, Dimensions } from 'react-native';
 import { translate } from '../library/utils/i18n/translate';
 import { useRoute } from '@react-navigation/native';
-import { FONT_14 } from '../themes/fontSize';
+import { FONT_14, FONT_18 } from '../themes/fontSize';
 import { size } from '../themes/size';
 import { StatusBarHeight } from '../config/heightStatusbar';
 import { QUIZ_SCREEN } from '../navigation/TypeScreen';
 const { width, height } = Dimensions.get('window');
 
 export const CustomHeader = (props: any) => {
-    const { 
+    const {
         navigation,
         imgBackground,
         logoRight,
         onPressRight,
         userName,
         reminder,
-        isTakeQuiz
+        isButtonRight,
+        logoLeft,
+        onPressLeft,
+        title,
+        titleButton,
+        onPressTitleButton
     } = props;
-
-    const onPressGoToMenu = () => {
-        navigation && navigation.openDrawer();
-    }
-
-    const onPressGoToQuiz = () => {
-        navigation && navigation.navigate(QUIZ_SCREEN);
-    }
 
     return (
         <ImageBackground
@@ -33,49 +30,63 @@ export const CustomHeader = (props: any) => {
             style={styles.vBackground}
             resizeMode='stretch'
         >
-            <TouchableOpacity onPress={onPressGoToMenu}
-                style={styles.btnMenu}
-            >
-                <Image
-                    resizeMode='contain'
-                    source={require('../../assets/images/Menu.png')}
-                    style={styles.vImgMenu}
-                />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.btnRight}
-                onPress={onPressRight}
-            >
-                <Image
-                    resizeMode='contain'
-                    source={logoRight}
-                    style={styles.imgRight}
-                />
-            </TouchableOpacity>
-            <View style={styles.vContent}>
+            <View style={styles.vHeader}>
+                <TouchableOpacity onPress={onPressLeft}
+                    style={styles.btnMenu}
+                >
+                    <Image
+                        resizeMode='contain'
+                        source={logoLeft}
+                        style={styles.vImgMenu}
+                    />
+                </TouchableOpacity>
+                {title &&
+                    <Text style={styles.tTitle}>
+                        {title}
+                    </Text>
+                }
+                {isButtonRight &&
+                    <TouchableOpacity style={styles.btnRight}
+                        onPress={onPressRight}
+                    >
+                        <Image
+                            resizeMode='contain'
+                            source={logoRight}
+                            style={styles.imgRight}
+                        />
+                    </TouchableOpacity>
+                }
+            </View>
+            {userName &&
+                <View style={styles.vContent}>
                     <Text
                         allowFontScaling={false}
                         style={styles.sTextHi}>
                         {translate('AUTHENTIC:HOME:HI')}{userName || ''},
                 </Text>
+
+
                     <Text
                         allowFontScaling={false}
                         style={styles.sTextRemider}
                     >
                         {reminder || ''}
                     </Text>
-                {isTakeQuiz &&
-                    <TouchableOpacity
-                        onPress={onPressGoToQuiz}
-                        style={styles.btnTakeQuiz}
-                    >
-                        <Text
-                            allowFontScaling={false}
-                            style={styles.sTextTakeQuiz}
-                        >{translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}</Text>
-                    </TouchableOpacity>
-                }
-               
-            </View>
+                    {titleButton &&
+                        <TouchableOpacity
+                            onPress={onPressTitleButton}
+                            style={styles.btnTakeQuiz}
+                        >
+                            <Text
+                                allowFontScaling={false}
+                                style={styles.sTextTakeQuiz}
+                            >{titleButton}</Text>
+                        </TouchableOpacity>
+                    }
+
+                </View>
+            }
+
         </ImageBackground>
     )
 }
@@ -86,21 +97,32 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingTop: StatusBarHeight,
     },
+    vHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    tTitle: {
+        marginVertical: size[30],
+        fontSize: FONT_18,
+        fontFamily: 'SolaireDT'
+    },
     btnMenu: {
         position: 'absolute',
-        top: size[40],
+        top: size[20],
         left: 0
     },
     vImgMenu: {
         width: size[30],
         height: size[30],
-        margin: width * 0.05,
+        marginHorizontal: width * 0.05,
+        marginVertical: size[7]
     },
     btnRight: {
         backgroundColor: 'transparent',
         borderTopLeftRadius: size[50],
         borderBottomLeftRadius: size[50],
-        top: size[50],
+        top: size[20],
         position: 'absolute',
         right: 0,
         shadowColor: "#000",
@@ -149,7 +171,7 @@ const styles = StyleSheet.create({
         textDecorationStyle: 'solid',
         textDecorationLine: 'underline',
     },
-    btnTakeQuiz:{
+    btnTakeQuiz: {
         paddingBottom: size[16]
     }
 

@@ -6,5 +6,6 @@ export const HOME_SCREEN = 'HOME_SCREEN';
 export const SUPPORT_SCREEN = 'SUPPORT_SCREEN';
 export const ACCOUNT_DETAIL_SCREEN = 'ACCOUNT_DETAIL_SCREEN';
 export const QUIZ_SCREEN = 'QUIZ_SCREEN';
+export const MY_PACK = 'MY_PACK';
 
 

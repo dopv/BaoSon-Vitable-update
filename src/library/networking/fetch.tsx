@@ -29,12 +29,11 @@ export const Get = async (path: string, param?: any) => {
     };
     await AsyncStorage.getItem(TOKEN).then(val => {
         if (val && typeof val == 'string') {
-            console.log("token", val)
             header.Authorization = `Bearer ${JSON.parse(val) && JSON.parse(val) || ''}`;
         }
     });
-    let url = new URL(`${apiUrl}${path}`);
-    url.search = new URLSearchParams(param).toString();
+    let url = (`${apiUrl}${path}`);
+    // url.search = new URLSearchParams(param).toString();
     return Fetch(`${url}`, { method: 'GET', headers: header });
 }
 

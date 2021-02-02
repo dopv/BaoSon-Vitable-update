@@ -35,7 +35,7 @@ export const ItemProduct = (props: propRender) => {
                     <SvgUri
                         width={size[24]}
                         height={size[24]}
-                        source={uri}
+                        source={require('../../../assets/images/icon_brain.svg')}
                     />
                 }
             </View>
