@@ -1,0 +1,10 @@
+export const APP_LANGUAGE = 'APP_LANGUAGE';
+export const KEY_LIST_BOOK_MARK = 'KEY_LIST_BOOK_MARK';
+export const KEY_LIST_NEWS_READ = 'KEY_LIST_NEWS_READ';
+export const ERROR_NETWORK_CODE = -10;
+export const RESULT_CODE_DEFAULT = -100;
+export const RESULT_CODE_SUCCESS = 0;
+export const RESULT_CODE_PUSH_OUT = 401;
+export const PAGE_SIZE_DEFAULT = 15;
+export const PAGE_SIZE_SEARCH = 15;
+export const CITY_WEATHER_ID = 'CITY_WEATHER_ID';
