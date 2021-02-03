@@ -126,3 +126,43 @@ export const SvgDelete = (props: SvgProps) => {
         </Svg>
     )
 }
+
+export const SvgDownTiny = (props: SvgProps) => {
+    return (
+        <Svg
+            width={24}
+            height={24}
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            {...props}
+        >
+            <Path
+                d="M18 8.25l-5.997 7L6 8.25"
+                stroke="#637C5A"
+                strokeMiterlimit={10}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </Svg>
+    )
+}
+
+export const SvgDownBig = (props: SvgProps) => {
+    return (
+        <Svg
+            width={40}
+            height={40}
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            {...props}
+        >
+            <Path
+                d="M30 14.375l-9.995 11.667L10 14.375"
+                stroke="#272626"
+                strokeMiterlimit={10}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </Svg>
+    )
+}

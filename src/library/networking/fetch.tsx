@@ -51,3 +51,18 @@ export const Post = async (path: string, body: any) => {
     });
     return Fetch(`${apiUrl}${path}`, { method: 'POST', headers: header, body: JSON.stringify(body) });
 }
+
+export const Put = async (path: string, body: any) => {
+    let header = {
+        Authorization: "",
+        Accept: "application/json",
+        "Content-Type": "application/json"
+    };
+    await AsyncStorage.getItem(TOKEN).then(val => {
+
+        if (val && typeof val == 'string') {
+            header.Authorization = `Bearer ${JSON.parse(val) && JSON.parse(val) || ''}`;
+        }
+    });
+    return Fetch(`${apiUrl}${path}`, { method: 'PUT', headers: header, body: JSON.stringify(body) });
+}

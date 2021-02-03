@@ -119,7 +119,6 @@ export const CustomListProduct = (props: any) => {
 
     const renderItemDot = (props: propRender) => {
         const { item, index } = props
-        console.log("indexDis", indexDisplay);
         return (
             <View style={indexDisplay === index ? styles.vItemDotDisplay : styles.vItemDot} />
         )
@@ -146,10 +145,6 @@ export const CustomListProduct = (props: any) => {
         setLoading(true)
         checkType()
     }, [])
-
-    useEffect(() => {
-        console.log("indexDisplay", indexDisplay)
-    }, [indexDisplay])
 
     return (
         <View style={styles.vFullScreen}>

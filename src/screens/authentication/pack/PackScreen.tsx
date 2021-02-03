@@ -91,7 +91,6 @@ export const PackScreen = (props: PackProps) => {
                 </View>
                 :
                 <View style={styles.fullScreen}>
-
                     <CustomHeader
                         isButtonRight={true}
                         navigation={navigation}
