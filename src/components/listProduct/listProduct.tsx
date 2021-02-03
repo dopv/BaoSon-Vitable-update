@@ -27,6 +27,7 @@ export const CustomListProduct = (props: any) => {
     const [loading, setLoading] = useState(false);
     const [timeEst, setTimeEst] = useState('');
     const [indexDisplay, setIndexDisplay] = useState(0);
+    const [subscription_id, setSubscription_id] = useState(0);
     const refDot = useRef(null);
 
     const onRefresh = React.useCallback(() => {
@@ -60,6 +61,9 @@ export const CustomListProduct = (props: any) => {
         Get('/api/v1/users/me/orders/latest')
             .then(response => {
                 response.json().then(data => {
+                    console.log("data tran", data.data)
+                    const id = data.data.id
+                    setSubscription_id(id)
                     if (data.data && data.data.estimated_delivery) {
                         setTimeEst(data.data && data.data.estimated_delivery)
                     }
@@ -84,6 +88,8 @@ export const CustomListProduct = (props: any) => {
             .then(response => {
                 response.json().then(data => {
                     if (data && data.data) {
+                        const id = data.data[0].id
+                        setSubscription_id(id)
                         let listId = data.data.map((item: any) => item.product_id);
                         getListProduct(listId.toString())
                     } else {
@@ -128,7 +134,7 @@ export const CustomListProduct = (props: any) => {
     };
 
     const openManagerPack = () => {
-        navigation && navigation.navigate(MY_PACK, { dataList: dataList })
+        navigation && navigation.navigate(MY_PACK, { dataList: dataList, subscription_id: subscription_id })
     };
 
     const onViewRef = React.useRef((viewableItems: any) => {

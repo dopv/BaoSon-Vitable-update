@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions, StatusBar } from 'react-native';
-import { FONT_14, FONT_18, FONT_24 } from '../../../themes/fontSize';
+import { FONT_10, FONT_11, FONT_14, FONT_18, FONT_24 } from '../../../themes/fontSize';
 import { size } from '../../../themes/size';
 const { height: heightScr, width } = Dimensions.get('window');
 
@@ -18,11 +18,18 @@ export const styles = StyleSheet.create({
         fontSize: FONT_14,
         fontFamily: 'NHaasGroteskTXProBold'
     },
+    vLine:{
+        position:'absolute',
+        opacity: 0.5,
+        backgroundColor:'#272626',
+        height:1,
+        width: '100%'
+    },
     vTotal:{
         flex:1
     },
     vHeaderTotal:{
-        width:'100%',
+        flex:1,
         backgroundColor:'#DCD2BD',
         flexDirection:'row',
     },
@@ -40,9 +47,13 @@ export const styles = StyleSheet.create({
         color: '#272626'
     },
     vRightTotal:{
-        flex:1,
+        flex:1.5,
         flexDirection:'row',
         alignItems:'center'
+    },
+    vPrice:{
+        marginRight: size[16],
+        justifyContent:'center'
     },
     tPrice:{
         color:'#272626',
@@ -56,12 +67,58 @@ export const styles = StyleSheet.create({
     },
     titleBottomTotal:{
         color: '#000',
+        fontWeight: 'normal',
+        fontSize: FONT_14,
+        fontFamily: 'NHaasGroteskTXProBold'
+    },
+    tSubPrice:{
+        color: '#000',
+        fontWeight: '500',
         fontSize: FONT_14,
         fontFamily: 'NHaasGroteskTXProBold'
     },
     priceBottomTotal:{
-        color: '#000',
+        color: '#F5785A',
         fontWeight: '500',
+        fontSize: FONT_14,
+        fontFamily: 'NHaasGroteskTXProBold'
+    },
+    tMinOrder:{
+        marginTop: size[5],
+        color: '#000',
+        fontWeight: '400',
+        fontSize: FONT_11,
+        // fontFamily: 'NHaasGroteskTXProBold'
+    },
+    vPromocode:{
+        marginVertical: size[20],
+        marginHorizontal: size[22],
+        flexDirection:'row',
+        backgroundColor:'#fff'
+    },
+    inputPromocode:{
+        flex:6,
+        paddingVertical:size[15],
+        paddingHorizontal: size[16],
+        borderWidth:1,
+        borderColor:'#000',
+        fontWeight:'400',
+        color:'#000',
+        fontSize: FONT_14,
+        fontFamily: 'NHaasGroteskTXProBold'
+    },
+    btnPromocode:{
+        alignItems:'center',
+        justifyContent:'center',
+        flex:4,
+        backgroundColor:'#F5785A',
+        borderTopWidth:1,
+        borderBottomWidth:1,
+        borderRightWidth:1,
+        borderColor:'#000'
+    },
+    tBtnPromocode:{
+        color: '#272626',
         fontSize: FONT_14,
         fontFamily: 'NHaasGroteskTXProBold'
     }

@@ -16,7 +16,8 @@ export const ItemPackManage = (props: any) => {
         item,
         isHideBorder,
         listPrice,
-        setListPrice
+        setListPrice,
+        subscription_id
     } = props;
     const [count, setCount] = useState(1);
     const [listQuality, setListQuality] = useState([]);
@@ -38,6 +39,24 @@ export const ItemPackManage = (props: any) => {
                 console.log("response", response)
                 response.json().then(data => {
                     console.log("update", data)
+                    if (data.message) {
+                        DropDownHolder.showError("", data.message)
+                    }
+                });
+            }).catch(err => {
+                DropDownHolder.showError("", translate('MESS:error') || "")
+                console.log('err', err)
+            })
+    };
+
+    const removeProduct = () => {
+        const body = { action: "delete", product_id: item.id }
+
+        Put(`/api/v1/subscriptions/${3588}`, body)
+            .then(response => {
+                console.log("response", response)
+                response.json().then(data => {
+                    console.log("remove", data)
                     if (data.message) {
                         DropDownHolder.showError("", data.message)
                     }
@@ -99,7 +118,9 @@ export const ItemPackManage = (props: any) => {
                 <View style={styles.vTitle}>
                     <View style={styles.vRow}>
                         <Text style={styles.tName}>{item.name}</Text>
-                        <TouchableOpacity style={styles.btnDelete}>
+                        <TouchableOpacity 
+                            onPress={removeProduct}
+                        style={styles.btnDelete}>
                             <SvgDelete viewBox={`0 0 ${size[24]} ${size[24]}`} />
                         </TouchableOpacity>
                     </View>

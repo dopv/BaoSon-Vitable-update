@@ -14,7 +14,8 @@ export const CustomListManagePack = (props: any) => {
         dataPack,
         isHideBorder,
         listPrice,
-        setListPrice
+        setListPrice,
+        subscription_id
     } = props;
 
     interface ListMangeProps {
@@ -28,6 +29,7 @@ export const CustomListManagePack = (props: any) => {
         if (isHideBorder) {
             return (
                 <ItemPackManage
+                    subscription_id={subscription_id}
                     listPrice={listPrice}
                     setListPrice={setListPrice}
                     item={item} isHideBorder={index == dataPack.length - 1 ? true : false} />
@@ -35,6 +37,7 @@ export const CustomListManagePack = (props: any) => {
         } else {
             return (
                 <ItemPackManage
+                    subscription_id={subscription_id}
                     listPrice={listPrice}
                     setListPrice={setListPrice}
                     item={item} />

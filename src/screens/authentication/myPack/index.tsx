@@ -1,6 +1,6 @@
 import React, { useState, useRef, Children, useEffect } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, Dimensions, ScrollView } from 'react-native';
-import { Screen } from '../../../library/components/screen';
+import { View, Text, TouchableWithoutFeedback, Image, Dimensions, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { presets, Screen } from '../../../library/components/screen';
 import { styles } from './styles';
 import { CustomHeader } from "../../../components/header";
 import { SvgBack, SvgDown, SvgDownBig, SvgTracker } from '../../../themes/svg';
@@ -8,7 +8,7 @@ import { size } from '../../../themes/size';
 import { HOME_SCREEN } from '../../../navigation/TypeScreen';
 import { CustomPage } from '../../../components/page';
 import { CustomListProduct } from '../../../components/listProduct/listProduct';
-import { Get } from '../../../library/networking/fetch';
+import { Get, Put } from '../../../library/networking/fetch';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
 import { translate } from '../../../library/utils/i18n/translate';
 import { CustomListManagePack } from './component/listManagePack';
@@ -23,11 +23,17 @@ interface MyPackProps {
 
 export const MyPackScreen = (props: MyPackProps) => {
     const { navigation, route } = props;
-    const dataList = route && route.params && route.params.dataList || [];
+    var dataList: [] = [];
+    var credit_available = 0;
+    var subscription_id = 0
+    if (route && route.params) {
+        dataList = route.params.dataList
+        credit_available = route.params.stateAuth && route.params.stateAuth.userInfo && route.params.stateAuth.userInfo.customer && route.params.stateAuth.userInfo.customer.data && route.params.stateAuth.userInfo.customer.data.credit_available || 0
+        subscription_id = route.params.subscription_id
+    }
     const [country, setCountry] = useState('AU');
     const [countries, setCountries] = useState(null);
     const [setting, setSetting] = useState(null);
-    const [minimumOrderPrice, setMinimumOrderPrice] = useState(0);
     const [listPrice, setListPrice] = useState([
         {
             id: 0,
@@ -35,6 +41,14 @@ export const MyPackScreen = (props: MyPackProps) => {
         }
     ])
     const [total, setTotal] = useState(0);
+    const [promoCode, setPromocode] = useState("");
+    const [totalRemain, setTotalRemain] = useState(total);
+    const [credit, setCredit] = useState(credit_available);
+    const [discount, setDiscount] = useState("");
+    const [percent, setPercent] = useState("");
+    const changePromoCode = (value: string) => {
+        setPromocode(value);
+    };
 
     const goBack = () => {
         navigation && navigation.goBack();
@@ -44,7 +58,6 @@ export const MyPackScreen = (props: MyPackProps) => {
         Get('/api/v1/country')
             .then(response => {
                 response.json().then(data => {
-                    console.log("get country", data)
                     const country = data.country || "AU"
                     setCountry(country)
                     getCountries(country)
@@ -59,7 +72,6 @@ export const MyPackScreen = (props: MyPackProps) => {
         Get('/api/v1/countries')
             .then(response => {
                 response.json().then(data => {
-                    console.log("get countries", data)
                     const dataCountries = data.filter((item: any) => item.country === country)
                     setCountries(dataCountries)
                 });
@@ -74,8 +86,6 @@ export const MyPackScreen = (props: MyPackProps) => {
             .then(response => {
                 response.json().then(data => {
                     setSetting(data)
-                    const minimum_order_price = data.minimum_order_price || 0
-                    setMinimumOrderPrice(minimum_order_price);
                 });
             }).catch(err => {
                 DropDownHolder.showError("", translate('MESS:error') || "")
@@ -83,36 +93,138 @@ export const MyPackScreen = (props: MyPackProps) => {
             })
     };
 
+    const checkPromoCode = () => {
+        Get(`/api/v1/subscriptions/${3588}/check-promo-code`)
+            .then(response => {
+                response.json().then(data => {
+                    if (data.code) {
+                        console.log("data.code", data.code)
+                        setPromocode(data.code)
+                    }
+                });
+            }).catch(err => {
+                DropDownHolder.showError("", translate('MESS:error') || "")
+                console.log('err', err)
+            })
+    };
+
+    const getInfoPromoCode = () => {
+        Get(`/api/v1/promocodes/show/promocode?promocode=${promoCode}`)
+            .then(response => {
+                response.json().then(data => {
+                    if (data && data.data) {
+                        console.log("promocode", data.data)
+                        if (data.data.percent !== ""){
+                            setPercent(data.data.percent)
+                           
+                        } else if (data.data.discount_amount !== ""){
+                            setDiscount(data.data.discount_amount)
+                        }
+                    }
+                });
+            }).catch(err => {
+                DropDownHolder.showError("", translate('MESS:error') || "")
+                console.log('err', err)
+            })
+    };
+   
+    const applyPromoCode = () => {
+        if (promoCode) {
+            const body = { "promocode": promoCode }
+            Put(`/api/v1/subscriptions/${3588}/apply-promo-code`, body)
+                .then(response => {
+                    console.log("response apply", response)
+                    response.json().then(data => {
+                        console.log("apply", data)
+                        if (data.message) {
+                            DropDownHolder.showError("", data.message)
+                        } else {
+                            getInfoPromoCode()
+                        }
+                    });
+                }).catch(err => {
+                    DropDownHolder.showError("", translate('MESS:error') || "")
+                    console.log('err', err)
+                })
+        }
+    }
+
+    const removePromoCode = () => {
+        setPromocode("");
+        setPercent("");
+        setDiscount("")
+
+    }
     const getListPrice = () => {
         const dataPrice = [{
             id: 0,
             price: 0
         }]
-         dataList.map(item => {
-             dataPrice.push({
-                 id: item.id,
-                 price: item.price
-             })
+        dataList.map(item => {
+            dataPrice.push({
+                id: item.id,
+                price: item.price
+            })
         })
         setListPrice(dataPrice);
     };
+
 
     useEffect(() => {
         getCountry()
         getSetting()
         getListPrice()
+        checkPromoCode()
     }, [])
 
     useEffect(() => {
         var sum = listPrice.map(it => it.price).reduce(function (a, b) {
             return a + b;
         }, 0);
-        setTotal(sum)
-    }, [listPrice]);
 
-    useEffect(() => {
-        console.log("countries", countries)
-    }, [countries]);
+        if (countries && countries[0] && sum < countries[0].freeShipping && countries[0].shippingCost) {
+            var totalRe = (sum + countries[0].shippingCost) || sum
+            const minPrice = setting && setting.data && setting.data.minimum_order_price || 0
+
+            if (credit_available > 0) {
+                if (credit_available > totalRe) {
+                   
+                    if (percent !== "") {
+                        totalRe = totalRe * (parseInt(percent) / 100)
+                    }
+                    if (discount !== "") {
+                        if (totalRe > parseInt(discount)) {
+                            totalRe = totalRe - (parseInt(discount))
+                        } else {
+
+                        }
+                    }
+                    setCredit(totalRe);
+                    var oldTotal = totalRe;
+                    totalRe = 0
+                    if (minPrice) {
+                        var credit = oldTotal - minPrice
+                        // credit = credit_available - oldTotal - credit
+                        setCredit(credit)
+                        totalRe = minPrice
+                    }
+                } else {
+                    totalRe = totalRe - credit_available
+                    setCredit(credit_available);
+                    if (minPrice && totalRe < minPrice) {
+                        var credit = minPrice - totalRe
+                        credit = credit_available - totalRe - credit
+                        setCredit(credit)
+                        totalRe = minPrice
+                    }
+                }
+            }
+           
+            setTotalRemain(totalRe);
+        }
+
+        setTotal(sum)
+    }, [listPrice, countries, percent, discount]);
 
     return (
         <Screen
@@ -138,6 +250,7 @@ export const MyPackScreen = (props: MyPackProps) => {
                             setListPrice={setListPrice}
                             title={'Vitamins'}
                             dataPack={dataList}
+                            subscription_id={subscription_id}
                         />
 
                     </View>
@@ -145,28 +258,63 @@ export const MyPackScreen = (props: MyPackProps) => {
                         <View style={styles.vHeaderTotal}>
                             <Text style={styles.tTotal}>Total</Text>
                             <View style={styles.vRightTotal}>
-                                <Text style={styles.tPrice}>{total} $</Text>
-                                <Text style={styles.tPrice}>14 $</Text>
+                                <View style={styles.vPrice}>
+                                    <Text style={[styles.tPrice, { opacity: 0.5 }]}>{total.toFixed(2)} $</Text>
+                                    <View style={styles.vLine} />
+                                </View>
+                                <Text style={styles.tPrice}>{totalRemain.toFixed(2)} $</Text>
                                 <SvgDownBig viewBox={`0 0 ${size[40]} ${size[40]}`} />
                             </View>
                         </View>
                         <View style={styles.vBottomTotal}>
                             <View style={styles.rowTotal}>
                                 <Text style={styles.titleBottomTotal}>Subtotal</Text>
-                                <Text style={styles.priceBottomTotal}>{total}$</Text>
+                                <Text style={styles.tSubPrice}>{total}$</Text>
                             </View>
                             <View style={[styles.rowTotal, { marginTop: size[16] }]}>
                                 <Text style={styles.titleBottomTotal}>Shipping</Text>
-                                <Text style={styles.priceBottomTotal}>{countries && countries[0] && ( 31 > countries[0].freeShipping ? 'FREE' : `${countries[0].shippingCost}$`) || 0}</Text>
+                                <Text style={styles.priceBottomTotal}>{countries && countries[0] && (total > countries[0].freeShipping ? 'FREE' : `${countries[0].shippingCost}$`) || 0}</Text>
                             </View>
-                            <View style={[styles.rowTotal, { marginTop: size[16] }]}>
+                            {(discount !== "" || percent !== "") && 
+                                <View style={[styles.rowTotal, { marginTop: size[16] }]}>
                                 <Text style={styles.titleBottomTotal}>Discount</Text>
-                                <Text style={styles.priceBottomTotal}>30$</Text>
-                            </View>
-                            <View style={[styles.rowTotal, { marginTop: size[16] }]}>
-                                <Text style={styles.titleBottomTotal}>Reward</Text>
-                                <Text style={styles.priceBottomTotal}>30$</Text>
-                            </View>
+                                <Text style={styles.priceBottomTotal}>{discount !== "" ? `${discount}$` : `${percent}%`}  </Text>
+                                </View>
+                            }
+                           
+                            {credit_available > 0 &&
+                                <View style={[styles.rowTotal, { marginTop: size[16] }]}>
+                                    <Text style={styles.titleBottomTotal}>Credit</Text>
+                                    <Text style={styles.priceBottomTotal}>{credit.toFixed(2)}$</Text>
+                                </View>
+                            }
+                            {setting && setting.data && setting.data.minimum_order_price && totalRemain <= setting.data.minimum_order_price &&
+                                <View style={{ marginTop: size[16] }}>
+                                    <Text style={styles.tMinOrder}>*Minimum basket of ${setting.data.minimum_order_price}, due to industry regulation. Your remaining credits will be fully applied to your next payments.</Text>
+                                </View>
+                            }
+                        </View>
+                        <View style={styles.vPromocode}>
+                            <TextInput
+                                style={styles.inputPromocode}
+                                onChangeText={changePromoCode}
+                                value={promoCode}
+                                placeholder={'Have a promocode ?'}
+                            />
+                            {(discount !== "" || percent !== "") ?
+                                <TouchableOpacity
+                                    onPress={removePromoCode}
+                                    style={styles.btnPromocode}>
+                                    <Text style={styles.tBtnPromocode}>Remove</Text>
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity
+                                    onPress={applyPromoCode}
+                                    style={styles.btnPromocode}>
+                                    <Text style={styles.tBtnPromocode}>Apply</Text>
+                                </TouchableOpacity>
+                        }
+                           
                         </View>
                     </View>
                 </ScrollView>
