@@ -1,36 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Image, FlatList, Text, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet, Dimensions, RefreshControl } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View, StyleSheet, Dimensions, RefreshControl } from 'react-native';
 import { translate } from '../../library/utils/i18n/translate';
-import { useRoute } from '@react-navigation/native';
 import { FONT_14, FONT_24 } from '../../themes/fontSize';
 import { size } from '../../themes/size';
-import { StatusBarHeight } from '../../config/heightStatusbar';
 import { Get } from '../../library/networking/fetch';
 import DropDownHolder from '../../library/utils/dropDownHolder';
-import * as Font from 'expo-font';
 import { ProcessDialog } from '../../library/components/processDialog';
 import { ItemProduct } from './itemProduct';
 import { SvgEdit } from '../../themes/svg';
 import { MY_PACK } from '../../navigation/TypeScreen';
+import { format } from "date-fns";
 
-const { width, height } = Dimensions.get('window');
+
+const { width } = Dimensions.get('window');
 
 export const CustomListProduct = (props: any) => {
     const {
         navigation,
         type,
-        titleNotPage
+        titleNotPage,
+        estNextPack
     } = props;
 
     const [refreshing, setRefresh] = useState(false);
     const [dataList, setDataList] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [timeEst, setTimeEst] = useState('');
     const [indexDisplay, setIndexDisplay] = useState(0);
     const refDot = useRef(null);
 
     const onRefresh = React.useCallback(() => {
-        setRefresh(true);
-        checkType()
+        checkType();
     }, []);
 
     interface propRender {
@@ -42,18 +42,17 @@ export const CustomListProduct = (props: any) => {
         Get(`/api/v1/products?ids=${listId}`)
             .then(response => {
                 response.json().then(data => {
-                    console.log("data list product ", data)
                     if (data && data.data) {
                         setDataList(data.data)
                     }
                     setRefresh(false);
-                    setLoading(false)
+                    setLoading(false);
                 });
             }).catch(err => {
                 DropDownHolder.showError("", translate('MESS:error') || "")
                 console.log('err', err)
                 setRefresh(false);
-                setLoading(false)
+                setLoading(false);
             })
     }
 
@@ -61,17 +60,20 @@ export const CustomListProduct = (props: any) => {
         Get('/api/v1/users/me/orders/latest')
             .then(response => {
                 response.json().then(data => {
-                    console.log("data transition", data)
+                    if (data.data && data.data.estimated_delivery) {
+                        setTimeEst(data.data && data.data.estimated_delivery)
+                    }
                     let listProducts = data && data.data && data.data.products && data.data.products.data
                     if (listProducts) {
                         let listId = listProducts.map((item: any) => item.id);
                         getListProduct(listId.toString())
                     } else {
                         setRefresh(false);
-                        setLoading(false)
                     }
                 });
+                setLoading(false)
             }).catch(err => {
+                setLoading(false)
                 DropDownHolder.showError("", translate('MESS:error') || "")
                 console.log('err', err)
             })
@@ -81,7 +83,6 @@ export const CustomListProduct = (props: any) => {
         Get('/api/v1/users/me/subscription-items')
             .then(response => {
                 response.json().then(data => {
-                    console.log("data subscript", data)
                     if (data && data.data) {
                         let listId = data.data.map((item: any) => item.product_id);
                         getListProduct(listId.toString())
@@ -98,12 +99,14 @@ export const CustomListProduct = (props: any) => {
     }
 
     const checkType = () => {
+        setLoading(true)
         switch (type) {
             case "SUBSCRIPTION":
                 getSubscription()
                 break;
             case "TRANSIT":
                 getTransition()
+                break;
             default:
                 setLoading(false)
                 break;
@@ -135,28 +138,28 @@ export const CustomListProduct = (props: any) => {
                 refDot.current.scrollToIndex({ animated: true, index: index });
                 setIndexDisplay(index)
             }
-        } else if(index == 0){
+        } else if (index == 0) {
             setIndexDisplay(0)
         }
     })
     const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 80 })
 
     useEffect(() => {
-        setLoading(true)
-        checkType()
-    }, [])
+        checkType();
+    }, []);
 
     return (
         <View style={styles.vFullScreen}>
             <ProcessDialog visible={loading} />
-
             {titleNotPage ?
                 <View style={styles.vHeader}>
                     <Text style={styles.tTitleNotPage}>{titleNotPage}</Text>
                     <View style={styles.vTitle}>
                         <Text style={[styles.tTitle, { opacity: 0.7 }]}>Delivered :  </Text>
                         <TouchableOpacity style={styles.btnEdit}>
-                            <Text style={styles.tEditTitNotPage}>20th January</Text>
+                            <Text style={styles.tEditTitNotPage}>
+                                {timeEst && format(new Date(timeEst), 'do MMMM')}
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -165,7 +168,10 @@ export const CustomListProduct = (props: any) => {
                     <View style={styles.vTitle}>
                         <Text style={styles.tTitle}>Est. delivery :  </Text>
                         <TouchableOpacity style={styles.btnEdit}>
-                            <Text style={styles.tEditTit}>20th January</Text>
+                            <Text style={styles.tEditTit}>
+                                {timeEst && format(new Date(timeEst), 'do MMMM')}
+                                {estNextPack && format((new Date(estNextPack)).setDate((new Date(estNextPack).getDate() + 7)), 'do MMMM')}
+                            </Text>
                             <View style={styles.vEdit}>
                                 <SvgEdit
                                     width={size[18]}

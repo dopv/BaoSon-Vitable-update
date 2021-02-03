@@ -57,36 +57,32 @@ export const CustomHeader = (props: any) => {
                     </TouchableOpacity>
                 }
             </View>
-            {userName &&
-                <View style={styles.vContent}>
-                    <Text
-                        allowFontScaling={false}
-                        style={styles.sTextHi}>
-                        {translate('AUTHENTIC:HOME:HI')}{userName || ''},
+            <View style={styles.vContent}>
+                <Text
+                    allowFontScaling={false}
+                    style={styles.sTextHi}>
+                    {translate('AUTHENTIC:HOME:HI')}{userName || ''},
                 </Text>
 
 
-                    <Text
-                        allowFontScaling={false}
-                        style={styles.sTextRemider}
+                <Text
+                    allowFontScaling={false}
+                    style={styles.sTextRemider}
+                >
+                    {reminder || ''}
+                </Text>
+                {titleButton &&
+                    <TouchableOpacity
+                        onPress={onPressTitleButton}
+                        style={styles.btnTakeQuiz}
                     >
-                        {reminder || ''}
-                    </Text>
-                    {titleButton &&
-                        <TouchableOpacity
-                            onPress={onPressTitleButton}
-                            style={styles.btnTakeQuiz}
-                        >
-                            <Text
-                                allowFontScaling={false}
-                                style={styles.sTextTakeQuiz}
-                            >{titleButton}</Text>
-                        </TouchableOpacity>
-                    }
-
-                </View>
-            }
-
+                        <Text
+                            allowFontScaling={false}
+                            style={styles.sTextTakeQuiz}
+                        >{titleButton}</Text>
+                    </TouchableOpacity>
+                }
+            </View>
         </ImageBackground>
     )
 }

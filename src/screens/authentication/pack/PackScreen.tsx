@@ -17,11 +17,13 @@ const { width, height } = Dimensions.get('window');
 
 interface PackProps {
     navigation: any,
+    route: any
 }
 
 export const PackScreen = (props: PackProps) => {
-    const { navigation } = props;
+    const { navigation, route } = props;
     const [tabIndex, setTabIndex] = useState(0);
+    const [estNextPack, setEstNextPack] = useState();
     const [subscription, setCheckSubscription] = useState(null);
     const onBackTracker = () => {
         navigation.navigate(HOME_SCREEN)
@@ -30,11 +32,17 @@ export const PackScreen = (props: PackProps) => {
         navigation && navigation.openDrawer();
     }
 
+    const userInfo = route && route.params && route.params.stateAuth
+        && route.params.stateAuth.userInfo || {};
+
     const checkSubscription = () => {
         Get(`/api/v1/subscriptions/check`)
             .then(response => {
                 response.json().then(data => {
-                    console.log("check subscription ", data)
+                    if (data.data && data.data.subscription && data.data.subscription.data && 
+                        data.data.subscription.data.next_invoice) {
+                        setEstNextPack(data.data.subscription.data.next_invoice);
+                    }
                     let subscription = data && data.data && data.data.subscription
                     setCheckSubscription(subscription)
                 });
@@ -61,7 +69,6 @@ export const PackScreen = (props: PackProps) => {
         >
             {subscription == "paused" || subscription == "canceled" ?
                 <View style={styles.fullScreen}>
-
                     <CustomHeader
                         isButtonRight={true}
                         isBtnText={true}
@@ -69,7 +76,7 @@ export const PackScreen = (props: PackProps) => {
                         onPressRight={onBackTracker}
                         titleButton={'Resume my subscription'}
                         onPressTitleButton={onPressResume}
-                        userName={`aimee`}
+                        userName={userInfo && userInfo.email}
                         reminder={`It seems that you are on a pause. Ready to come back?`}
                         imgBackground={require('../../../../assets/images/bg_pack_pause.png')}
                         logoRight={require('../../../../assets/images/logo_tracker.png')}
@@ -81,11 +88,11 @@ export const PackScreen = (props: PackProps) => {
                         tabIndex={tabIndex}
                         setTabIndex={setTabIndex}
                         viewPageRight={
-                        <CustomListProduct 
-                        type={'SUBSCRIPTION'} 
-                        navigation={navigation} 
-                        titleNotPage={'Your last pack'}
-                        />
+                            <CustomListProduct
+                                type={'SUBSCRIPTION'}
+                                navigation={navigation}
+                                titleNotPage={'Your last pack'}
+                            />
                         }
                     />
                 </View>
@@ -95,7 +102,7 @@ export const PackScreen = (props: PackProps) => {
                         isButtonRight={true}
                         navigation={navigation}
                         onPressRight={onBackTracker}
-                        userName={`aimee`}
+                        userName={`${userInfo && userInfo.email ? userInfo.email : ''}`}
                         reminder={`Your January pack will be delivered to you soon. You can still edit the delivery date.`}
                         imgBackground={require('../../../../assets/images/background_tracker.png')}
                         logoRight={require('../../../../assets/images/logo_tracker.png')}
@@ -109,7 +116,7 @@ export const PackScreen = (props: PackProps) => {
                         titleLeft={'In transit pack'}
                         titleRight={'Next pack'}
                         viewPageLeft={<CustomListProduct type={'TRANSIT'} navigation={navigation} />}
-                        viewPageRight={<CustomListProduct type={'SUBSCRIPTION'} navigation={navigation} />
+                        viewPageRight={<CustomListProduct type={'SUBSCRIPTION'} navigation={navigation} estNextPack={estNextPack} />
                         }
                     />
                 </View>

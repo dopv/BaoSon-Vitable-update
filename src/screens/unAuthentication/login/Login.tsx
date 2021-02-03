@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Post } from '../../../library/networking/fetch';
+import { Get, Post } from '../../../library/networking/fetch';
 import { validateEmail } from '../../../library/utils/validate';
 import { TOKEN } from '../../../common/keyStore';
 import { styles } from './style';
@@ -26,7 +26,7 @@ interface LoginProps {
 
 export const Login = (props: LoginProps) => {
     const { route, navigation } = props;
-    const { actionLogin } = route.params;
+    const { getUserInfoAction } = route.params;
     const [dataLogin, setDataLogin] = useState({ email: '', password: '' });
     const [validateInputEmail, setValidateInputEmail] = useState('');
     const [validateInputPassword, setValidateInputPassword] = useState('');
@@ -63,12 +63,12 @@ export const Login = (props: LoginProps) => {
         setLogin(true);
         Post('/api/v1/auth/login', dataLogin)
             .then(response => {
-                response.json().then(data => {
+                response.json().then(async data => {
                     if (data.message) {
                         setLoginState(data.message);
                     } else {
-                        AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-                        actionLogin && actionLogin(data || null);
+                        await AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+                        getUserInfo(data.access_token);
                     }
                     setLogin(false);
                 });
@@ -76,6 +76,16 @@ export const Login = (props: LoginProps) => {
                 setLogin(false);
                 console.log('err', err)
             })
+    }
+
+    const getUserInfo = (token: string) => {
+        Get(`/api/v1/me/profile`).then(response => {
+            response.json().then(data => {
+                getUserInfoAction && getUserInfoAction(data.data, token);
+            });
+        }).catch(err => {
+            console.log('err', err);
+        })
     }
 
     const onPressToForgot = () => {
@@ -103,7 +113,7 @@ export const Login = (props: LoginProps) => {
                     resizeMode="stretch"
                 >
                     <ProcessDialog visible={isLogin} />
-                    <Image 
+                    <Image
                         source={require('../../../../assets/images/Logo-black.png')}
                         style={styles.sImgLogo}
                     />

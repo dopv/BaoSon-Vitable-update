@@ -9,14 +9,15 @@ import { MY_PACK, QUIZ_SCREEN } from './TypeScreen';
 import { Quiz } from '../screens/authentication/quiz/Quiz';
 import { ForgotPassword } from '../screens/unAuthentication/forgot-password/ForgotPassword';
 import { MyPackScreen } from '../screens/authentication/myPack';
+import { Get } from '../library/networking/fetch';
 
 const Stack = createStackNavigator();
 
 export const StackNavigator = (props: any) => {
-    const { stateAuth, setToken } = props.props
+    const { stateAuth, setToken, getUserInfoAction } = props.props;
     let dataAuth = null;
     let isLogout = false;
-    let token = null;
+    let token = '';
     if (stateAuth) {
         dataAuth = stateAuth.dataAuth
         isLogout = stateAuth.isLogout
@@ -25,15 +26,33 @@ export const StackNavigator = (props: any) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        setTimeout(() => {
-            AsyncStorage.getItem(TOKEN).then((token: any) => {
+        checkToken();
+    }, []);
+
+    const checkToken = () => {
+        setTimeout(async () => {
+            let tokenJson = await AsyncStorage.getItem(TOKEN);
+            if (tokenJson) {
+                let token = JSON.parse(tokenJson);
                 if (token) {
-                    setToken && setToken(token || "");
+                    await getUserInfo(token);
                 }
+            }else{
+                setIsLoading(false);
+            }
+        }, 2000);
+    }
+
+    const getUserInfo = async (token: string) => {
+        Get(`/api/v1/me/profile`).then(response => {
+            response.json().then(data => {
+                getUserInfoAction && getUserInfoAction(data.data, token);
                 setIsLoading(false);
             });
-        }, 2000)
-    }, []);
+        }).catch(err => {
+            console.log('err', err);
+        })
+    }
 
     return (
         <Stack.Navigator
@@ -81,7 +100,10 @@ export const StackNavigator = (props: any) => {
                         </>
                     )
             ) :
-                <Stack.Screen name="Splash" component={Splash} />
+                <Stack.Screen
+                    name="Splash"
+                    component={Splash}
+                />
             }
         </Stack.Navigator>
     )

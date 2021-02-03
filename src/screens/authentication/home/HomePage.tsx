@@ -7,19 +7,21 @@ import { HomeStreakHistory } from './components/home-streak-history/HomeStreakHi
 import { StreakAccumulation } from './components/home-streak-accumulation/StreakAccumulation';
 import { MarkWork } from './components/home-mark-point/MarkPoints';
 import { styles } from './style';
-import ViewPager from '@react-native-community/viewpager';
 import { PACK_SCREEN, QUIZ_SCREEN } from '../../../navigation/TypeScreen';
 import { CustomHeader } from '../../../components/header';
 import { CustomPage } from '../../../components/page';
 import { translate } from '../../../library/utils/i18n/translate';
 
 interface HomePageProps {
-    navigation: any
+    navigation: any,
+    route: any
 }
 
 export const HomePage = (props: HomePageProps) => {
-    const { navigation } = props;
+    const { navigation, route } = props;
     const [tabIndex, setTabIndex] = useState(0);
+    const userInfo = route && route.params && route.params.stateAuth
+        && route.params.stateAuth.userInfo || {};
 
     const onGoPack = () => {
         navigation.navigate(PACK_SCREEN)
@@ -42,7 +44,7 @@ export const HomePage = (props: HomePageProps) => {
                 isButtonRight={true}
                 navigation={navigation}
                 onPressRight={onGoPack}
-                userName={`aimee`}
+                userName={userInfo && userInfo.email}
                 titleButton={translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}
                 onPressTitleButton={onPressGoToQuiz}
                 reminder={`It's been two months since you reassessed your needs.`}
@@ -73,12 +75,12 @@ export const HomePage = (props: HomePageProps) => {
                     </View>
                 }
                 viewPageRight={
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text>Progress Screen</Text>
-                        </View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text>Progress Screen</Text>
+                    </View>
 
-                } 
-                />
+                }
+            />
         </View>
     </Screen>
 
