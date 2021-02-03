@@ -11,16 +11,19 @@ import { CustomListProduct } from '../../../components/listProduct/listProduct';
 import { Get } from '../../../library/networking/fetch';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
 import { translate } from '../../../library/utils/i18n/translate';
+import { CustomListManagePack } from './component/listManagePack';
+import { analytics } from 'firebase';
 
 const { width, height } = Dimensions.get('window');
 
 interface MyPackProps {
     navigation: any,
+    route: any
 }
 
 export const MyPackScreen = (props: MyPackProps) => {
-    const { navigation } = props;
-
+    const { navigation, route } = props;
+    const dataList = route && route.params && route.params.dataList || []
     const goBack = () => {
         navigation && navigation.goBack();
     };
@@ -43,7 +46,10 @@ export const MyPackScreen = (props: MyPackProps) => {
                 <View style={styles.vContent}>
                     <Text style={styles.tTitle}>Estimated delivery :</Text>
                     <Text style={[styles.tTitle, { color: '#000' }]}>20th January</Text>
-                    
+                    <CustomListManagePack
+                        title={'Vitamins'}
+                        dataPack={dataList}
+                    />
                 </View>
             </View>
         </Screen>

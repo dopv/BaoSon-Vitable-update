@@ -35,7 +35,7 @@ export const ItemProduct = (props: propRender) => {
                     <SvgUri
                         width={size[24]}
                         height={size[24]}
-                        source={require('../../../assets/images/icon_brain.svg')}
+                        source={uri}
                     />
                 }
             </View>
@@ -50,6 +50,7 @@ export const ItemProduct = (props: propRender) => {
             <View style={styles.vContent}>
                 <View style={styles.vCategory}>
                     <FlatList
+                        scrollEnabled={false}
                         numColumns={categories ? categories.length : 1}
                         showsHorizontalScrollIndicator={false}
                         data={categories}

@@ -33,6 +33,7 @@ export const size = {
     50: width *0.1333,
     55: width *0.1466,
     60: width * 0.16,
+    64: width * 0.17,
     65: width * 0.173,
     80: width *0.213,
     85: width *0.226,

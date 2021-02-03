@@ -3,6 +3,7 @@ import { Image, ImageBackground, ScrollView, Text, TouchableOpacity, View, Style
 import { FONT_14, FONT_24 } from '../../../../themes/fontSize';
 import { size } from '../../../../themes/size';
 import { StatusBarHeight } from '../../../../config/heightStatusbar';
+import { ItemPackManage } from './itemPackManage';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,18 +20,18 @@ export const CustomListManagePack = (props: any) => {
     };
 
     const renderItem = (props: ListMangeProps) => {
+        const {item, index} = props;
         return (
-            <View>
-                
-            </View>
+            <ItemPackManage item={item}/>
         )
     }
 
     return (
         <View style={styles.vContent}>
            <Text style={styles.tTitle}>{title}</Text>
+           <View style={styles.vLine}/>
             <FlatList
-                contentContainerStyle={{ paddingRight: size[24], paddingLeft: size[16] }}
+                contentContainerStyle={{paddingVertical: size[16] }}
                 showsVerticalScrollIndicator={false}
                 data={dataPack}
                 renderItem={renderItem}
@@ -43,10 +44,17 @@ export const CustomListManagePack = (props: any) => {
 const styles = StyleSheet.create({
     vContent: {
         flex: 1,
+        marginTop: size[24]
     },
     tTitle:{
         color:'#000',
         fontFamily:'SolaireDT',
         fontSize: FONT_24
+    },
+    vLine:{
+        marginTop: size[8],
+        height:1,
+        width:'100%',
+        backgroundColor:'#272626'
     }
 })

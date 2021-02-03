@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Image, FlatList, Text, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet, Dimensions, RefreshControl } from 'react-native';
 import { translate } from '../../library/utils/i18n/translate';
 import { useRoute } from '@react-navigation/native';
@@ -25,6 +25,8 @@ export const CustomListProduct = (props: any) => {
     const [refreshing, setRefresh] = useState(false);
     const [dataList, setDataList] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [indexDisplay, setIndexDisplay] = useState(0);
+    const refDot = useRef(null);
 
     const onRefresh = React.useCallback(() => {
         setRefresh(true);
@@ -35,13 +37,6 @@ export const CustomListProduct = (props: any) => {
         item: any,
         index: number
     };
-
-    const renderItem = (props: propRender) => {
-        const { item, index } = props
-        return (
-            <ItemProduct item={item} index={index} />
-        )
-    }
 
     const getListProduct = (listId: String) => {
         Get(`/api/v1/products?ids=${listId}`)
@@ -87,7 +82,6 @@ export const CustomListProduct = (props: any) => {
             .then(response => {
                 response.json().then(data => {
                     console.log("data subscript", data)
-
                     if (data && data.data) {
                         let listId = data.data.map((item: any) => item.product_id);
                         getListProduct(listId.toString())
@@ -116,14 +110,46 @@ export const CustomListProduct = (props: any) => {
         }
     };
 
-    const openManagerPack = () => {
-        navigation && navigation.navigate(MY_PACK)
+    const renderItem = (props: propRender) => {
+        const { item, index } = props
+        return (
+            <ItemProduct item={item} index={index} />
+        )
+    }
+
+    const renderItemDot = (props: propRender) => {
+        const { item, index } = props
+        console.log("indexDis", indexDisplay);
+        return (
+            <View style={indexDisplay === index ? styles.vItemDotDisplay : styles.vItemDot} />
+        )
     };
+
+    const openManagerPack = () => {
+        navigation && navigation.navigate(MY_PACK, { dataList: dataList })
+    };
+
+    const onViewRef = React.useRef((viewableItems: any) => {
+        const index = viewableItems && viewableItems.viewableItems && viewableItems.viewableItems[0] && viewableItems.viewableItems[0].index
+        if (index) {
+            if (refDot && refDot.current) {
+                refDot.current.scrollToIndex({ animated: true, index: index });
+                setIndexDisplay(index)
+            }
+        } else if(index == 0){
+            setIndexDisplay(0)
+        }
+    })
+    const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 80 })
 
     useEffect(() => {
         setLoading(true)
         checkType()
     }, [])
+
+    useEffect(() => {
+        console.log("indexDisplay", indexDisplay)
+    }, [indexDisplay])
 
     return (
         <View style={styles.vFullScreen}>
@@ -158,6 +184,8 @@ export const CustomListProduct = (props: any) => {
 
 
             <FlatList
+                onViewableItemsChanged={onViewRef.current}
+                viewabilityConfig={viewConfigRef.current}
                 contentContainerStyle={{ paddingRight: size[24], paddingLeft: size[16] }}
                 refreshControl={
                     <RefreshControl
@@ -172,7 +200,19 @@ export const CustomListProduct = (props: any) => {
                 horizontal
                 keyExtractor={(item, index) => index.toString()}
             />
+
             <View style={styles.vBottom}>
+                {/* <View style={styles.vDot}> */}
+                <FlatList
+                    ref={refDot}
+                    contentContainerStyle={{ paddingRight: size[24], paddingLeft: size[16] }}
+                    showsHorizontalScrollIndicator={false}
+                    data={dataList}
+                    renderItem={renderItemDot}
+                    horizontal
+                    keyExtractor={(item, index) => index.toString()}
+                />
+                {/* </View> */}
                 <TouchableOpacity
                     onPress={openManagerPack}
                     style={styles.btnManager}>
@@ -186,8 +226,8 @@ export const CustomListProduct = (props: any) => {
 
 const styles = StyleSheet.create({
     vFullScreen: {
-        marginTop: size[10],
-        flex: 1
+        // marginTop: size[10],
+        flex: 1,
     },
     tTitleNotPage: {
         marginBottom: size[2],
@@ -286,13 +326,14 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     vBottom: {
+        paddingTop: size[20],
         width: '100%',
         alignItems: 'center',
-        // bottom:0
     },
     btnManager: {
-        marginTop: size[16],
-        marginBottom: size[24],
+
+        marginTop: size[15],
+        marginBottom: size[20],
         borderWidth: 1,
         borderColor: '#272626',
         backgroundColor: '#F5785A',
@@ -303,5 +344,22 @@ const styles = StyleSheet.create({
         fontSize: FONT_14,
         fontFamily: 'NHaasGroteskTXPro',
         color: '#272626'
+    },
+    vDot: {
+        alignItems: 'center',
+    },
+    vItemDot: {
+        backgroundColor: '#DCD2BD',
+        borderRadius: size[100],
+        width: size[8],
+        height: size[8],
+        marginRight: size[16]
+    },
+    vItemDotDisplay: {
+        backgroundColor: '#637C5A',
+        borderRadius: size[100],
+        width: size[8],
+        height: size[8],
+        marginRight: size[16]
     }
 })
