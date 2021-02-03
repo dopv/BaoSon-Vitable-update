@@ -20,7 +20,8 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.vitable.staging",
-      "googleServicesFile": "./env/staging/GoogleService-Info.plist"
+      "googleServicesFile": "./env/staging/GoogleService-Info.plist",
+      "buildNumber": "4"
     },
     "android": {
       "adaptiveIcon": {
