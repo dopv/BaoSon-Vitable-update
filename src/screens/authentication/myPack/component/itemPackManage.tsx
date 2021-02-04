@@ -33,14 +33,16 @@ export const ItemPackManage = (props: any) => {
         getSubscription,
         quantity,
         key,
+
     } = props;
     const [count, setCount] = useState(1);
     const [listQuality, setListQuality] = useState([]);
     const [showListQuality, setShowListQuality] = useState(false);
     const { dataNextPack, dataTrans } = route && route.params.stateAuth;
+    const [isOpen, setIsOpen] = useState(false);
 
     const showOptionQuality = () => {
-        setShowListQuality(!showListQuality)
+        setIsOpen(!isOpen)
     }
 
     const updateProduct = (quantity: number) => {
@@ -108,6 +110,7 @@ export const ItemPackManage = (props: any) => {
         setCount(item)
         setShowListQuality(false)
         updateProduct(item)
+        setIsOpen(false)
     };
     const renderItem = (props: any) => {
         const { item, index } = props;
@@ -171,24 +174,15 @@ export const ItemPackManage = (props: any) => {
                                     <Text style={styles.tCount}>{count}</Text>
                                 </View>
                                 <SvgDownTiny viewBox={`0 0 ${size[24]} ${size[24]}`} />
-                                <Menu style={{ position: 'absolute', height: '100%', width: '100%', zIndex: 1 }}>
-                                    <MenuTrigger
-                                        customStyles={{
-                                            triggerWrapper: {
-                                                height: '100%',
-                                                width: '100%',
-                                            },
-                                        }}
-                                    />
-                                    <MenuOptions>
-                                        {/* {listQuality && listQuality.map((item: any, index: number) => {
-                                                <TouchableOpacity key={`row-${index}`} onPress={() => selectQuality(item)}
-                                                    style={styles.vItemQuality}>
-                                                    <Text style={styles.tItemQuality}>{item}</Text>
-                                                </TouchableOpacity>
 
-                                            })} */}
+                                <Menu
+                                    opened={isOpen}
+                                    onBackdropPress={() => setIsOpen(false)}
+                                    style={{ position: 'absolute', height: '100%', width: '100%', zIndex: 1 }}>
+                                    <MenuTrigger />
+                                    <MenuOptions customStyles={{ optionWrapper: { padding: 5 } }}>
                                         <FlatList
+                                            style={{ borderBottomWidth: 1 }}
                                             showsVerticalScrollIndicator={false}
                                             data={listQuality}
                                             renderItem={renderItem}
@@ -300,7 +294,8 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1,
         borderRightWidth: 1,
         borderColor: '#272626',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: size[5]
     },
     tItemQuality: {
         paddingVertical: size[2],

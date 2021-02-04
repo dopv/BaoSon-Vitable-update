@@ -8,7 +8,6 @@ import { Get } from '../../../../library/networking/fetch';
 import DropDownHolder from '../../../../library/utils/dropDownHolder';
 import { translate } from '../../../../library/utils/i18n/translate';
 
-
 const { width, height } = Dimensions.get('window');
 
 export const CustomListManagePack = (props: any) => {
@@ -31,6 +30,7 @@ export const CustomListManagePack = (props: any) => {
 
     const { getTransAction, getNextPackAction } = route && route.params;
     const [dataPr, setDataPr] = useState(null)
+    const [isOpen, setIsOpen] = useState(false);
 
     const getTransition = () => {
         Get('/api/v1/users/me/orders/latest')
@@ -75,8 +75,8 @@ export const CustomListManagePack = (props: any) => {
                 <Text style={styles.tTitle}>{title}</Text>
                 <View style={styles.vLine} />
                 {dataPr && dataPr.map((item: any, index: number) => {
-                 
-                         if (isHideBorder) {
+
+                    if (isHideBorder) {
                         return (
                             <ItemPackManage
                                 key={`row-${index}`}
@@ -108,7 +108,7 @@ export const CustomListManagePack = (props: any) => {
                         )
                     }
                 })}
-            </View>
+            </View>            
     )
 }
 

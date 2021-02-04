@@ -5,11 +5,12 @@ import { Splash } from '../screens/unAuthentication/splash/Splash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TOKEN } from '../common/keyStore';
 import { MyDrawer } from './Drawer';
-import { MY_PACK, QUIZ_SCREEN } from './TypeScreen';
+import { MY_PACK, QUIZ_SCREEN, DETAIL } from './TypeScreen';
 import { Quiz } from '../screens/authentication/quiz/Quiz';
 import { ForgotPassword } from '../screens/unAuthentication/forgot-password/ForgotPassword';
 import { MyPackScreen } from '../screens/authentication/myPack';
 import { Get } from '../library/networking/fetch';
+import { Detail } from '../screens/authentication/detail/Detail';
 
 const Stack = createStackNavigator();
 
@@ -73,6 +74,11 @@ export const StackNavigator = (props: any) => {
                         <Stack.Screen
                             component={Quiz}
                             name={QUIZ_SCREEN}
+                            initialParams={props.props}
+                        />
+                        <Stack.Screen
+                            component={Detail}
+                            name={DETAIL}
                             initialParams={props.props}
                         />
                         <Stack.Screen

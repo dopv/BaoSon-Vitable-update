@@ -139,7 +139,7 @@ export const CustomListProduct = (props: any) => {
     const renderItem = (props: propRender) => {
         const { item, index } = props
         return (
-            <ItemProduct item={item} index={index} />
+            <ItemProduct item={item} index={index} navigation={navigation}/>
         )
     }
 

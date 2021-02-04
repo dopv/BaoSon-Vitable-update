@@ -5,16 +5,18 @@ import { FONT_14 } from '../../themes/fontSize';
 import { size } from '../../themes/size';
 import SvgUri from "expo-svg-uri";
 import { Images } from '../../themes/pathImage';
+import { DETAIL } from '../../navigation/TypeScreen';
 
 const { width, height } = Dimensions.get('window');
 
 interface propRender {
     item: any,
-    index: number
+    index: number,
+    navigation: any
 };
 
 export const ItemProduct = (props: propRender) => {
-    const { item, index} = props
+    const { item, index, navigation } = props
     var detail = item;
 
     if (item.product && item.product.data) {
@@ -26,22 +28,26 @@ export const ItemProduct = (props: propRender) => {
         const { item, index } = props
 
         const image = item.slug;
-        const uri = Images[image] && Images[image].uri && Images[image].uri || null;
+        const uri = Images && Images[image] && Images[image].uri && Images[image].uri || null;
         return (
             <View style={!uri ? [styles.vIconCategory, styles.vImageNull] : styles.vIconCategory}>
-                { item.image && item.image.includes('png') ?
+                {/* { item.image && item.image.includes('png') ?
                     <Image source={uri} style={styles.imgCategory} />
-                    :
-                    <SvgUri
-                        width={size[24]}
-                        height={size[24]}
-                        source={uri}
-                    />
-                }
+                    : */}
+                <SvgUri
+                    width={size[24]}
+                    height={size[24]}
+                    source={uri}
+                />
+                {/* } */}
             </View>
         )
 
     };
+    const goDetail = () => {
+        navigation && navigation.navigate(DETAIL)
+    };
+
     return (
         <View style={styles.vItem}>
             <Image
@@ -50,7 +56,9 @@ export const ItemProduct = (props: propRender) => {
             <View style={styles.vContent}>
                 <View style={styles.vCategory}>
                     <FlatList
-                        scrollEnabled={false}
+                        nestedScrollEnabled
+
+                        // scrollEnabled={false}
                         numColumns={categories ? categories.length : 1}
                         showsHorizontalScrollIndicator={false}
                         data={categories}
@@ -67,7 +75,7 @@ export const ItemProduct = (props: propRender) => {
                 >
                     {detail.description}
                 </Text>
-                <TouchableOpacity style={styles.btnMore}>
+                <TouchableOpacity onPress={goDetail} style={styles.btnMore}>
                     <Text style={styles.tMore} >Learn more</Text>
                 </TouchableOpacity>
             </View>
@@ -136,7 +144,7 @@ const styles = StyleSheet.create({
     vIconCategory: {
         marginRight: size[8],
     },
-    vImageNull:{
+    vImageNull: {
         width: size[24],
         height: size[24],
         borderRadius: size[100],
