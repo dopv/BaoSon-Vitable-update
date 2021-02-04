@@ -10,7 +10,15 @@ import { StatusBarHeight } from './src/config/heightStatusbar';
 import { FONT_14 } from './src/themes/fontSize';
 import * as Font from 'expo-font';
 import * as Analytics from 'expo-firebase-analytics';
-
+import * as Sentry from 'sentry-expo';
+import Constants from 'expo-constants';
+const {manifest:{extra:{sentryDSN}}} = Constants;
+Sentry.init({
+  dsn: sentryDSN,
+  enableInExpoDevelopment: true,
+  debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+});
+Sentry.nativeCrash();
 export default function App() {
   const [isDisconnect, setDisconnect] = useState(false);
   const [fontsLoaded, setLoadFont] = useState(false);
