@@ -4,7 +4,7 @@ import { FONT_12, FONT_14, FONT_18, FONT_24 } from '../../../../themes/fontSize'
 import { size } from '../../../../themes/size';
 import { StatusBarHeight } from '../../../../config/heightStatusbar';
 import { SvgDelete, SvgDownTiny } from '../../../../themes/svg';
-import { Put } from '../../../../library/networking/fetch';
+import { Get, Put } from '../../../../library/networking/fetch';
 import DropDownHolder from '../../../../library/utils/dropDownHolder';
 import { translate } from '../../../../library/utils/i18n/translate';
 
@@ -17,26 +17,36 @@ export const ItemPackManage = (props: any) => {
         isHideBorder,
         listPrice,
         setListPrice,
-        subscription_id
+        subscription_id,
+        route,
+        type
     } = props;
     const [count, setCount] = useState(1);
     const [listQuality, setListQuality] = useState([]);
     const [showListQuality, setShowListQuality] = useState(false);
+    const { getTransAction, getNextPackAction } = route && route.params;
+    const { dataNextPack, dataTrans } = route && route.params.stateAuth;
 
     const showOptionQuality = () => {
         setShowListQuality(!showListQuality)
     }
 
     const updateProduct = (quantity: number) => {
+        var id = 0;
+        // if (type === "TRANSIT") {
+        //     id = item.id
+        // } else {
+        //     id = item.product.data.id
+        // }
         const body = {
             action: "update",
             product_id: item.id,
             quantity: quantity
         }
 
-        Put(`/api/v1/subscriptions/${3588}`, body)
+        Put(`/api/v1/subscriptions/${subscription_id}`, body)
             .then(response => {
-                console.log("response", response)
+                console.log("response update", response)
                 response.json().then(data => {
                     console.log("update", data)
                     if (data.message) {
@@ -49,14 +59,58 @@ export const ItemPackManage = (props: any) => {
             })
     };
 
-    const removeProduct = () => {
-        const body = { action: "delete", product_id: item.id }
-
-        Put(`/api/v1/subscriptions/${3588}`, body)
+    const getTransition = () => {
+        Get('/api/v1/users/me/orders/latest')
             .then(response => {
-                console.log("response", response)
+                response.json().then(data => {
+                    getTransAction(data.data)
+                });
+            }).catch(err => {
+
+                DropDownHolder.showError("", translate('MESS:error') || "")
+                console.log('err', err)
+            })
+    }
+
+    const getSubscription = () => {
+        Get('/api/v1/users/me/subscription-items')
+            .then(response => {
+                response.json().then(data => {
+                    if (data && data.data) {
+                        getNextPackAction(data.data)
+                    };
+                }).catch(err => {
+                    DropDownHolder.showError("", translate('MESS:error') || "")
+                    console.log('err', err)
+                })
+            })
+    };
+
+    const removeProduct = () => {
+       
+        if (type === "TRANSIT") { 
+            if (dataTrans.products && dataTrans.products.data.length <= 1){
+                DropDownHolder.showWarning("","We don't want to send you empty boxes! Trying to change your plan?")
+                return
+            }
+        } else {
+            if (dataNextPack && dataNextPack.length <= 1) {
+                DropDownHolder.showWarning("", "We don't want to send you empty boxes! Trying to change your plan?")
+                return
+            }
+        }
+
+        const body = { action: "delete", product_id: item.id }
+        console.log("body", body);
+        Put(`/api/v1/subscriptions/${subscription_id}`, body)
+            .then(response => {
+                console.log("response remove", response)
                 response.json().then(data => {
                     console.log("remove", data)
+                    if (data.successed) {
+                        getSubscription();
+                        getTransition();
+                    }
                     if (data.message) {
                         DropDownHolder.showError("", data.message)
                     }
@@ -93,7 +147,6 @@ export const ItemPackManage = (props: any) => {
 
     useEffect(() => {
         const price = count * item.price;
-        console.log("price", price)
 
         let arrTemp = [...listPrice];
         const index = arrTemp.findIndex(temp => temp.id === item.id);
@@ -118,9 +171,9 @@ export const ItemPackManage = (props: any) => {
                 <View style={styles.vTitle}>
                     <View style={styles.vRow}>
                         <Text style={styles.tName}>{item.name}</Text>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             onPress={removeProduct}
-                        style={styles.btnDelete}>
+                            style={styles.btnDelete}>
                             <SvgDelete viewBox={`0 0 ${size[24]} ${size[24]}`} />
                         </TouchableOpacity>
                     </View>

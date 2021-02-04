@@ -4,11 +4,33 @@ interface StateAuth {
   isLogout: false,
   dataAuth: null,
   token: null,
-  userInfo: null
+  userInfo: null,
+  dataTrans: null,
+  dataNextPack: null
 }
 export const rootReducer = combineReducers({
 
-  reducerAuth: (state: StateAuth, action: any) => {
+  reducerAuth: (state: StateAuth, action: any) => { 
+    if (action.type === 'GET_TRANS') {
+      return {
+        ...state,
+        dataTrans: action.data
+      };
+    }
+    if (action.type === 'GET_NEXT_PACK') {
+      return {
+        ...state,
+        dataNextPack: action.data
+      };
+    }
+     if (action.type === 'GET_PROFILE') {
+      return {
+        ...state,
+        userInfo: action.info,
+        token: action.token,
+        isLogout: false
+      };
+    }
     if (action.type === 'GET_PROFILE') {
       return {
         ...state,
@@ -55,6 +77,8 @@ export const mapDispatchToProps = (dispatch: any) => {
       dispatch({ type: 'TOKEN', token: token })
     },
     actionLogout: () => dispatch({ type: 'LOGOUT' }),
-    getUserInfoAction: (info: any, token: string) => dispatch({ type: 'GET_PROFILE', info, token })
+    getUserInfoAction: (info: any, token: string) => dispatch({ type: 'GET_PROFILE', info, token }),
+    getTransAction: (data: any) => dispatch({ type: 'GET_TRANS', data }),
+    getNextPackAction: (data: any) => dispatch({ type: 'GET_NEXT_PACK', data })
   };
 }

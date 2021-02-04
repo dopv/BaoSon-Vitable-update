@@ -32,14 +32,16 @@ export const PackScreen = (props: PackProps) => {
         navigation && navigation.openDrawer();
     }
 
-    const userInfo = route && route.params && route.params.stateAuth
-        && route.params.stateAuth.userInfo || {};
-
+    // const userInfo = route && route.params && route.params.stateAuth
+    //     && route.params.stateAuth.userInfo || {};
+    const customer = route && route.params && route.params.stateAuth
+        && route.params.stateAuth.userInfo && route.params.stateAuth.userInfo.customer
+        && route.params.stateAuth.userInfo.customer.data || {};
     const checkSubscription = () => {
         Get(`/api/v1/subscriptions/check`)
             .then(response => {
                 response.json().then(data => {
-                    if (data.data && data.data.subscription && data.data.subscription.data && 
+                    if (data.data && data.data.subscription && data.data.subscription.data &&
                         data.data.subscription.data.next_invoice) {
                         setEstNextPack(data.data.subscription.data.next_invoice);
                     }
@@ -76,7 +78,7 @@ export const PackScreen = (props: PackProps) => {
                         onPressRight={onBackTracker}
                         titleButton={'Resume my subscription'}
                         onPressTitleButton={onPressResume}
-                        userName={userInfo && userInfo.email}
+                        userName={customer && customer.name_on_pack}
                         reminder={`It seems that you are on a pause. Ready to come back?`}
                         imgBackground={require('../../../../assets/images/bg_pack_pause.png')}
                         logoRight={require('../../../../assets/images/logo_tracker.png')}
@@ -102,7 +104,7 @@ export const PackScreen = (props: PackProps) => {
                         isButtonRight={true}
                         navigation={navigation}
                         onPressRight={onBackTracker}
-                        userName={`${userInfo && userInfo.email ? userInfo.email : ''}`}
+                        userName={customer && customer.name_on_pack}
                         reminder={`Your January pack will be delivered to you soon. You can still edit the delivery date.`}
                         imgBackground={require('../../../../assets/images/background_tracker.png')}
                         logoRight={require('../../../../assets/images/logo_tracker.png')}
@@ -115,8 +117,8 @@ export const PackScreen = (props: PackProps) => {
                         setTabIndex={setTabIndex}
                         titleLeft={'In transit pack'}
                         titleRight={'Next pack'}
-                        viewPageLeft={<CustomListProduct type={'TRANSIT'} navigation={navigation} />}
-                        viewPageRight={<CustomListProduct type={'SUBSCRIPTION'} navigation={navigation} estNextPack={estNextPack} />
+                        viewPageLeft={<CustomListProduct type={'TRANSIT'} navigation={navigation} route={route} />}
+                        viewPageRight={<CustomListProduct type={'SUBSCRIPTION'} navigation={navigation} estNextPack={estNextPack} route={route} />
                         }
                     />
                 </View>

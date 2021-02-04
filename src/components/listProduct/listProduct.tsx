@@ -19,7 +19,8 @@ export const CustomListProduct = (props: any) => {
         navigation,
         type,
         titleNotPage,
-        estNextPack
+        estNextPack,
+        route
     } = props;
 
     const [refreshing, setRefresh] = useState(false);
@@ -28,7 +29,10 @@ export const CustomListProduct = (props: any) => {
     const [timeEst, setTimeEst] = useState('');
     const [indexDisplay, setIndexDisplay] = useState(0);
     const [subscription_id, setSubscription_id] = useState(0);
+    const [coupons, setCoupons] = useState("");
     const refDot = useRef(null);
+    const { getTransAction, getNextPackAction } = route && route.params;
+    const { dataNextPack, dataTrans } = route && route.params.stateAuth;
 
     const onRefresh = React.useCallback(() => {
         checkType();
@@ -39,6 +43,21 @@ export const CustomListProduct = (props: any) => {
         index: number
     };
 
+    const getSubscriptionId = () => {
+        Get(`/api/v1/subscriptions/check`)
+            .then(response => {
+                response.json().then(data => {
+                    if (data && data.data) {
+                        console.log("data subscrip id", data.data)
+                        setSubscription_id(data.data.subscription.data.id)
+                        setCoupons(data.data.subscription.data.coupons)
+                    }
+                });
+            }).catch(err => {
+                DropDownHolder.showError("", translate('MESS:error') || "")
+                console.log('err', err)
+            })
+    }
     const getListProduct = (listId: String) => {
         Get(`/api/v1/products?ids=${listId}`)
             .then(response => {
@@ -62,8 +81,9 @@ export const CustomListProduct = (props: any) => {
             .then(response => {
                 response.json().then(data => {
                     console.log("data tran", data.data)
-                    const id = data.data.id
-                    setSubscription_id(id)
+                    getTransAction(data.data)
+                    // const id = data.data.id
+                    // setSubscription_id(id)
                     if (data.data && data.data.estimated_delivery) {
                         setTimeEst(data.data && data.data.estimated_delivery)
                     }
@@ -88,8 +108,9 @@ export const CustomListProduct = (props: any) => {
             .then(response => {
                 response.json().then(data => {
                     if (data && data.data) {
-                        const id = data.data[0].id
-                        setSubscription_id(id)
+                        getNextPackAction(data.data)
+                        // const id = data.data[0].id
+                        // setSubscription_id(id)
                         let listId = data.data.map((item: any) => item.product_id);
                         getListProduct(listId.toString())
                     } else {
@@ -134,7 +155,13 @@ export const CustomListProduct = (props: any) => {
     };
 
     const openManagerPack = () => {
-        navigation && navigation.navigate(MY_PACK, { dataList: dataList, subscription_id: subscription_id })
+        navigation && navigation.navigate(MY_PACK, {
+            dataList: dataList,
+            subscription_id: subscription_id,
+            type: type,
+            coupons: coupons,
+            time: timeEst && format(new Date(timeEst), 'do MMMM') || estNextPack && format((new Date(estNextPack)).setDate((new Date(estNextPack).getDate() + 7)), 'do MMMM')
+        })
     };
 
     const onViewRef = React.useRef((viewableItems: any) => {
@@ -151,8 +178,9 @@ export const CustomListProduct = (props: any) => {
     const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 80 })
 
     useEffect(() => {
+        getSubscriptionId()
         checkType();
-    }, []);
+    }, [dataNextPack, dataTrans]);
 
     return (
         <View style={styles.vFullScreen}>
@@ -178,12 +206,14 @@ export const CustomListProduct = (props: any) => {
                                 {timeEst && format(new Date(timeEst), 'do MMMM')}
                                 {estNextPack && format((new Date(estNextPack)).setDate((new Date(estNextPack).getDate() + 7)), 'do MMMM')}
                             </Text>
-                            <View style={styles.vEdit}>
-                                <SvgEdit
-                                    width={size[18]}
-                                    height={size[16]}
-                                    viewBox={`0 0 ${size[10]} ${size[10]}`} />
-                            </View>
+                            {estNextPack &&
+                                <View style={styles.vEdit}>
+                                    <SvgEdit
+                                        width={size[18]}
+                                        height={size[16]}
+                                        viewBox={`0 0 ${size[10]} ${size[10]}`} />
+                                </View>
+                            }
                         </TouchableOpacity>
                     </View>
                 </View>

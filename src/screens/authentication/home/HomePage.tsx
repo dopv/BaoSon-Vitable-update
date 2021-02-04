@@ -20,8 +20,10 @@ interface HomePageProps {
 export const HomePage = (props: HomePageProps) => {
     const { navigation, route } = props;
     const [tabIndex, setTabIndex] = useState(0);
-    const userInfo = route && route.params && route.params.stateAuth
-        && route.params.stateAuth.userInfo || {};
+  
+    const customer = route && route.params && route.params.stateAuth
+        && route.params.stateAuth.userInfo && route.params.stateAuth.userInfo.customer
+        && route.params.stateAuth.userInfo.customer.data || {};
 
     const onGoPack = () => {
         navigation.navigate(PACK_SCREEN)
@@ -44,7 +46,7 @@ export const HomePage = (props: HomePageProps) => {
                 isButtonRight={true}
                 navigation={navigation}
                 onPressRight={onGoPack}
-                userName={userInfo && userInfo.email}
+                userName={customer && customer.name_on_pack}
                 titleButton={translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}
                 onPressTitleButton={onPressGoToQuiz}
                 reminder={`It's been two months since you reassessed your needs.`}

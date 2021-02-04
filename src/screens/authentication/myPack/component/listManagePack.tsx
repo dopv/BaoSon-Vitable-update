@@ -15,7 +15,9 @@ export const CustomListManagePack = (props: any) => {
         isHideBorder,
         listPrice,
         setListPrice,
-        subscription_id
+        subscription_id,
+        route,
+        type
     } = props;
 
     interface ListMangeProps {
@@ -23,24 +25,32 @@ export const CustomListManagePack = (props: any) => {
         index: number
     };
 
+    const { dataNextPack, dataTrans } = route && route.params.stateAuth;
+
     const renderItem = (props: ListMangeProps) => {
         const { item, index } = props;
 
         if (isHideBorder) {
             return (
                 <ItemPackManage
+                    type={type}
+                    route={route}
                     subscription_id={subscription_id}
                     listPrice={listPrice}
                     setListPrice={setListPrice}
-                    item={item} isHideBorder={index == dataPack.length - 1 ? true : false} />
+                    item={type === "TRANSIT" ? item : item.product.data}
+                    isHideBorder={index == dataPack.length - 1 ? true : false} />
             )
         } else {
             return (
                 <ItemPackManage
+                    type={type}
+                    route={route}
                     subscription_id={subscription_id}
                     listPrice={listPrice}
                     setListPrice={setListPrice}
-                    item={item} />
+                    item={type === "TRANSIT" ? item : item.product.data}
+                />
             )
         }
     }
@@ -52,7 +62,8 @@ export const CustomListManagePack = (props: any) => {
             <FlatList
                 contentContainerStyle={{ paddingVertical: size[16] }}
                 showsVerticalScrollIndicator={false}
-                data={dataPack}
+                data={type === "TRANSIT" ? dataTrans.products.data : dataNextPack}
+                // data={dataPack}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
             />
