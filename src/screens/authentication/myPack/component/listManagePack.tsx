@@ -83,6 +83,7 @@ export const CustomListManagePack = (props: any) => {
                     subscription_id={subscription_id}
                     listPrice={listPrice}
                     setListPrice={setListPrice}
+                    quantity={item.quantity}
                     item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
                     isHideBorder={index == dataPack.length - 1 ? true : false} />
             )
@@ -95,6 +96,7 @@ export const CustomListManagePack = (props: any) => {
                     route={route}
                     subscription_id={subscription_id}
                     listPrice={listPrice}
+                    quantity={item.quantity}
                     setListPrice={setListPrice}
                     item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
                 />

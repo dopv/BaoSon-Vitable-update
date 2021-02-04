@@ -21,7 +21,8 @@ export const ItemPackManage = (props: any) => {
         route,
         type,
         getTransition,
-        getSubscription
+        getSubscription,
+        quantity
     } = props;
     const [count, setCount] = useState(1);
     const [listQuality, setListQuality] = useState([]);
@@ -114,6 +115,7 @@ export const ItemPackManage = (props: any) => {
     };
 
     useEffect(() => {
+        setCount(quantity)
         const list = [];
         for (let i = 1; i <= item.max_quantity; i++) {
             list.push(i)
