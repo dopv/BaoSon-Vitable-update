@@ -1,8 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
-import { HomeHeader } from './components/home-header/HomeHeader';
-import { HomeTabs } from './components/home-tabs/HomeTabs';
 import { HomeStreakHistory } from './components/home-streak-history/HomeStreakHistory';
 import { StreakAccumulation } from './components/home-streak-accumulation/StreakAccumulation';
 import { MarkWork } from './components/home-mark-point/MarkPoints';

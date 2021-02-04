@@ -10,7 +10,7 @@ import { ItemProduct } from './itemProduct';
 import { SvgEdit } from '../../themes/svg';
 import { MY_PACK } from '../../navigation/TypeScreen';
 import { format } from "date-fns";
-
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const { width } = Dimensions.get('window');
 
@@ -26,11 +26,12 @@ export const CustomListProduct = (props: any) => {
     const [refreshing, setRefresh] = useState(false);
     const [dataList, setDataList] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [isDatePickerVisible, setDatePickerVisible] = useState(false);
     const [timeEst, setTimeEst] = useState('');
     const [indexDisplay, setIndexDisplay] = useState(0);
     const [subscription_id, setSubscription_id] = useState(0);
     const [coupons, setCoupons] = useState("");
-    const refDot = useRef(null);
+    const refDot = useRef<any>(null);
     const { getTransAction, getNextPackAction } = route && route.params;
     const { dataNextPack, dataTrans } = route && route.params.stateAuth;
 
@@ -48,7 +49,6 @@ export const CustomListProduct = (props: any) => {
             .then(response => {
                 response.json().then(data => {
                     if (data && data.data) {
-                        console.log("data subscrip id", data.data)
                         setSubscription_id(data.data.subscription.data.id)
                         setCoupons(data.data.subscription.data.coupons)
                     }
@@ -58,6 +58,7 @@ export const CustomListProduct = (props: any) => {
                 console.log('err', err)
             })
     }
+
     const getListProduct = (listId: String) => {
         Get(`/api/v1/products?ids=${listId}`)
             .then(response => {
@@ -80,7 +81,6 @@ export const CustomListProduct = (props: any) => {
         Get('/api/v1/users/me/orders/latest')
             .then(response => {
                 response.json().then(data => {
-                    console.log("data tran", data.data)
                     getTransAction(data.data)
                     if (data.data && data.data.estimated_delivery) {
                         setTimeEst(data.data && data.data.estimated_delivery)
@@ -180,6 +180,18 @@ export const CustomListProduct = (props: any) => {
         checkType();
     }, [dataNextPack, dataTrans]);
 
+    const showDatePicker = () => {
+        setDatePickerVisible(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisible(false);
+    };
+
+    const handleConfirm = (date: any) => {
+        hideDatePicker();
+    };
+
     return (
         <View style={styles.vFullScreen}>
             <ProcessDialog visible={loading} />
@@ -199,11 +211,15 @@ export const CustomListProduct = (props: any) => {
                 <View style={styles.vHeader}>
                     <View style={styles.vTitle}>
                         <Text style={styles.tTitle}>Est. delivery :  </Text>
-                        <TouchableOpacity style={styles.btnEdit}>
-                            <Text style={styles.tEditTit}>
-                                {timeEst && format(new Date(timeEst), 'do MMMM')}
+                        {timeEst && timeEst !== '' ? <Text style={styles.sTextEstTrans}>
+                            {timeEst && format(new Date(timeEst), 'do MMMM')}
+                        </Text> : null}
+                        <TouchableOpacity style={styles.btnEdit}
+                            onPress={showDatePicker}
+                        >
+                            {estNextPack && estNextPack !== '' ? <Text style={styles.tEditTit}>
                                 {estNextPack && format((new Date(estNextPack)).setDate((new Date(estNextPack).getDate() + 7)), 'do MMMM')}
-                            </Text>
+                            </Text> : null}
                             {estNextPack &&
                                 <View style={styles.vEdit}>
                                     <SvgEdit
@@ -254,7 +270,18 @@ export const CustomListProduct = (props: any) => {
                     <Text style={styles.tManage}>Manage my pack</Text>
                 </TouchableOpacity>
             </View>
-
+            <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+                display="spinner"
+                date={new Date(estNextPack)}
+                is24Hour={true}
+                textColor="#272626"
+                headerTextIOS="Pick Est. Delivery"
+                minimumDate={new Date(estNextPack)}
+            />
         </View>
     )
 }
@@ -396,5 +423,11 @@ const styles = StyleSheet.create({
         width: size[8],
         height: size[8],
         marginRight: size[16]
+    },
+    sTextEstTrans: {
+        fontSize: FONT_14,
+        fontFamily: 'NHaasGroteskTXPro',
+        color: '#7f8b8f',
+        fontWeight: '500'
     }
 })

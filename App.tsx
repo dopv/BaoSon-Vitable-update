@@ -19,7 +19,8 @@ export default function App() {
     await Font.loadAsync({
       SolaireDT: require('./assets/font/SolaireDT-Regular.ttf'),
       NHaasGroteskTXPro: require('./assets/font/Linotype-NHaasGroteskTXPro-55Rg.ttf'),
-      NHaasGroteskTXProBold: require('./assets/font/Linotype-NHaasGroteskTXPro-65Md.ttf')
+      NHaasGroteskTXProBold: require('./assets/font/Linotype-NHaasGroteskTXPro-65Md.ttf'),
+      HOMEMADE_APPLE: require('./assets/font/HomemadeApple-Regular.ttf')
     });
     setLoadFont(true);
   }

@@ -1,13 +1,10 @@
 import React, { useRef } from 'react';
-import { Image, ImageBackground, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View, StyleSheet, Dimensions } from 'react-native';
-import { translate } from '../library/utils/i18n/translate';
-import { useRoute } from '@react-navigation/native';
-import { FONT_14, FONT_24 } from '../themes/fontSize';
+import { Text, TouchableWithoutFeedback, View, StyleSheet, Dimensions } from 'react-native';
+import { FONT_14 } from '../themes/fontSize';
 import { size } from '../themes/size';
-import { StatusBarHeight } from '../config/heightStatusbar';
 import ViewPager from '@react-native-community/viewpager';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export const CustomPage = (props: any) => {
     const {
@@ -18,13 +15,17 @@ export const CustomPage = (props: any) => {
         setTabIndex,
         viewPageLeft,
         viewPageRight,
+        onClickTabChange,
+        isClickTabAble
     } = props;
 
     const _viewPager = useRef<ViewPager>(null);
 
     const onChangeTab = (index: number) => {
+        if(isClickTabAble || index === tabIndex) return;
         setTabIndex(index);
         _viewPager && _viewPager.current && _viewPager.current.setPage(index);
+        onClickTabChange && onClickTabChange();
     };
 
     const _onScrollEnd = (event: any) => {
@@ -36,41 +37,50 @@ export const CustomPage = (props: any) => {
         <View style={styles.vContent}>
             <View style={styles.vTab}>
                 {titleLeft &&
-                    <TouchableOpacity
-                        onPress={() => { onChangeTab && onChangeTab(0) }}
-                    style={tabIndex === 0 ? [styles.vTabsLeftRight, styles.borderPageLeft] : [styles.vTabsLeftRight]}
+                    <TouchableWithoutFeedback
+                        disabled={isClickTabAble}
+                        onPress={() => { !isClickTabAble && onChangeTab && onChangeTab(0) }}
                     >
-                        <Text
-                            allowFontScaling={false}
-                            style={styles.sTitleTracker}
+                        <View
+                            style={tabIndex === 0 ? [styles.vTabsLeftRight, styles.borderPageLeft] : [styles.vTabsLeftRight]}
                         >
-                            {titleLeft}
-                        </Text>
-                    </TouchableOpacity>
+                            <Text
+                                allowFontScaling={false}
+                                style={styles.sTitleTracker}
+                            >
+                                {titleLeft}
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
                 }
                 {titleRight &&
-                    <TouchableOpacity
-                        onPress={() => { onChangeTab && onChangeTab(1) }}
-                    style={tabIndex === 1 ? [styles.vTabsLeftRight, styles.borderPageRight] : [styles.vTabsLeftRight]}
+                    <TouchableWithoutFeedback
+                        disabled={isClickTabAble}
+                        onPress={() => { !isClickTabAble && onChangeTab && onChangeTab(1) }}
                     >
-                        <Text
-                            allowFontScaling={false}
-                            style={styles.sTitleTracker}
+                        <View
+                            style={tabIndex === 1 ? [styles.vTabsLeftRight, styles.borderPageRight] : [styles.vTabsLeftRight]}
                         >
-                            {titleRight}
-                        </Text>
-                    </TouchableOpacity>
+                            <Text
+                                allowFontScaling={false}
+                                style={styles.sTitleTracker}
+                            >
+                                {titleRight}
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
                 }
-              
+
             </View>
-        
+
             {viewPageLeft ?
                 <ViewPager
                     scrollEnabled={false}
                     ref={_viewPager}
                     onPageSelected={_onScrollEnd}
                     style={styles.viewPager}
-                    initialPage={0}>
+                    initialPage={0}
+                >
                     <View key="0" style={styles.vPageLeft}>
                         {viewPageLeft}
                     </View>

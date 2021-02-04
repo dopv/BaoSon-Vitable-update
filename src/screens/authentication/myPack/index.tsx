@@ -27,7 +27,7 @@ interface MyPackProps {
 
 export const MyPackScreen = (props: MyPackProps) => {
     const { navigation, route } = props;
-    var dataList: [] = [];
+    var dataList: any[] = [];
     var credit_available = 0;
     var subscription_id = 0;
     var type = '';
@@ -46,8 +46,8 @@ export const MyPackScreen = (props: MyPackProps) => {
         getSubscription = route.params.getSubscription
     }
     const [country, setCountry] = useState('AU');
-    const [countries, setCountries] = useState(null);
-    const [setting, setSetting] = useState(null);
+    const [countries, setCountries] = useState<any>(null);
+    const [setting, setSetting] = useState<any>(null);
     const [listPrice, setListPrice] = useState([
         {
             id: 0,
@@ -131,7 +131,6 @@ export const MyPackScreen = (props: MyPackProps) => {
             .then(response => {
                 response.json().then(data => {
                     if (data && data.data) {
-                        console.log("promocode", data.data)
                         if (data.data.percent !== "") {
                             setPercent(data.data.percent)
 
@@ -152,9 +151,7 @@ export const MyPackScreen = (props: MyPackProps) => {
             const body = { "promocode": promoCode }
             Put(`/api/v1/subscriptions/${subscription_id}/apply-promo-code`, body)
                 .then(response => {
-                    console.log("response apply", response)
                     response.json().then(data => {
-                        console.log("apply", data)
                         if (data.message) {
                             DropDownHolder.showError("", data.message)
                         } else {
@@ -325,7 +322,6 @@ export const MyPackScreen = (props: MyPackProps) => {
                                 getSubscriptionPack={getSubscription}
                                 getTransitionPack={getTransition}
                             />
-
                         </View>
                         <View style={styles.vTotal}>
                             <View style={styles.vHeaderTotal}>

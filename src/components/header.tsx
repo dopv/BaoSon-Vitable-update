@@ -63,7 +63,9 @@ export const CustomHeader = (props: any) => {
                     <Text
                         allowFontScaling={false}
                         style={styles.sTextHi}>
-                        {translate('AUTHENTIC:HOME:HI')}{userName || ''},
+                        {translate('AUTHENTIC:HOME:HI')}<Text
+                            style={{ fontFamily: 'HOMEMADE_APPLE' }}
+                        >{userName || ''}</Text>,
                 </Text>
 
 
@@ -150,14 +152,15 @@ const styles = StyleSheet.create({
         letterSpacing: FONT_14 * 0.015,
         fontSize: FONT_14,
         fontWeight: '400',
-        lineHeight: FONT_14 * 1.3,
+        fontFamily: 'NHaasGroteskTXPro'
     },
     sTextRemider: {
         textAlign: 'center',
         fontSize: FONT_14,
         lineHeight: size[22],
         letterSpacing: FONT_14 * 0.015,
-        marginBottom: size[24]
+        marginBottom: size[24],
+        fontFamily: 'NHaasGroteskTXPro'
     },
     sTextTakeQuiz: {
         textAlign: 'center',
@@ -169,6 +172,7 @@ const styles = StyleSheet.create({
         textDecorationColor: '#F5785A',
         textDecorationStyle: 'solid',
         textDecorationLine: 'underline',
+        fontFamily: 'NHaasGroteskTXPro'
     },
     btnTakeQuiz: {
         paddingBottom: size[16]

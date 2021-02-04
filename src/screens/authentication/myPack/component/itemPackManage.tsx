@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Image, TextInput, ScrollView, Text, TouchableOpacity, View, StyleSheet, Dimensions, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, Text, TouchableOpacity, View, StyleSheet, Dimensions, FlatList } from 'react-native';
 import { FONT_12, FONT_14, FONT_18, FONT_24 } from '../../../../themes/fontSize';
 import { size } from '../../../../themes/size';
-import { StatusBarHeight } from '../../../../config/heightStatusbar';
 import { SvgDelete, SvgDownTiny } from '../../../../themes/svg';
-import { Get, Put } from '../../../../library/networking/fetch';
+import { Put } from '../../../../library/networking/fetch';
 import DropDownHolder from '../../../../library/utils/dropDownHolder';
 import { translate } from '../../../../library/utils/i18n/translate';
 import {
@@ -53,9 +52,7 @@ export const ItemPackManage = (props: any) => {
 
         Put(`/api/v1/subscriptions/${subscription_id}`, body)
             .then(response => {
-                console.log("response update", response)
                 response.json().then(data => {
-                    console.log("update", data)
                     if (data.successed) {
                         if (type === "TRANSIT") {
                             getTransition();
@@ -89,9 +86,7 @@ export const ItemPackManage = (props: any) => {
         const body = { action: "deleted", product_id: item.id }
         Put(`/api/v1/subscriptions/${subscription_id}`, body)
             .then(response => {
-                console.log("response remove", response)
                 response.json().then(data => {
-                    console.log("remove", data)
                     if (data.successed) {
                         if (type === "TRANSIT") {
                             getTransition();
@@ -126,7 +121,7 @@ export const ItemPackManage = (props: any) => {
 
     useEffect(() => {
         setCount(quantity)
-        const list = [];
+        const list: any = [];
         for (let i = 1; i <= item.max_quantity; i++) {
             list.push(i)
         }
@@ -152,41 +147,41 @@ export const ItemPackManage = (props: any) => {
 
     if (item) {
         return (
-                <View key={key} style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
-                    <View style={styles.vItem}>
-                        <Image
-                            style={styles.imgProduct}
-                            source={{ uri: item.productTiny }} />
-                        <View style={styles.vTitle}>
-                            <View style={styles.vRow}>
-                                <Text style={styles.tName}>{item.name}</Text>
-                                <TouchableOpacity
-                                    onPress={removeProduct}
-                                    style={styles.btnDelete}>
-                                    <SvgDelete viewBox={`0 0 ${size[24]} ${size[24]}`} />
-                                </TouchableOpacity>
-                            </View>
-                            <Text style={styles.tNote}>{item.booklet_reason}</Text>
-                            <View style={styles.vRow}>
-                                <Text style={styles.tPrice}>{item.price}$</Text>
-                                <TouchableOpacity
-                                    onPress={showOptionQuality}
-                                    style={styles.btnSelectQuality}>
-                                    <View style={styles.inputCount}>
-                                        <Text style={styles.tCount}>{count}</Text>
-                                    </View>
-                                    <SvgDownTiny viewBox={`0 0 ${size[24]} ${size[24]}`} />
-                                    <Menu style={{ position: 'absolute', height: '100%', width: '100%', zIndex: 1 }}>
-                                        <MenuTrigger
-                                            customStyles={{
-                                                triggerWrapper: {
-                                                    height: '100%',
-                                                    width: '100%',
-                                                },
-                                            }}
-                                        />
-                                        <MenuOptions>
-                                            {/* {listQuality && listQuality.map((item: any, index: number) => {
+            <View key={key} style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
+                <View style={styles.vItem}>
+                    <Image
+                        style={styles.imgProduct}
+                        source={{ uri: item.productTiny }} />
+                    <View style={styles.vTitle}>
+                        <View style={styles.vRow}>
+                            <Text style={styles.tName}>{item.name}</Text>
+                            <TouchableOpacity
+                                onPress={removeProduct}
+                                style={styles.btnDelete}>
+                                <SvgDelete viewBox={`0 0 ${size[24]} ${size[24]}`} />
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={styles.tNote}>{item.booklet_reason}</Text>
+                        <View style={styles.vRow}>
+                            <Text style={styles.tPrice}>{item.price}$</Text>
+                            <TouchableOpacity
+                                onPress={showOptionQuality}
+                                style={styles.btnSelectQuality}>
+                                <View style={styles.inputCount}>
+                                    <Text style={styles.tCount}>{count}</Text>
+                                </View>
+                                <SvgDownTiny viewBox={`0 0 ${size[24]} ${size[24]}`} />
+                                <Menu style={{ position: 'absolute', height: '100%', width: '100%', zIndex: 1 }}>
+                                    <MenuTrigger
+                                        customStyles={{
+                                            triggerWrapper: {
+                                                height: '100%',
+                                                width: '100%',
+                                            },
+                                        }}
+                                    />
+                                    <MenuOptions>
+                                        {/* {listQuality && listQuality.map((item: any, index: number) => {
                                                 <TouchableOpacity key={`row-${index}`} onPress={() => selectQuality(item)}
                                                     style={styles.vItemQuality}>
                                                     <Text style={styles.tItemQuality}>{item}</Text>
@@ -200,17 +195,16 @@ export const ItemPackManage = (props: any) => {
                                             keyExtractor={(item, index) => index.toString()}
                                         />
 
+                                    </MenuOptions>
+                                </Menu>
+                            </TouchableOpacity>
 
-                                        </MenuOptions>
-                                    </Menu>
-                                </TouchableOpacity>
-
-                                <Text style={styles.tOption}>{count > 1 ? "tablets / day" : "tablet / day"}</Text>
-                            </View>
+                            <Text style={styles.tOption}>{count > 1 ? "tablets / day" : "tablet / day"}</Text>
                         </View>
                     </View>
-
                 </View>
+
+            </View>
         )
     } else {
         return null
