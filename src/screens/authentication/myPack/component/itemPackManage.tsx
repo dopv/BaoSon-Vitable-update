@@ -7,6 +7,15 @@ import { SvgDelete, SvgDownTiny } from '../../../../themes/svg';
 import { Get, Put } from '../../../../library/networking/fetch';
 import DropDownHolder from '../../../../library/utils/dropDownHolder';
 import { translate } from '../../../../library/utils/i18n/translate';
+import {
+    Menu,
+    MenuOptions,
+    renderers,
+    MenuOption,
+    MenuTrigger,
+    MenuProvider,
+} from 'react-native-popup-menu';
+const { SlideInMenu } = renderers;
 
 
 const { width, height } = Dimensions.get('window');
@@ -23,7 +32,8 @@ export const ItemPackManage = (props: any) => {
         type,
         getTransition,
         getSubscription,
-        quantity
+        quantity,
+        key,
     } = props;
     const [count, setCount] = useState(1);
     const [listQuality, setListQuality] = useState([]);
@@ -142,54 +152,65 @@ export const ItemPackManage = (props: any) => {
 
     if (item) {
         return (
-            <View
-            style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
-                <View style={styles.vItem}>
-                    <Image
-                        style={styles.imgProduct}
-                        source={{ uri: item.productTiny }} />
-                    <View style={styles.vTitle}>
-                        <View style={styles.vRow}>
-                            <Text style={styles.tName}>{item.name}</Text>
-                            <TouchableOpacity
-                                onPress={removeProduct}
-                                style={styles.btnDelete}>
-                                <SvgDelete viewBox={`0 0 ${size[24]} ${size[24]}`} />
-                            </TouchableOpacity>
-                        </View>
-                        <Text style={styles.tNote}>{item.booklet_reason}</Text>
-                        <View style={styles.vRow}>
-                            <Text style={styles.tPrice}>{item.price}$</Text>
-                            <TouchableOpacity
-                                onPress={showOptionQuality}
-                                style={styles.btnSelectQuality}>
-                                <View 
-                                    onLayout={(event) => {
-                                        let { x, y, width, height } = event.nativeEvent.layout
-                                        console.log(width, height)
-                                    }}
-                                style={styles.inputCount}>
-                                    <Text style={styles.tCount}>{count}</Text>
-                                </View>
+                <View key={key} style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
+                    <View style={styles.vItem}>
+                        <Image
+                            style={styles.imgProduct}
+                            source={{ uri: item.productTiny }} />
+                        <View style={styles.vTitle}>
+                            <View style={styles.vRow}>
+                                <Text style={styles.tName}>{item.name}</Text>
+                                <TouchableOpacity
+                                    onPress={removeProduct}
+                                    style={styles.btnDelete}>
+                                    <SvgDelete viewBox={`0 0 ${size[24]} ${size[24]}`} />
+                                </TouchableOpacity>
+                            </View>
+                            <Text style={styles.tNote}>{item.booklet_reason}</Text>
+                            <View style={styles.vRow}>
+                                <Text style={styles.tPrice}>{item.price}$</Text>
+                                <TouchableOpacity
+                                    onPress={showOptionQuality}
+                                    style={styles.btnSelectQuality}>
+                                    <View style={styles.inputCount}>
+                                        <Text style={styles.tCount}>{count}</Text>
+                                    </View>
+                                    <SvgDownTiny viewBox={`0 0 ${size[24]} ${size[24]}`} />
+                                    <Menu style={{ position: 'absolute', height: '100%', width: '100%', zIndex: 1 }}>
+                                        <MenuTrigger
+                                            customStyles={{
+                                                triggerWrapper: {
+                                                    height: '100%',
+                                                    width: '100%',
+                                                },
+                                            }}
+                                        />
+                                        <MenuOptions>
+                                            {/* {listQuality && listQuality.map((item: any, index: number) => {
+                                                <TouchableOpacity key={`row-${index}`} onPress={() => selectQuality(item)}
+                                                    style={styles.vItemQuality}>
+                                                    <Text style={styles.tItemQuality}>{item}</Text>
+                                                </TouchableOpacity>
 
-                                <SvgDownTiny viewBox={`0 0 ${size[24]} ${size[24]}`} />
-                            </TouchableOpacity>
+                                            })} */}
+                                        <FlatList
+                                            showsVerticalScrollIndicator={false}
+                                            data={listQuality}
+                                            renderItem={renderItem}
+                                            keyExtractor={(item, index) => index.toString()}
+                                        />
 
-                            <Text style={styles.tOption}>{count > 1 ? "tablets / day" : "tablet / day"}</Text>
+
+                                        </MenuOptions>
+                                    </Menu>
+                                </TouchableOpacity>
+
+                                <Text style={styles.tOption}>{count > 1 ? "tablets / day" : "tablet / day"}</Text>
+                            </View>
                         </View>
                     </View>
+
                 </View>
-                {showListQuality &&
-                    <View style={styles.vPopupQuality}>
-                        <FlatList
-                            showsVerticalScrollIndicator={false}
-                            data={listQuality}
-                            renderItem={renderItem}
-                            keyExtractor={(item, index) => index.toString()}
-                        />
-                    </View>
-                }
-            </View>
         )
     } else {
         return null
@@ -272,29 +293,23 @@ const styles = StyleSheet.create({
         right: 0
     },
     btnSelectQuality: {
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     tCount: {
         fontSize: FONT_14,
         fontWeight: '400',
         fontFamily: 'NHaasGroteskTXPro',
     },
-    vPopupQuality: {
-        position:'absolute',
-        alignItems: 'center',
-        borderBottomWidth:1,
-        bottom:0,
-        left: size[110]
-    },
     vItemQuality: {
         backgroundColor: '#BED0A2',
         borderTopWidth: 1,
         borderLeftWidth: 1,
         borderRightWidth: 1,
-        borderColor: '#272626'
+        borderColor: '#272626',
+        alignItems: 'center'
     },
     tItemQuality: {
         paddingVertical: size[2],
-        paddingHorizontal: size[20]
+        paddingHorizontal: size[10]
     }
 })

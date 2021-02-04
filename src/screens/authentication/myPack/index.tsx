@@ -14,6 +14,9 @@ import { translate } from '../../../library/utils/i18n/translate';
 import { CustomListManagePack } from './component/listManagePack';
 import { analytics } from 'firebase';
 import { ProcessDialog } from '../../../library/components/processDialog';
+import {
+    MenuProvider,
+} from 'react-native-popup-menu';
 
 const { width, height } = Dimensions.get('window');
 
@@ -144,7 +147,7 @@ export const MyPackScreen = (props: MyPackProps) => {
     };
 
     const applyPromoCode = () => {
-       Keyboard.dismiss();
+        Keyboard.dismiss();
         if (promoCode) {
             const body = { "promocode": promoCode }
             Put(`/api/v1/subscriptions/${subscription_id}/apply-promo-code`, body)
@@ -288,110 +291,112 @@ export const MyPackScreen = (props: MyPackProps) => {
     }, [listPrice, countries, percent, discount, type]);
 
     return (
-        <Screen
-            isScroll={false}
-            hidden={false}
-            backgroundColor={'transparent'}
-            forceInset={{ bottom: 'never', top: 'never' }}
-        >
-            <ProcessDialog visible={loading} />
+        <MenuProvider>
+            <Screen
+                isScroll={false}
+                hidden={false}
+                backgroundColor={'transparent'}
+                forceInset={{ bottom: 'never', top: 'never' }}
+            >
+                <ProcessDialog visible={loading} />
 
-            <View style={styles.fullScreen}>
-                <CustomHeader
-                    navigation={navigation}
-                    imgBackground={require('../../../../assets/images/bg_manage_pack.png')}
-                    logoLeft={require('../../../../assets/images/icons/Back.png')}
-                    onPressLeft={goBack}
-                    title={'Manage my pack'}
-                />
-                <ScrollView
-                    keyboardShouldPersistTaps
-                    contentContainerStyle={{ paddingBottom: size[26] }}>
-                    <View style={styles.vContent}>
-                        <Text style={styles.tTitle}>Estimated delivery :</Text>
-                        <Text style={[styles.tTitle, { color: '#000' }]}>{time}</Text>
-                        <CustomListManagePack
-                            type={type}
-                            route={route}
-                            listPrice={listPrice}
-                            setListPrice={setListPrice}
-                            title={'Vitamins'}
-                            dataPack={dataList}
-                            subscription_id={subscription_id}
-                            getSubscriptionPack={getSubscription}
-                            getTransitionPack={getTransition}
-                        />
-                      
-                    </View>
-                    <View style={styles.vTotal}>
-                        <View style={styles.vHeaderTotal}>
-                            <Text style={styles.tTotal}>Total</Text>
-                            <View style={styles.vRightTotal}>
-                                <View style={styles.vPrice}>
-                                    <Text style={[styles.tPrice, { opacity: 0.5 }]}>{total.toFixed(2)} $</Text>
-                                    <View style={styles.vLine} />
-                                </View>
-                                <Text style={styles.tPrice}>{totalRemain.toFixed(2)} $</Text>
-                                <SvgDownBig viewBox={`0 0 ${size[40]} ${size[40]}`} />
-                            </View>
-                        </View>
-                        <View style={styles.vBottomTotal}>
-                            <View style={styles.rowTotal}>
-                                <Text style={styles.titleBottomTotal}>Subtotal</Text>
-                                <Text style={styles.tSubPrice}>{total}$</Text>
-                            </View>
-                            <View style={[styles.rowTotal, { marginTop: size[16] }]}>
-                                <Text style={styles.titleBottomTotal}>Shipping</Text>
-                                <Text style={styles.priceBottomTotal}>{countries && countries[0] && (total >= countries[0].freeShipping ? 'FREE' : `${countries[0].shippingCost}$`) || 0}</Text>
-                            </View>
-                            {(discount !== "" || percent !== "") &&
-                                <View style={[styles.rowTotal, { marginTop: size[16] }]}>
-                                    <Text style={styles.titleBottomTotal}>Discount</Text>
-                                    <Text style={styles.priceBottomTotal}>{discount !== "" ? `${discount}$` : `${percent}%`}  </Text>
-                                </View>
-                            }
-
-                            {credit_available > 0 &&
-                                <View style={[styles.rowTotal, { marginTop: size[16] }]}>
-                                    <Text style={styles.titleBottomTotal}>Credit</Text>
-                                    <Text style={styles.priceBottomTotal}>{credit.toFixed(2)}$</Text>
-                                </View>
-                            }
-                            {setting && setting.data && setting.data.minimum_order_price && totalRemain <= setting.data.minimum_order_price &&
-                                <View style={{ marginTop: size[16] }}>
-                                    <Text style={styles.tMinOrder}>*Minimum basket of ${setting.data.minimum_order_price}, due to industry regulation. Your remaining credits will be fully applied to your next payments.</Text>
-                                </View>
-                            }
-                        </View>
-                        <View style={styles.vPromocode}>
-                            <TextInput
-                                style={styles.inputPromocode}
-                                onChangeText={changePromoCode}
-                                value={promoCode}
-                                placeholder={'Have a promocode ?'}
-
+                <View style={styles.fullScreen}>
+                    <CustomHeader
+                        navigation={navigation}
+                        imgBackground={require('../../../../assets/images/bg_manage_pack.png')}
+                        logoLeft={require('../../../../assets/images/icons/Back.png')}
+                        onPressLeft={goBack}
+                        title={type === 'TRANSIT' ? 'In transit' : 'Manage my pack'}
+                    />
+                    <ScrollView
+                        keyboardShouldPersistTaps={'always'}
+                        contentContainerStyle={{ paddingBottom: size[26] }}>
+                        <View style={styles.vContent}>
+                            <Text style={styles.tTitle}>{type === 'TRANSIT' ? 'Order number :' : 'Estimated delivery :'}</Text>
+                            <Text style={[styles.tTitle, { color: '#000' }]}>{time}</Text>
+                            <CustomListManagePack
+                                type={type}
+                                route={route}
+                                listPrice={listPrice}
+                                setListPrice={setListPrice}
+                                title={'Vitamins'}
+                                dataPack={dataList}
+                                subscription_id={subscription_id}
+                                getSubscriptionPack={getSubscription}
+                                getTransitionPack={getTransition}
                             />
-                            {(discount !== "" || percent !== "") ?
-                                <TouchableOpacity
-                                    onPress={removePromoCode}
-                                    style={styles.btnPromocode}>
-                                    <Text style={styles.tBtnPromocode}>Remove</Text>
-                                </TouchableOpacity>
-                                :
-                                <TouchableOpacity
-                                    onPress={applyPromoCode}
-                                    style={styles.btnPromocode}>
-                                    <Text style={styles.tBtnPromocode}>Apply</Text>
-                                </TouchableOpacity>
-                            }
 
                         </View>
-                    </View>
-                    {/* <View style={{ backgroundColor: 'blue', width: 100, height: 100, position: 'absolute', bottom: 100 }}>
+                        <View style={styles.vTotal}>
+                            <View style={styles.vHeaderTotal}>
+                                <Text style={styles.tTotal}>Total</Text>
+                                <View style={styles.vRightTotal}>
+                                    <View style={styles.vPrice}>
+                                        <Text style={[styles.tPrice, { opacity: 0.5 }]}>{total.toFixed(2)} $</Text>
+                                        <View style={styles.vLine} />
+                                    </View>
+                                    <Text style={styles.tPrice}>{totalRemain.toFixed(2)} $</Text>
+                                    <SvgDownBig viewBox={`0 0 ${size[40]} ${size[40]}`} />
+                                </View>
+                            </View>
+                            <View style={styles.vBottomTotal}>
+                                <View style={styles.rowTotal}>
+                                    <Text style={styles.titleBottomTotal}>Subtotal</Text>
+                                    <Text style={styles.tSubPrice}>{total}$</Text>
+                                </View>
+                                <View style={[styles.rowTotal, { marginTop: size[16] }]}>
+                                    <Text style={styles.titleBottomTotal}>Shipping</Text>
+                                    <Text style={styles.priceBottomTotal}>{countries && countries[0] && (total >= countries[0].freeShipping ? 'FREE' : `${countries[0].shippingCost}$`) || 0}</Text>
+                                </View>
+                                {(discount !== "" || percent !== "") &&
+                                    <View style={[styles.rowTotal, { marginTop: size[16] }]}>
+                                        <Text style={styles.titleBottomTotal}>Discount</Text>
+                                        <Text style={styles.priceBottomTotal}>{discount !== "" ? `${discount}$` : `${percent}%`}  </Text>
+                                    </View>
+                                }
+
+                                {credit_available > 0 &&
+                                    <View style={[styles.rowTotal, { marginTop: size[16] }]}>
+                                        <Text style={styles.titleBottomTotal}>Credit</Text>
+                                        <Text style={styles.priceBottomTotal}>{credit.toFixed(2)}$</Text>
+                                    </View>
+                                }
+                                {setting && setting.data && setting.data.minimum_order_price && totalRemain <= setting.data.minimum_order_price &&
+                                    <View style={{ marginTop: size[16] }}>
+                                        <Text style={styles.tMinOrder}>*Minimum basket of ${setting.data.minimum_order_price}, due to industry regulation. Your remaining credits will be fully applied to your next payments.</Text>
+                                    </View>
+                                }
+                            </View>
+                            <View style={styles.vPromocode}>
+                                <TextInput
+                                    style={styles.inputPromocode}
+                                    onChangeText={changePromoCode}
+                                    value={promoCode}
+                                    placeholder={'Have a promocode ?'}
+
+                                />
+                                {(discount !== "" || percent !== "") ?
+                                    <TouchableOpacity
+                                        onPress={removePromoCode}
+                                        style={styles.btnPromocode}>
+                                        <Text style={styles.tBtnPromocode}>Remove</Text>
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity
+                                        onPress={applyPromoCode}
+                                        style={styles.btnPromocode}>
+                                        <Text style={styles.tBtnPromocode}>Apply</Text>
+                                    </TouchableOpacity>
+                                }
+
+                            </View>
+                        </View>
+                        {/* <View style={{ backgroundColor: 'blue', width: 100, height: 100, position: 'absolute', bottom: 100 }}>
                             
                     </View> */}
-                </ScrollView>
-            </View>
-        </Screen>
+                    </ScrollView>
+                </View>
+            </Screen>
+        </MenuProvider>
     );
 }
