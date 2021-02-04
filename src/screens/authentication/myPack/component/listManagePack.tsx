@@ -105,6 +105,7 @@ export const CustomListManagePack = (props: any) => {
     }
 
     return (
+
         <View style={styles.vContent}>
             <Text style={styles.tTitle}>{title}</Text>
             <View style={styles.vLine} />

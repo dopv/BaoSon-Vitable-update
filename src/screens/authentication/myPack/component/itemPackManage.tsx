@@ -8,6 +8,7 @@ import { Get, Put } from '../../../../library/networking/fetch';
 import DropDownHolder from '../../../../library/utils/dropDownHolder';
 import { translate } from '../../../../library/utils/i18n/translate';
 
+
 const { width, height } = Dimensions.get('window');
 
 export const ItemPackManage = (props: any) => {
@@ -106,8 +107,7 @@ export const ItemPackManage = (props: any) => {
     const renderItem = (props: any) => {
         const { item, index } = props;
         return (
-            <TouchableOpacity
-                onPress={() => selectQuality(item)}
+            <TouchableOpacity onPress={() => selectQuality(item)}
                 style={styles.vItemQuality}>
                 <Text style={styles.tItemQuality}>{item}</Text>
             </TouchableOpacity>
@@ -142,7 +142,8 @@ export const ItemPackManage = (props: any) => {
 
     if (item) {
         return (
-            <View style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
+            <View
+            style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
                 <View style={styles.vItem}>
                     <Image
                         style={styles.imgProduct}
@@ -162,7 +163,12 @@ export const ItemPackManage = (props: any) => {
                             <TouchableOpacity
                                 onPress={showOptionQuality}
                                 style={styles.btnSelectQuality}>
-                                <View style={styles.inputCount}>
+                                <View 
+                                    onLayout={(event) => {
+                                        let { x, y, width, height } = event.nativeEvent.layout
+                                        console.log(width, height)
+                                    }}
+                                style={styles.inputCount}>
                                     <Text style={styles.tCount}>{count}</Text>
                                 </View>
 
@@ -194,7 +200,6 @@ export const ItemPackManage = (props: any) => {
 const styles = StyleSheet.create({
     vItem: {
         flex: 1,
-
         flexDirection: 'row',
     },
     vContent: {
@@ -275,12 +280,17 @@ const styles = StyleSheet.create({
         fontFamily: 'NHaasGroteskTXPro',
     },
     vPopupQuality: {
+        position:'absolute',
         alignItems: 'center',
-        right: size[30]
+        borderBottomWidth:1,
+        bottom:0,
+        left: size[110]
     },
     vItemQuality: {
         backgroundColor: '#BED0A2',
-        borderWidth: 1,
+        borderTopWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
         borderColor: '#272626'
     },
     tItemQuality: {

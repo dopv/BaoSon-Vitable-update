@@ -1,9 +1,9 @@
 import React, { useState, useRef, Children, useEffect } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, Dimensions, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Image, Dimensions, ScrollView, TouchableOpacity, TextInput, Keyboard } from 'react-native';
 import { presets, Screen } from '../../../library/components/screen';
 import { styles } from './styles';
 import { CustomHeader } from "../../../components/header";
-import { SvgBack, SvgDown, SvgDownBig, SvgTracker } from '../../../themes/svg';
+import { SvgBack, SvgDownBig, SvgTracker } from '../../../themes/svg';
 import { size } from '../../../themes/size';
 import { HOME_SCREEN } from '../../../navigation/TypeScreen';
 import { CustomPage } from '../../../components/page';
@@ -13,6 +13,7 @@ import DropDownHolder from '../../../library/utils/dropDownHolder';
 import { translate } from '../../../library/utils/i18n/translate';
 import { CustomListManagePack } from './component/listManagePack';
 import { analytics } from 'firebase';
+import { ProcessDialog } from '../../../library/components/processDialog';
 
 const { width, height } = Dimensions.get('window');
 
@@ -56,8 +57,8 @@ export const MyPackScreen = (props: MyPackProps) => {
     const [credit, setCredit] = useState(credit_available);
     const [discount, setDiscount] = useState("");
     const [percent, setPercent] = useState("");
+    const [loading, setLoading] = useState(false);
 
-   
     const changePromoCode = (value: string) => {
         setPromocode(value);
     };
@@ -110,26 +111,28 @@ export const MyPackScreen = (props: MyPackProps) => {
             .then(response => {
                 response.json().then(data => {
                     if (data.code) {
-                        console.log("data.code", data.code)
                         setPromocode(data.code)
+                        getInfoPromoCode(data.code)
                     }
+                    setLoading(false)
                 });
             }).catch(err => {
                 DropDownHolder.showError("", translate('MESS:error') || "")
                 console.log('err', err)
+                setLoading(false)
             })
     };
 
-    const getInfoPromoCode = () => {
-        Get(`/api/v1/promocodes/show/promocode?promocode=${promoCode}`)
+    const getInfoPromoCode = (code: string) => {
+        Get(`/api/v1/promocodes/show/promocode?promocode=${code}`)
             .then(response => {
                 response.json().then(data => {
                     if (data && data.data) {
                         console.log("promocode", data.data)
-                        if (data.data.percent !== ""){
+                        if (data.data.percent !== "") {
                             setPercent(data.data.percent)
-                           
-                        } else if (data.data.discount_amount !== ""){
+
+                        } else if (data.data.discount_amount !== "") {
                             setDiscount(data.data.discount_amount)
                         }
                     }
@@ -139,8 +142,9 @@ export const MyPackScreen = (props: MyPackProps) => {
                 console.log('err', err)
             })
     };
-   
+
     const applyPromoCode = () => {
+       Keyboard.dismiss();
         if (promoCode) {
             const body = { "promocode": promoCode }
             Put(`/api/v1/subscriptions/${subscription_id}/apply-promo-code`, body)
@@ -151,7 +155,7 @@ export const MyPackScreen = (props: MyPackProps) => {
                         if (data.message) {
                             DropDownHolder.showError("", data.message)
                         } else {
-                            getInfoPromoCode()
+                            getInfoPromoCode(promoCode)
                         }
                     });
                 }).catch(err => {
@@ -162,6 +166,7 @@ export const MyPackScreen = (props: MyPackProps) => {
     }
 
     const removePromoCode = () => {
+        Keyboard.dismiss();
         setPromocode("");
         setPercent("");
         setDiscount("")
@@ -183,13 +188,14 @@ export const MyPackScreen = (props: MyPackProps) => {
 
 
     useEffect(() => {
+        setLoading(true)
         if (coupons !== "") {
             setPromocode(coupons)
         }
         getCountry()
         getSetting()
         getListPrice()
-        // checkPromoCode()
+        checkPromoCode()
     }, [type])
 
     useEffect(() => {
@@ -200,20 +206,19 @@ export const MyPackScreen = (props: MyPackProps) => {
         var totalRe = sum
         if (countries && countries[0] && sum < countries[0].freeShipping && countries[0].shippingCost) {
             totalRe = (sum + countries[0].shippingCost) || sum
-            console.log("totalRe", totalRe)
 
             if (credit_available > 0) {
                 if (credit_available > totalRe) {
-                   
+
                     if (percent !== "") {
                         totalRe = totalRe * (parseInt(percent) / 100)
                     }
                     if (discount !== "") {
                         if (totalRe > parseInt(discount)) {
                             totalRe = totalRe - (parseInt(discount))
-                        } else if (totalRe < parseInt(discount)){
+                        } else if (totalRe < parseInt(discount)) {
                             totalRe = 5,
-                            setCredit(0)
+                                setCredit(0)
                         }
                     }
                     setCredit(totalRe);
@@ -225,19 +230,16 @@ export const MyPackScreen = (props: MyPackProps) => {
                         setCredit(credit)
                         totalRe = minPrice
                     }
-                    console.log("totalRe", totalRe)
 
                 } else {
                     totalRe = totalRe - credit_available
                     var oldTotal = totalRe;
-                    
-                    setCredit(credit_available );
+
+                    setCredit(credit_available);
                     if (minPrice && totalRe < minPrice) {
                         totalRe = minPrice
                         setCredit(credit_available - minPrice)
                     }
-                    console.log("totalRe", totalRe)
-
                 }
             } else {
                 if (credit_available > totalRe) {
@@ -265,7 +267,7 @@ export const MyPackScreen = (props: MyPackProps) => {
                         totalRe = minPrice
                     }
                 }
-            }   
+            }
             setTotalRemain(totalRe);
         } else {
             if (minPrice && totalRe < minPrice) {
@@ -274,7 +276,7 @@ export const MyPackScreen = (props: MyPackProps) => {
             } else {
                 totalRe = totalRe - credit_available
                 setCredit(credit_available)
-                if (totalRe < minPrice){
+                if (totalRe < minPrice) {
                     setCredit(credit_available - minPrice + totalRe)
                     totalRe = minPrice;
                 }
@@ -292,6 +294,8 @@ export const MyPackScreen = (props: MyPackProps) => {
             backgroundColor={'transparent'}
             forceInset={{ bottom: 'never', top: 'never' }}
         >
+            <ProcessDialog visible={loading} />
+
             <View style={styles.fullScreen}>
                 <CustomHeader
                     navigation={navigation}
@@ -300,7 +304,9 @@ export const MyPackScreen = (props: MyPackProps) => {
                     onPressLeft={goBack}
                     title={'Manage my pack'}
                 />
-                <ScrollView contentContainerStyle={{ paddingBottom: size[26] }}>
+                <ScrollView
+                    keyboardShouldPersistTaps
+                    contentContainerStyle={{ paddingBottom: size[26] }}>
                     <View style={styles.vContent}>
                         <Text style={styles.tTitle}>Estimated delivery :</Text>
                         <Text style={[styles.tTitle, { color: '#000' }]}>{time}</Text>
@@ -315,7 +321,7 @@ export const MyPackScreen = (props: MyPackProps) => {
                             getSubscriptionPack={getSubscription}
                             getTransitionPack={getTransition}
                         />
-
+                      
                     </View>
                     <View style={styles.vTotal}>
                         <View style={styles.vHeaderTotal}>
@@ -338,13 +344,13 @@ export const MyPackScreen = (props: MyPackProps) => {
                                 <Text style={styles.titleBottomTotal}>Shipping</Text>
                                 <Text style={styles.priceBottomTotal}>{countries && countries[0] && (total >= countries[0].freeShipping ? 'FREE' : `${countries[0].shippingCost}$`) || 0}</Text>
                             </View>
-                            {(discount !== "" || percent !== "") && 
+                            {(discount !== "" || percent !== "") &&
                                 <View style={[styles.rowTotal, { marginTop: size[16] }]}>
-                                <Text style={styles.titleBottomTotal}>Discount</Text>
-                                <Text style={styles.priceBottomTotal}>{discount !== "" ? `${discount}$` : `${percent}%`}  </Text>
+                                    <Text style={styles.titleBottomTotal}>Discount</Text>
+                                    <Text style={styles.priceBottomTotal}>{discount !== "" ? `${discount}$` : `${percent}%`}  </Text>
                                 </View>
                             }
-                           
+
                             {credit_available > 0 &&
                                 <View style={[styles.rowTotal, { marginTop: size[16] }]}>
                                     <Text style={styles.titleBottomTotal}>Credit</Text>
@@ -363,6 +369,7 @@ export const MyPackScreen = (props: MyPackProps) => {
                                 onChangeText={changePromoCode}
                                 value={promoCode}
                                 placeholder={'Have a promocode ?'}
+
                             />
                             {(discount !== "" || percent !== "") ?
                                 <TouchableOpacity
@@ -376,10 +383,13 @@ export const MyPackScreen = (props: MyPackProps) => {
                                     style={styles.btnPromocode}>
                                     <Text style={styles.tBtnPromocode}>Apply</Text>
                                 </TouchableOpacity>
-                        }
-                           
+                            }
+
                         </View>
                     </View>
+                    {/* <View style={{ backgroundColor: 'blue', width: 100, height: 100, position: 'absolute', bottom: 100 }}>
+                            
+                    </View> */}
                 </ScrollView>
             </View>
         </Screen>
