@@ -48,7 +48,11 @@
       }
     },
     "extra":{
-      "apiUrl":"https://api-staging.vitable.com.au"
+      "apiUrl":"https://api-staging.vitable.com.au",
+      "sentry":{
+        "debug":true,
+        "dsn":"https://ae153f676e264fd884eced187e884b8e@o516210.ingest.sentry.io/5622386"
+      }
     }
   }
 }

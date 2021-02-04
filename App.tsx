@@ -12,13 +12,12 @@ import * as Font from 'expo-font';
 import * as Analytics from 'expo-firebase-analytics';
 import * as Sentry from 'sentry-expo';
 import Constants from 'expo-constants';
-const {manifest:{extra:{sentryDSN}}} = Constants;
+const {manifest:{extra:{sentry}}} = Constants;
 Sentry.init({
-  dsn: sentryDSN,
+  dsn: sentry.dsn,
   enableInExpoDevelopment: true,
-  debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+  debug: sentry.debug, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
 });
-Sentry.nativeCrash();
 export default function App() {
   const [isDisconnect, setDisconnect] = useState(false);
   const [fontsLoaded, setLoadFont] = useState(false);

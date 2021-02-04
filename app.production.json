@@ -46,7 +46,11 @@
       }
     },
     "extra":{
-      "apiUrl":"https://api.vitable.com.au"
+      "apiUrl":"https://api.vitable.com.au",
+      "sentry":{
+        "debug":false,
+        "dsn":"https://39463496bb8b43b1b0f28316459feb7e@o516210.ingest.sentry.io/562238"
+      }
     }
   }
 }
