@@ -1,9 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Image, ImageBackground, ScrollView, Text, TouchableOpacity, View, StyleSheet, Dimensions, FlatList } from 'react-native';
 import { FONT_14, FONT_24 } from '../../../../themes/fontSize';
 import { size } from '../../../../themes/size';
 import { StatusBarHeight } from '../../../../config/heightStatusbar';
 import { ItemPackManage } from './itemPackManage';
+import { Get } from '../../../../library/networking/fetch';
+import DropDownHolder from '../../../../library/utils/dropDownHolder';
+import { translate } from '../../../../library/utils/i18n/translate';
 
 const { width, height } = Dimensions.get('window');
 
@@ -17,7 +20,7 @@ export const CustomListManagePack = (props: any) => {
         setListPrice,
         subscription_id,
         route,
-        type
+        type, getSubscriptionPack, getTransitionPack
     } = props;
 
     interface ListMangeProps {
@@ -25,7 +28,47 @@ export const CustomListManagePack = (props: any) => {
         index: number
     };
 
-    const { dataNextPack, dataTrans } = route && route.params.stateAuth;
+    const { getTransAction, getNextPackAction } = route && route.params;
+    const [dataPr, setDataPr] = useState(null)
+
+    const getTransition = () => {
+        Get('/api/v1/users/me/orders/latest')
+            .then(response => {
+                response.json().then(data => {
+                    getTransAction(data.data)
+                    setDataPr(data.data.products.data)
+                    getTransitionPack && getTransitionPack()
+                });
+            }).catch(err => {
+                DropDownHolder.showError("", translate('MESS:error') || "")
+                console.log('err', err)
+            })
+    }
+
+    const getSubscription = () => {
+        Get('/api/v1/users/me/subscription-items')
+            .then(response => {
+                response.json().then(data => {
+                    if (data && data.data) {
+                        console.log(data.data)
+                        getNextPackAction(data.data)
+                        setDataPr(data.data)
+                        getSubscriptionPack && getSubscriptionPack()
+                    };
+                }).catch(err => {
+                    DropDownHolder.showError("", translate('MESS:error') || "")
+                    console.log('err', err)
+                })
+            })
+    };
+
+    useEffect(() => {
+        if (type === "TRANSIT") {
+            getTransition()
+        } else {
+            getSubscription()
+        }
+    }, [])
 
     const renderItem = (props: ListMangeProps) => {
         const { item, index } = props;
@@ -33,23 +76,27 @@ export const CustomListManagePack = (props: any) => {
         if (isHideBorder) {
             return (
                 <ItemPackManage
+                    getTransition={getTransition}
+                    getSubscription={getSubscription}
                     type={type}
                     route={route}
                     subscription_id={subscription_id}
                     listPrice={listPrice}
                     setListPrice={setListPrice}
-                    item={type === "TRANSIT" ? item : item.product.data}
+                    item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
                     isHideBorder={index == dataPack.length - 1 ? true : false} />
             )
         } else {
             return (
                 <ItemPackManage
+                    getTransition={getTransition}
+                    getSubscription={getSubscription}
                     type={type}
                     route={route}
                     subscription_id={subscription_id}
                     listPrice={listPrice}
                     setListPrice={setListPrice}
-                    item={type === "TRANSIT" ? item : item.product.data}
+                    item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
                 />
             )
         }
@@ -62,10 +109,10 @@ export const CustomListManagePack = (props: any) => {
             <FlatList
                 contentContainerStyle={{ paddingVertical: size[16] }}
                 showsVerticalScrollIndicator={false}
-                data={type === "TRANSIT" ? dataTrans.products.data : dataNextPack}
-                // data={dataPack}
+                data={dataPr}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
+                extraData={dataPr}
             />
         </View>
     )

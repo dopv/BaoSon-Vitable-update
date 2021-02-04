@@ -82,8 +82,6 @@ export const CustomListProduct = (props: any) => {
                 response.json().then(data => {
                     console.log("data tran", data.data)
                     getTransAction(data.data)
-                    // const id = data.data.id
-                    // setSubscription_id(id)
                     if (data.data && data.data.estimated_delivery) {
                         setTimeEst(data.data && data.data.estimated_delivery)
                     }
@@ -109,8 +107,6 @@ export const CustomListProduct = (props: any) => {
                 response.json().then(data => {
                     if (data && data.data) {
                         getNextPackAction(data.data)
-                        // const id = data.data[0].id
-                        // setSubscription_id(id)
                         let listId = data.data.map((item: any) => item.product_id);
                         getListProduct(listId.toString())
                     } else {
@@ -156,6 +152,8 @@ export const CustomListProduct = (props: any) => {
 
     const openManagerPack = () => {
         navigation && navigation.navigate(MY_PACK, {
+            getTransition: getTransition,
+            getSubscription: getSubscription,
             dataList: dataList,
             subscription_id: subscription_id,
             type: type,

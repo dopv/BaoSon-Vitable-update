@@ -19,12 +19,13 @@ export const ItemPackManage = (props: any) => {
         setListPrice,
         subscription_id,
         route,
-        type
+        type,
+        getTransition,
+        getSubscription
     } = props;
     const [count, setCount] = useState(1);
     const [listQuality, setListQuality] = useState([]);
     const [showListQuality, setShowListQuality] = useState(false);
-    const { getTransAction, getNextPackAction } = route && route.params;
     const { dataNextPack, dataTrans } = route && route.params.stateAuth;
 
     const showOptionQuality = () => {
@@ -32,12 +33,6 @@ export const ItemPackManage = (props: any) => {
     }
 
     const updateProduct = (quantity: number) => {
-        var id = 0;
-        // if (type === "TRANSIT") {
-        //     id = item.id
-        // } else {
-        //     id = item.product.data.id
-        // }
         const body = {
             action: "update",
             product_id: item.id,
@@ -49,6 +44,13 @@ export const ItemPackManage = (props: any) => {
                 console.log("response update", response)
                 response.json().then(data => {
                     console.log("update", data)
+                    if (data.successed) {
+                        if (type === "TRANSIT") {
+                            getTransition();
+                        } else {
+                            getSubscription();
+                        }
+                    }
                     if (data.message) {
                         DropDownHolder.showError("", data.message)
                     }
@@ -59,38 +61,11 @@ export const ItemPackManage = (props: any) => {
             })
     };
 
-    const getTransition = () => {
-        Get('/api/v1/users/me/orders/latest')
-            .then(response => {
-                response.json().then(data => {
-                    getTransAction(data.data)
-                });
-            }).catch(err => {
-
-                DropDownHolder.showError("", translate('MESS:error') || "")
-                console.log('err', err)
-            })
-    }
-
-    const getSubscription = () => {
-        Get('/api/v1/users/me/subscription-items')
-            .then(response => {
-                response.json().then(data => {
-                    if (data && data.data) {
-                        getNextPackAction(data.data)
-                    };
-                }).catch(err => {
-                    DropDownHolder.showError("", translate('MESS:error') || "")
-                    console.log('err', err)
-                })
-            })
-    };
-
     const removeProduct = () => {
-       
-        if (type === "TRANSIT") { 
-            if (dataTrans.products && dataTrans.products.data.length <= 1){
-                DropDownHolder.showWarning("","We don't want to send you empty boxes! Trying to change your plan?")
+
+        if (type === "TRANSIT") {
+            if (dataTrans.products && dataTrans.products.data.length <= 1) {
+                DropDownHolder.showWarning("", "We don't want to send you empty boxes! Trying to change your plan?")
                 return
             }
         } else {
@@ -99,17 +74,18 @@ export const ItemPackManage = (props: any) => {
                 return
             }
         }
-
-        const body = { action: "delete", product_id: item.id }
-        console.log("body", body);
+        const body = { action: "deleted", product_id: item.id }
         Put(`/api/v1/subscriptions/${subscription_id}`, body)
             .then(response => {
                 console.log("response remove", response)
                 response.json().then(data => {
                     console.log("remove", data)
                     if (data.successed) {
-                        getSubscription();
-                        getTransition();
+                        if (type === "TRANSIT") {
+                            getTransition();
+                        } else {
+                            getSubscription();
+                        }
                     }
                     if (data.message) {
                         DropDownHolder.showError("", data.message)
@@ -162,50 +138,55 @@ export const ItemPackManage = (props: any) => {
         setListPrice && setListPrice(arrTemp);
     }, [count])
 
-    return (
-        <View style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
-            <View style={styles.vItem}>
-                <Image
-                    style={styles.imgProduct}
-                    source={{ uri: item.productTiny }} />
-                <View style={styles.vTitle}>
-                    <View style={styles.vRow}>
-                        <Text style={styles.tName}>{item.name}</Text>
-                        <TouchableOpacity
-                            onPress={removeProduct}
-                            style={styles.btnDelete}>
-                            <SvgDelete viewBox={`0 0 ${size[24]} ${size[24]}`} />
-                        </TouchableOpacity>
-                    </View>
-                    <Text style={styles.tNote}>{item.booklet_reason}</Text>
-                    <View style={styles.vRow}>
-                        <Text style={styles.tPrice}>{item.price}$</Text>
-                        <TouchableOpacity
-                            onPress={showOptionQuality}
-                            style={styles.btnSelectQuality}>
-                            <View style={styles.inputCount}>
-                                <Text style={styles.tCount}>{count}</Text>
-                            </View>
+    if (item) {
+        return (
+            <View style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
+                <View style={styles.vItem}>
+                    <Image
+                        style={styles.imgProduct}
+                        source={{ uri: item.productTiny }} />
+                    <View style={styles.vTitle}>
+                        <View style={styles.vRow}>
+                            <Text style={styles.tName}>{item.name}</Text>
+                            <TouchableOpacity
+                                onPress={removeProduct}
+                                style={styles.btnDelete}>
+                                <SvgDelete viewBox={`0 0 ${size[24]} ${size[24]}`} />
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={styles.tNote}>{item.booklet_reason}</Text>
+                        <View style={styles.vRow}>
+                            <Text style={styles.tPrice}>{item.price}$</Text>
+                            <TouchableOpacity
+                                onPress={showOptionQuality}
+                                style={styles.btnSelectQuality}>
+                                <View style={styles.inputCount}>
+                                    <Text style={styles.tCount}>{count}</Text>
+                                </View>
 
-                            <SvgDownTiny viewBox={`0 0 ${size[24]} ${size[24]}`} />
-                        </TouchableOpacity>
+                                <SvgDownTiny viewBox={`0 0 ${size[24]} ${size[24]}`} />
+                            </TouchableOpacity>
 
-                        <Text style={styles.tOption}>{count > 1 ? "tablets / day" : "tablet / day"}</Text>
+                            <Text style={styles.tOption}>{count > 1 ? "tablets / day" : "tablet / day"}</Text>
+                        </View>
                     </View>
                 </View>
+                {showListQuality &&
+                    <View style={styles.vPopupQuality}>
+                        <FlatList
+                            showsVerticalScrollIndicator={false}
+                            data={listQuality}
+                            renderItem={renderItem}
+                            keyExtractor={(item, index) => index.toString()}
+                        />
+                    </View>
+                }
             </View>
-            {showListQuality &&
-                <View style={styles.vPopupQuality}>
-                    <FlatList
-                        showsVerticalScrollIndicator={false}
-                        data={listQuality}
-                        renderItem={renderItem}
-                        keyExtractor={(item, index) => index.toString()}
-                    />
-                </View>
-            }
-        </View>
-    )
+        )
+    } else {
+        return null
+    }
+
 }
 
 const styles = StyleSheet.create({

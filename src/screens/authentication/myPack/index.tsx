@@ -29,6 +29,8 @@ export const MyPackScreen = (props: MyPackProps) => {
     var type = '';
     var coupons = '';
     var time = ''
+    var getTransition = null;
+    var getSubscription = null;
     if (route && route.params) {
         dataList = route.params.dataList
         credit_available = route.params.stateAuth && route.params.stateAuth.userInfo && route.params.stateAuth.userInfo.customer && route.params.stateAuth.userInfo.customer.data && route.params.stateAuth.userInfo.customer.data.credit_available || 0
@@ -36,6 +38,8 @@ export const MyPackScreen = (props: MyPackProps) => {
         coupons = route.params.coupons;
         type = route.params.type
         time = route.params.time
+        getTransition = route.params.getTransition
+        getSubscription = route.params.getSubscription
     }
     const [country, setCountry] = useState('AU');
     const [countries, setCountries] = useState(null);
@@ -261,18 +265,19 @@ export const MyPackScreen = (props: MyPackProps) => {
                         totalRe = minPrice
                     }
                 }
-                console.log("totalRe", totalRe)
-
-            }
-            
+            }   
             setTotalRemain(totalRe);
         } else {
             if (minPrice && totalRe < minPrice) {
                 totalRe = minPrice
                 setCredit(credit_available - minPrice)
             } else {
-                totalRe = minPrice
-                setCredit(credit_available - minPrice)
+                totalRe = totalRe - credit_available
+                setCredit(credit_available)
+                if (totalRe < minPrice){
+                    setCredit(credit_available - minPrice + totalRe)
+                    totalRe = minPrice;
+                }
             }
             setTotalRemain(totalRe);
         }
@@ -307,6 +312,8 @@ export const MyPackScreen = (props: MyPackProps) => {
                             title={'Vitamins'}
                             dataPack={dataList}
                             subscription_id={subscription_id}
+                            getSubscriptionPack={getSubscription}
+                            getTransitionPack={getTransition}
                         />
 
                     </View>

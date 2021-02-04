@@ -14,7 +14,7 @@ interface propRender {
 };
 
 export const ItemProduct = (props: propRender) => {
-    const { item, index } = props
+    const { item, index} = props
     var detail = item;
 
     if (item.product && item.product.data) {

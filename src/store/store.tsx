@@ -23,14 +23,6 @@ export const rootReducer = combineReducers({
         dataNextPack: action.data
       };
     }
-     if (action.type === 'GET_PROFILE') {
-      return {
-        ...state,
-        userInfo: action.info,
-        token: action.token,
-        isLogout: false
-      };
-    }
     if (action.type === 'GET_PROFILE') {
       return {
         ...state,

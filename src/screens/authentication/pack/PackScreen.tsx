@@ -32,8 +32,6 @@ export const PackScreen = (props: PackProps) => {
         navigation && navigation.openDrawer();
     }
 
-    // const userInfo = route && route.params && route.params.stateAuth
-    //     && route.params.stateAuth.userInfo || {};
     const customer = route && route.params && route.params.stateAuth
         && route.params.stateAuth.userInfo && route.params.stateAuth.userInfo.customer
         && route.params.stateAuth.userInfo.customer.data || {};
