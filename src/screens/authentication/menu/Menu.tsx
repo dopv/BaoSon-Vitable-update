@@ -4,7 +4,8 @@ import { Screen } from '../../../library/components/screen/index';
 import { styles } from './style';
 import { ItemMenu } from './components/MenuItem';
 import { translate } from '../../../library/utils/i18n/translate';
-import { PACK_SCREEN, PROFILE_SCREEN, TRACKING_SCREEN, BROWSER_SHOP_SCREEN, HOME_SCREEN, SUPPORT_SCREEN, ACCOUNT_DETAIL_SCREEN, QUIZ_SCREEN } from '../../../navigation/TypeScreen';
+import { PACK_SCREEN, PROFILE_SCREEN, TRACKING_SCREEN, BROWSER_SHOP_SCREEN, HOME_SCREEN, SUPPORT_SCREEN, ACCOUNT_DETAIL_SCREEN, QUIZ_SCREEN,
+NOTIFICATIONS_SCREEN } from '../../../navigation/TypeScreen';
 
 export const Menu = (props: any) => {
     const { navigation, route } = props;
@@ -88,6 +89,12 @@ export const Menu = (props: any) => {
                         name={`${translate('AUTHENTIC:MENU:ACCOUNT_DETAILS')}`}
                         isActive={false}
                         route={ACCOUNT_DETAIL_SCREEN}
+                        navigation={navigation}
+                    />
+                    <ItemMenu
+                        name={`${translate('AUTHENTIC:MENU:NOTIFICATIONS')}`}
+                        isActive={false}
+                        route={NOTIFICATIONS_SCREEN}
                         navigation={navigation}
                     />
                 </View>
