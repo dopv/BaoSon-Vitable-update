@@ -24,7 +24,7 @@ export const PackScreen = (props: PackProps) => {
     const [tabIndex, setTabIndex] = useState(0);
     const [isClickTabAble, setClickTabAble] = useState(false);
     const [estNextPack, setEstNextPack] = useState();
-    const [subscriptionStatus, setCheckSubscriptionStatus] = useState(null);
+    const [subscriptionStatus, setCheckSubscriptionStatus] = useState(SUBSCRIPTION_STATUS_ACTIVE);
     const [subscription_id, setSubscription_id] = useState(0);
     const [coupons, setCoupons] = useState("");
     const [loading, setLoading] = useState(false);
