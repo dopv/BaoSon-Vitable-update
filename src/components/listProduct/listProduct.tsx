@@ -108,7 +108,7 @@ export const CustomListProduct = (props: any) => {
             type: type,
             coupons: coupons,
             isResume: isResume,
-            time: orderNumber || estNextPack && format((new Date(estNextPack)).setDate((new Date(estNextPack).getDate() + 7)), 'do MMMM')
+            time: orderNumber || estNextPack && format(new Date(estNextPack), 'do MMMM')
         })
     };
 
@@ -187,7 +187,7 @@ export const CustomListProduct = (props: any) => {
                             onPress={showDatePicker}
                         >
                             {estNextPack && estNextPack !== '' ? <Text style={styles.tEditTit}>
-                                {estNextPack && format(new Date(estNextPack), 'do MMMM')}
+                                {estNextPack && format(new Date(estNextPack), 'do MMMM') || new Date}
                             </Text> : null}
                             {estNextPack &&
                                 <View style={styles.vEdit}>
@@ -243,11 +243,11 @@ export const CustomListProduct = (props: any) => {
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
                 display="spinner"
-                date={new Date(estNextPack)}
+                date={new Date(estNextPack) || new Date}
                 is24Hour={true}
                 textColor="#272626"
                 headerTextIOS="Pick Est. Delivery"
-                minimumDate={new Date(estNextPack)}
+                minimumDate={new Date(estNextPack) || new Date}
             />
         </ScrollView>
     )

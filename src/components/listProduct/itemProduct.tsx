@@ -46,7 +46,7 @@ export const ItemProduct = (props: propRender) => {
     const goDetail = () => {
         navigation && navigation.navigate(DETAIL)
     };
-
+    
     return (
         <View style={styles.vItem}>
             <Image
@@ -54,16 +54,19 @@ export const ItemProduct = (props: propRender) => {
                 source={{ uri: detail.productFeatureBannerMobile }} />
             <View style={styles.vContent}>
                 <View style={styles.vCategory}>
+
                     <FlatList
                         scrollEnabled={false}
-                        numColumns={categories ? categories.length : 1}
+                        numColumns={categories && categories.length > 0 && categories.length || undefined}
                         showsHorizontalScrollIndicator={false}
+                        horizontal={false}
                         data={categories}
                         renderItem={renderItemCategories}
                         keyExtractor={(item, index) => index.toString()}
                     />
+
                 </View>
-                <View style={{marginRight: size[30]}}>
+                <View style={{ marginRight: size[30] }}>
                     <Text style={styles.tName}>{detail.name}</Text>
                     <View style={styles.vLine} />
                     <Text
@@ -77,7 +80,7 @@ export const ItemProduct = (props: propRender) => {
                         <Text style={styles.tMore} >Learn more</Text>
                     </TouchableOpacity>
                 </View>
-                
+
             </View>
         </View>
     )

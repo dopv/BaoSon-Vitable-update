@@ -20,7 +20,9 @@ export const CustomListManagePack = (props: any) => {
         setListPrice,
         subscription_id,
         route,
-        type, getSubscriptionPack, getTransitionPack
+        type, 
+        getSubscriptionPack,
+         getTransitionPack
     } = props;
 
     interface ListMangeProps {
