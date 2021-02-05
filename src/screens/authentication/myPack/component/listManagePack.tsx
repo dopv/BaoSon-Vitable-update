@@ -20,9 +20,9 @@ export const CustomListManagePack = (props: any) => {
         setListPrice,
         subscription_id,
         route,
-        type, 
+        type,
         getSubscriptionPack,
-         getTransitionPack
+        getTransitionPack
     } = props;
 
     interface ListMangeProps {
@@ -73,44 +73,44 @@ export const CustomListManagePack = (props: any) => {
     }, [])
 
     return (
-            <View style={styles.vContent}>
-                <Text style={styles.tTitle}>{title}</Text>
-                <View style={styles.vLine} />
-                {dataPr && dataPr.map((item: any, index: number) => {
+        <View style={styles.vContent}>
+            <Text style={styles.tTitle}>{title}</Text>
+            <View style={styles.vLine} />
+            {dataPr && dataPr.map((item: any, index: number) => {
 
-                    if (isHideBorder) {
-                        return (
-                            <ItemPackManage
-                                key={`row-${index}`}
-                                getTransition={getTransition}
-                                getSubscription={getSubscription}
-                                type={type}
-                                route={route}
-                                subscription_id={subscription_id}
-                                listPrice={listPrice}
-                                setListPrice={setListPrice}
-                                quantity={item.quantity}
-                                item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
-                                isHideBorder={index == dataPack.length - 1 ? true : false} />
-                        )
-                    } else {
-                        return (
-                            <ItemPackManage
-                                key={`row-${index}`}
-                                getTransition={getTransition}
-                                getSubscription={getSubscription}
-                                type={type}
-                                route={route}
-                                subscription_id={subscription_id}
-                                listPrice={listPrice}
-                                quantity={item.quantity}
-                                setListPrice={setListPrice}
-                                item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
-                            />
-                        )
-                    }
-                })}
-            </View>            
+                if (isHideBorder) {
+                    return (
+                        <ItemPackManage
+                            index={index}
+                            getTransition={getTransition}
+                            getSubscription={getSubscription}
+                            type={type}
+                            route={route}
+                            subscription_id={subscription_id}
+                            listPrice={listPrice}
+                            setListPrice={setListPrice}
+                            quantity={item.quantity}
+                            item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
+                            isHideBorder={index == dataPack.length - 1 ? true : false} />
+                    )
+                } else {
+                    return (
+                        <ItemPackManage
+                            index={index}
+                            getTransition={getTransition}
+                            getSubscription={getSubscription}
+                            type={type}
+                            route={route}
+                            subscription_id={subscription_id}
+                            listPrice={listPrice}
+                            quantity={item.quantity}
+                            setListPrice={setListPrice}
+                            item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
+                        />
+                    )
+                }
+            })}
+        </View>
     )
 }
 

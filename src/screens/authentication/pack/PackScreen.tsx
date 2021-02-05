@@ -125,10 +125,6 @@ export const PackScreen = (props: PackProps) => {
         getSubscription()
     }, []);
 
-    useEffect(() => {
-        console.log(subscriptionStatus, orderStatus)
-        console.log(estNextPack)
-    }, [estNextPack, subscriptionStatus, orderStatus])
     return (
         <Screen
             isScroll={false}

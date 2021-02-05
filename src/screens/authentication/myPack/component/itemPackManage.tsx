@@ -32,8 +32,7 @@ export const ItemPackManage = (props: any) => {
         getTransition,
         getSubscription,
         quantity,
-        key,
-
+        index,
     } = props;
     const [count, setCount] = useState(1);
     const [listQuality, setListQuality] = useState([]);
@@ -150,7 +149,7 @@ export const ItemPackManage = (props: any) => {
 
     if (item) {
         return (
-            <View key={key} style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
+            <View key={`row-${index}`} style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
                 <View style={styles.vItem}>
                     <Image
                         style={styles.imgProduct}
