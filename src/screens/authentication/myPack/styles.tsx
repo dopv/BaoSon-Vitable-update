@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
         padding: size[24]
     },
     tTotal:{
-        flex:1,
+        flex:2,
         marginLeft: size[24],
         marginVertical: size[28],
         fontFamily: 'SolaireDT',
@@ -47,9 +47,10 @@ export const styles = StyleSheet.create({
         color: '#272626'
     },
     vRightTotal:{
-        flex:1.5,
+        flex:8,
         flexDirection:'row',
-        alignItems:'center'
+        alignItems:'center',justifyContent:'flex-end'
+
     },
     vPrice:{
         marginRight: size[16],
@@ -121,5 +122,30 @@ export const styles = StyleSheet.create({
         color: '#272626',
         fontSize: FONT_14,
         fontFamily: 'NHaasGroteskTXProBold'
+    },
+    vNoteTransit:{
+        backgroundColor:'#BED0A2',
+        padding: size[16],
+        marginBottom: size[24],
+        borderRadius: size[8]
+    },
+    vNoteResume:{
+        backgroundColor:'#DCD2BD',
+        padding: size[16],
+        marginBottom: size[24],
+        borderRadius: size[8]
+    },
+    tNoteTran:{
+        fontSize: FONT_14,
+        color: '#272626',
+        fontFamily: 'NHaasGroteskTXProBold'
+    },
+    tUrl:{
+        marginTop:size[10],
+        fontSize: FONT_14,
+        fontWeight:'500',
+        color: '#F5785A',
+        fontFamily: 'NHaasGroteskTXProBold',
+        textDecorationLine: 'underline',
     }
 });

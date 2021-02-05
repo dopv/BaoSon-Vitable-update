@@ -158,47 +158,61 @@ export const ItemPackManage = (props: any) => {
                     <View style={styles.vTitle}>
                         <View style={styles.vRow}>
                             <Text style={styles.tName}>{item.name}</Text>
-                            <TouchableOpacity
-                                onPress={removeProduct}
-                                style={styles.btnDelete}>
-                                <SvgDelete viewBox={`0 0 ${size[24]} ${size[24]}`} />
-                            </TouchableOpacity>
+                            {type !== "TRANSIT" &&
+                                <TouchableOpacity
+                                    onPress={removeProduct}
+                                    style={styles.btnDelete}>
+                                    <SvgDelete viewBox={`0 0 ${size[24]} ${size[24]}`} />
+                                </TouchableOpacity>
+                            }
+
                         </View>
                         <Text style={styles.tNote}>{item.booklet_reason}</Text>
                         <View style={styles.vRow}>
-                            <Text style={styles.tPrice}>{item.price}$</Text>
-                            <TouchableOpacity
-                                onPress={showOptionQuality}
-                                style={styles.btnSelectQuality}>
-                                <View style={styles.inputCount}>
-                                    <Text style={styles.tCount}>{count}</Text>
+
+                            {type === "TRANSIT"
+                                ?
+                                <View style={styles.vRow}>
+                                    <Text style={styles.tPrice}>{item.price}$</Text>
                                 </View>
-                                <SvgDownTiny viewBox={`0 0 ${size[24]} ${size[24]}`} />
+                                :
 
-                                <Menu
-                                    opened={isOpen}
-                                    onBackdropPress={() => setIsOpen(false)}
-                                    style={{ position: 'absolute', height: '100%', width: '100%', zIndex: 1 }}>
-                                    <MenuTrigger />
-                                    <MenuOptions customStyles={{ optionWrapper: { padding: 5 } }}>
-                                        <FlatList
-                                            style={{ borderBottomWidth: 1 }}
-                                            showsVerticalScrollIndicator={false}
-                                            data={listQuality}
-                                            renderItem={renderItem}
-                                            keyExtractor={(item, index) => index.toString()}
-                                        />
 
-                                    </MenuOptions>
-                                </Menu>
-                            </TouchableOpacity>
+                                <View style={styles.vRow}>
+                                    <TouchableOpacity
+                                        onPress={showOptionQuality}
+                                        style={styles.btnSelectQuality}>
+                                        <View style={styles.inputCount}>
+                                            <Text style={styles.tCount}>{count}</Text>
+                                        </View>
+                                        <SvgDownTiny viewBox={`0 0 ${size[24]} ${size[24]}`} />
 
-                            <Text style={styles.tOption}>{count > 1 ? "tablets / day" : "tablet / day"}</Text>
+                                        <Menu
+                                            opened={isOpen}
+                                            onBackdropPress={() => setIsOpen(false)}
+                                            style={{ position: 'absolute', height: '100%', width: '100%', zIndex: 1 }}>
+                                            <MenuTrigger />
+                                            <MenuOptions customStyles={{ optionsContainer: { width: size[50] } }}>
+                                                <FlatList
+                                                    style={{ borderBottomWidth: 1 }}
+                                                    showsVerticalScrollIndicator={false}
+                                                    data={listQuality}
+                                                    renderItem={renderItem}
+                                                    keyExtractor={(item, index) => index.toString()}
+                                                />
+
+                                            </MenuOptions>
+                                        </Menu>
+                                    </TouchableOpacity>
+
+                                    <Text style={styles.tOption}>{count > 1 ? "tablets / day" : "tablet / day"}</Text>
+                                </View>
+                            }
                         </View>
                     </View>
                 </View>
 
-            </View>
+            </View >
         )
     } else {
         return null

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FlatList, Text, TouchableOpacity, View, StyleSheet, Dimensions, RefreshControl } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View, StyleSheet, Dimensions, RefreshControl, ScrollView } from 'react-native';
 import { translate } from '../../library/utils/i18n/translate';
 import { FONT_14, FONT_24 } from '../../themes/fontSize';
 import { size } from '../../themes/size';
-import { Get } from '../../library/networking/fetch';
+import { Get, Put } from '../../library/networking/fetch';
 import DropDownHolder from '../../library/utils/dropDownHolder';
 import { ProcessDialog } from '../../library/components/processDialog';
 import { ItemProduct } from './itemProduct';
@@ -20,20 +20,27 @@ export const CustomListProduct = (props: any) => {
         type,
         titleNotPage,
         estNextPack,
-        route
+        route,
+        subscription_id,
+        coupons,
+        getTransition,
+        getSubscription,
+        timeEst,
+        refreshing,
+        setLoading,
+        listIdSub,
+        listIdTransit,
+        setRefresh,
+        setEstNextPack,
+        orderNumber,
+        isResume
     } = props;
 
-    const [refreshing, setRefresh] = useState(false);
-    const [dataList, setDataList] = useState(null);
-    const [loading, setLoading] = useState(false);
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
-    const [timeEst, setTimeEst] = useState('');
     const [indexDisplay, setIndexDisplay] = useState(0);
-    const [subscription_id, setSubscription_id] = useState(0);
-    const [coupons, setCoupons] = useState("");
+    const [dataList, setDataList] = useState(null);
+
     const refDot = useRef<any>(null);
-    const { getTransAction, getNextPackAction } = route && route.params;
-    const { dataNextPack, dataTrans } = route && route.params.stateAuth;
 
     const onRefresh = React.useCallback(() => {
         checkType();
@@ -44,20 +51,22 @@ export const CustomListProduct = (props: any) => {
         index: number
     };
 
-    const getSubscriptionId = () => {
-        Get(`/api/v1/subscriptions/check`)
-            .then(response => {
-                response.json().then(data => {
-                    if (data && data.data) {
-                        setSubscription_id(data.data.subscription.data.id)
-                        setCoupons(data.data.subscription.data.coupons)
-                    }
-                });
-            }).catch(err => {
-                DropDownHolder.showError("", translate('MESS:error') || "")
-                console.log('err', err)
-            })
-    }
+    const checkType = () => {
+        if (listIdSub || listIdTransit){
+            setLoading(true)
+            switch (type) {
+                case "SUBSCRIPTION":
+                    getListProduct(listIdSub)
+                    break;
+                case "TRANSIT":
+                    getListProduct(listIdTransit)
+                    break;
+                default:
+                    setLoading(false)
+                    break;
+            }
+        }
+    };
 
     const getListProduct = (listId: String) => {
         Get(`/api/v1/products?ids=${listId}`)
@@ -76,66 +85,6 @@ export const CustomListProduct = (props: any) => {
                 setLoading(false);
             })
     }
-
-    const getTransition = () => {
-        Get('/api/v1/users/me/orders/latest')
-            .then(response => {
-                response.json().then(data => {
-                    getTransAction(data.data)
-                    if (data.data && data.data.estimated_delivery) {
-                        setTimeEst(data.data && data.data.estimated_delivery)
-                    }
-                    let listProducts = data && data.data && data.data.products && data.data.products.data
-                    if (listProducts) {
-                        let listId = listProducts.map((item: any) => item.id);
-                        getListProduct(listId.toString())
-                    } else {
-                        setRefresh(false);
-                    }
-                });
-                setLoading(false)
-            }).catch(err => {
-                setLoading(false)
-                DropDownHolder.showError("", translate('MESS:error') || "")
-                console.log('err', err)
-            })
-    }
-
-    const getSubscription = () => {
-        Get('/api/v1/users/me/subscription-items')
-            .then(response => {
-                response.json().then(data => {
-                    if (data && data.data) {
-                        getNextPackAction(data.data)
-                        let listId = data.data.map((item: any) => item.product_id);
-                        getListProduct(listId.toString())
-                    } else {
-                        setRefresh(false);
-                        setLoading(false)
-                    }
-                });
-            }).catch(err => {
-                DropDownHolder.showError("", translate('MESS:error') || "")
-                console.log('err', err)
-                setLoading(false)
-            })
-    }
-
-    const checkType = () => {
-        setLoading(true)
-        switch (type) {
-            case "SUBSCRIPTION":
-                getSubscription()
-                break;
-            case "TRANSIT":
-                getTransition()
-                break;
-            default:
-                setLoading(false)
-                break;
-        }
-    };
-
     const renderItem = (props: propRender) => {
         const { item, index } = props
         return (
@@ -158,7 +107,8 @@ export const CustomListProduct = (props: any) => {
             subscription_id: subscription_id,
             type: type,
             coupons: coupons,
-            time: timeEst && format(new Date(timeEst), 'do MMMM') || estNextPack && format((new Date(estNextPack)).setDate((new Date(estNextPack).getDate() + 7)), 'do MMMM')
+            isResume: isResume,
+            time: orderNumber || estNextPack && format((new Date(estNextPack)).setDate((new Date(estNextPack).getDate() + 7)), 'do MMMM')
         })
     };
 
@@ -176,9 +126,8 @@ export const CustomListProduct = (props: any) => {
     const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 80 })
 
     useEffect(() => {
-        getSubscriptionId()
         checkType();
-    }, [dataNextPack, dataTrans]);
+    }, [listIdSub, listIdTransit]);
 
     const showDatePicker = () => {
         setDatePickerVisible(true);
@@ -189,12 +138,32 @@ export const CustomListProduct = (props: any) => {
     };
 
     const handleConfirm = (date: any) => {
+        const formatDate = format(new Date(date), 'yyyy-MM-dd')
+        const dayOffDate = format(new Date(date), 'do MMMM')
+        putEditTime(formatDate);
+        setEstNextPack(formatDate)
         hideDatePicker();
     };
 
+    const putEditTime = (date: string) => {
+        const body = { date: date }
+
+        Put(`/api/v1/subscriptions/${subscription_id}/update-billing-cycle-anchor`, body)
+            .then(response => {
+                response.json().then(data => {
+                    console.log("data  time",  data)
+                    if (data.message) {
+                        DropDownHolder.showError("", data.message)
+                    } 
+                });
+            }).catch(err => {
+                DropDownHolder.showError("", translate('MESS:error') || "")
+                console.log('err', err)
+            })
+    };
+
     return (
-        <View style={styles.vFullScreen}>
-            <ProcessDialog visible={loading} />
+        <ScrollView style={styles.vFullScreen}>
             {titleNotPage ?
                 <View style={styles.vHeader}>
                     <Text style={styles.tTitleNotPage}>{titleNotPage}</Text>
@@ -218,7 +187,7 @@ export const CustomListProduct = (props: any) => {
                             onPress={showDatePicker}
                         >
                             {estNextPack && estNextPack !== '' ? <Text style={styles.tEditTit}>
-                                {estNextPack && format((new Date(estNextPack)).setDate((new Date(estNextPack).getDate() + 7)), 'do MMMM')}
+                                {estNextPack && format(new Date(estNextPack), 'do MMMM')}
                             </Text> : null}
                             {estNextPack &&
                                 <View style={styles.vEdit}>
@@ -253,7 +222,6 @@ export const CustomListProduct = (props: any) => {
             />
 
             <View style={styles.vBottom}>
-                {/* <View style={styles.vDot}> */}
                 <FlatList
                     ref={refDot}
                     contentContainerStyle={{ paddingRight: size[24], paddingLeft: size[16] }}
@@ -263,7 +231,6 @@ export const CustomListProduct = (props: any) => {
                     horizontal
                     keyExtractor={(item, index) => index.toString()}
                 />
-                {/* </View> */}
                 <TouchableOpacity
                     onPress={openManagerPack}
                     style={styles.btnManager}>
@@ -282,7 +249,7 @@ export const CustomListProduct = (props: any) => {
                 headerTextIOS="Pick Est. Delivery"
                 minimumDate={new Date(estNextPack)}
             />
-        </View>
+        </ScrollView>
     )
 }
 

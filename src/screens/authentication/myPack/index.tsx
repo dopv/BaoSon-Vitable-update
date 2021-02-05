@@ -35,6 +35,7 @@ export const MyPackScreen = (props: MyPackProps) => {
     var time = ''
     var getTransition = null;
     var getSubscription = null;
+    var isResume = false;
     if (route && route.params) {
         dataList = route.params.dataList
         credit_available = route.params.stateAuth && route.params.stateAuth.userInfo && route.params.stateAuth.userInfo.customer && route.params.stateAuth.userInfo.customer.data && route.params.stateAuth.userInfo.customer.data.credit_available || 0
@@ -44,6 +45,7 @@ export const MyPackScreen = (props: MyPackProps) => {
         time = route.params.time
         getTransition = route.params.getTransition
         getSubscription = route.params.getSubscription
+        isResume = route.params.isResume
     }
     const [country, setCountry] = useState('AU');
     const [countries, setCountries] = useState<any>(null);
@@ -61,6 +63,7 @@ export const MyPackScreen = (props: MyPackProps) => {
     const [discount, setDiscount] = useState("");
     const [percent, setPercent] = useState("");
     const [loading, setLoading] = useState(false);
+    const { dataTrans } = route && route.params.stateAuth;
 
     const changePromoCode = (value: string) => {
         setPromocode(value);
@@ -309,8 +312,21 @@ export const MyPackScreen = (props: MyPackProps) => {
                         keyboardShouldPersistTaps={'always'}
                         contentContainerStyle={{ paddingBottom: size[26] }}>
                         <View style={styles.vContent}>
+                            {type === "TRANSIT" && dataTrans.tracking_url &&
+                                <View style={styles.vNoteTransit}>
+                                    <Text style={styles.tNoteTran}>Good new !</Text>
+                                    <Text style={styles.tNoteTran}>This pack is currently in transit</Text>
+                                    <Text style={styles.tUrl}>{dataTrans.tracking_url}</Text>
+                                </View>
+                            }
+                            {isResume &&
+                                <View style={styles.vNoteResume}>
+                                    <Text style={styles.tNoteTran}>Your subscription is currently paused, it can still be edited.</Text>
+                                    <Text style={styles.tUrl}>Resume my subscription</Text>
+                                </View>
+                            }
                             <Text style={styles.tTitle}>{type === 'TRANSIT' ? 'Order number :' : 'Estimated delivery :'}</Text>
-                            <Text style={[styles.tTitle, { color: '#000' }]}>{time}</Text>
+                            <Text style={[styles.tTitle, { color: '#000' }]}>{type === 'TRANSIT' ? time : time}</Text>
                             <CustomListManagePack
                                 type={type}
                                 route={route}
@@ -363,33 +379,33 @@ export const MyPackScreen = (props: MyPackProps) => {
                                     </View>
                                 }
                             </View>
-                            <View style={styles.vPromocode}>
-                                <TextInput
-                                    style={styles.inputPromocode}
-                                    onChangeText={changePromoCode}
-                                    value={promoCode}
-                                    placeholder={'Have a promocode ?'}
+                            {type !== "TRANSIT" &&
+                                <View style={styles.vPromocode}>
+                                    <TextInput
+                                        style={styles.inputPromocode}
+                                        onChangeText={changePromoCode}
+                                        value={promoCode}
+                                        placeholder={'Have a promocode ?'}
 
-                                />
-                                {(discount !== "" || percent !== "") ?
-                                    <TouchableOpacity
-                                        onPress={removePromoCode}
-                                        style={styles.btnPromocode}>
-                                        <Text style={styles.tBtnPromocode}>Remove</Text>
-                                    </TouchableOpacity>
-                                    :
-                                    <TouchableOpacity
-                                        onPress={applyPromoCode}
-                                        style={styles.btnPromocode}>
-                                        <Text style={styles.tBtnPromocode}>Apply</Text>
-                                    </TouchableOpacity>
-                                }
+                                    />
+                                    {(discount !== "" || percent !== "") ?
+                                        <TouchableOpacity
+                                            onPress={removePromoCode}
+                                            style={styles.btnPromocode}>
+                                            <Text style={styles.tBtnPromocode}>Remove</Text>
+                                        </TouchableOpacity>
+                                        :
+                                        <TouchableOpacity
+                                            onPress={applyPromoCode}
+                                            style={styles.btnPromocode}>
+                                            <Text style={styles.tBtnPromocode}>Apply</Text>
+                                        </TouchableOpacity>
+                                    }
 
-                            </View>
+                                </View>
+                            }
                         </View>
-                        {/* <View style={{ backgroundColor: 'blue', width: 100, height: 100, position: 'absolute', bottom: 100 }}>
-                            
-                    </View> */}
+
                     </ScrollView>
                 </View>
             </Screen>

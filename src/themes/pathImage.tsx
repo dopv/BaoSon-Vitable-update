@@ -27,7 +27,7 @@ export const Images = {
         uri: require('../../assets/images/icons/png/Lactose_Icon.png')
     },
     fitness: {
-        uri: require('../../assets/images/icons/png/Lifestyle_Icon.png')
+        uri: require('../../assets/images/Lifestyle_Icon.svg')
     },
     nasties: {
         uri: require('../../assets/images/Nails_Icon.svg')

@@ -26,7 +26,6 @@ export const ItemProduct = (props: propRender) => {
 
     const renderItemCategories = (props: propRender) => {
         const { item, index } = props
-
         const image = item.slug;
         const uri = Images && Images[image] && Images[image].uri && Images[image].uri || null;
         return (
@@ -56,9 +55,7 @@ export const ItemProduct = (props: propRender) => {
             <View style={styles.vContent}>
                 <View style={styles.vCategory}>
                     <FlatList
-                        nestedScrollEnabled
-
-                        // scrollEnabled={false}
+                        scrollEnabled={false}
                         numColumns={categories ? categories.length : 1}
                         showsHorizontalScrollIndicator={false}
                         data={categories}
@@ -66,18 +63,21 @@ export const ItemProduct = (props: propRender) => {
                         keyExtractor={(item, index) => index.toString()}
                     />
                 </View>
-                <Text style={styles.tName}>{detail.name}</Text>
-                <View style={styles.vLine} />
-                <Text
-                    style={styles.tContent}
-                    numberOfLines={3}
-                    ellipsizeMode='clip'
-                >
-                    {detail.description}
-                </Text>
-                <TouchableOpacity onPress={goDetail} style={styles.btnMore}>
-                    <Text style={styles.tMore} >Learn more</Text>
-                </TouchableOpacity>
+                <View style={{marginRight: size[30]}}>
+                    <Text style={styles.tName}>{detail.name}</Text>
+                    <View style={styles.vLine} />
+                    <Text
+                        style={styles.tContent}
+                        numberOfLines={3}
+                        ellipsizeMode='clip'
+                    >
+                        {detail.description}
+                    </Text>
+                    <TouchableOpacity onPress={goDetail} style={styles.btnMore}>
+                        <Text style={styles.tMore} >Learn more</Text>
+                    </TouchableOpacity>
+                </View>
+                
             </View>
         </View>
     )
@@ -106,12 +106,11 @@ const styles = StyleSheet.create({
     },
     tName: {
         fontSize: size[18],
-        fontFamily: 'SolaireDT'
+        fontFamily: 'SolaireDT',
     },
     vContent: {
         marginVertical: size[24],
         marginLeft: size[16],
-        marginRight: size[35]
     },
     vCategory: {
         width: '100%',
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
         height: size[24]
     },
     vIconCategory: {
-        marginRight: size[8],
+        paddingRight: size[8],
     },
     vImageNull: {
         width: size[24],
