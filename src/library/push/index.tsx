@@ -15,6 +15,7 @@ const DAILY_REMINDER = 'DAILY_REMINDER'
 const REMINDER_HOUR = 'REMINDER_HOUR'
 const REMINDER_ENABLED = 'REMINDER_ENABLED'
 const ADVANCE_SCHEDULE = 7
+/*
 export function Demo() {
   const [expoPushToken, setExpoPushToken] = useState('');
   const [notification, setNotification] = useState(false);
@@ -72,6 +73,7 @@ export function Demo() {
     </View>
   );
 }
+*/
 export async function initPush(){
   console.log('initPush')
   await registerForPushNotificationsAsync()
@@ -102,9 +104,9 @@ async function updateReminderSchedule(){
     let hour = reminderHour
     let minute = 0
     let second = 0
-    hour = now.hour()
-    minute = now.minute()
-    second = now.second() + 3
+    // hour = now.hour()
+    // minute = now.minute()
+    // second = now.second() + 3
     current.hour(hour)
     current.minute(minute)
     current.second(second)
@@ -127,14 +129,14 @@ async function updateReminderSchedule(){
         },
         trigger,
       });
-      current.add(10, 'seconds')
-      // current.add(1, 'days')
+      // current.add(10, 'seconds')
+      current.add(1, 'days')
     }
     // const next = await Notifications.getNextTriggerDateAsync()
     // console.log('next', next)
   }
 }
-async function disableReminders(){
+export async function disableReminders(){
   await Notifications.cancelAllScheduledNotificationsAsync()
   await AsyncStorage.setItem(REMINDER_ENABLED, "false")
 }
@@ -142,6 +144,16 @@ export async function setReminderSchedule(hour:int){
   await AsyncStorage.setItem(REMINDER_HOUR, hour.toString())
   await AsyncStorage.setItem(REMINDER_ENABLED, "true")
   updateReminderSchedule()
+}
+export async function getReminderSchedule(){
+  let hour = await AsyncStorage.getItem(REMINDER_HOUR)
+  hour = parseInt(hour)
+  if(isNaN(hour)) hour = 0
+  return hour
+}
+export async function getReminderEnabled(){
+  const enabled = await AsyncStorage.getItem(REMINDER_ENABLED)
+  return (enabled === 'true')
 }
 
 async function registerForPushNotificationsAsync() {
@@ -157,8 +169,8 @@ async function registerForPushNotificationsAsync() {
       console.log('Failed to get push token for push notification!');
       return;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    // token = (await Notifications.getExpoPushTokenAsync()).data;
+    // console.log(token);
   } else {
     console.log('Must use physical device for Push Notifications');
   }

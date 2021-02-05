@@ -5,7 +5,7 @@ import { NetworkError } from './src/components/NetworkError';
 import { rootReducer, mapStateToProps, mapDispatchToProps } from "./src/store/store";
 import Provider, { connect } from 'un-redux';
 import DropDownHolder from './src/library/utils/dropDownHolder';
-import {Demo, initPush} from './src/library/push/push';
+import {initPush} from './src/library/push';
 import DropdownAlert from 'react-native-dropdownalert';
 import { StatusBarHeight } from './src/config/heightStatusbar';
 import { FONT_14 } from './src/themes/fontSize';
