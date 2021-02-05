@@ -245,48 +245,53 @@ export const MyPackScreen = (props: MyPackProps) => {
                     }
                 }
             } else {
-                if (credit_available > totalRe) {
-                    if (percent !== "") {
-                        totalRe = totalRe * (parseInt(percent) / 100)
-                    }
-                    if (discount !== "") {
-                        if (totalRe > parseInt(discount)) {
-                            totalRe = totalRe - (parseInt(discount))
-                        } else if (totalRe < parseInt(discount)) {
-                            totalRe = 5,
-                                setCredit(0)
-                        }
-                    }
-                    setCredit(totalRe);
-                    var oldTotal = totalRe;
-                    totalRe = 0
-                } else {
-                    totalRe = totalRe - credit_available
-                    setCredit(credit_available);
-                    if (minPrice && totalRe < minPrice) {
-                        var credit = minPrice - totalRe
-                        credit = credit_available - totalRe - credit
-                        setCredit(credit)
-                        totalRe = minPrice
-                    }
+                totalRe = totalRe - credit_available
+                setCredit(credit_available);
+                if (minPrice && totalRe < minPrice) {
+                    var credit = minPrice - totalRe
+                    credit = credit_available - totalRe - credit
+                    setCredit(credit)
+                    totalRe = minPrice
                 }
             }
             setTotalRemain(totalRe);
         } else {
-            if (minPrice && totalRe < minPrice) {
-                totalRe = minPrice
-                setCredit(credit_available - minPrice)
+            if (credit_available > 0) {
+                if (minPrice && totalRe < minPrice) {
+                    totalRe = minPrice
+                    setCredit(credit_available - minPrice)
+                } else {
+                    totalRe = totalRe - credit_available
+                    setCredit(credit_available)
+                    if (totalRe < minPrice) {
+                        setCredit(credit_available - minPrice + totalRe)
+                        totalRe = minPrice;
+                    }
+                }
+                if (percent !== "") {
+                    totalRe = totalRe * (parseInt(percent) / 100)
+                }
+                if (discount !== "") {
+                    if (totalRe > parseInt(discount)) {
+                        totalRe = totalRe - (parseInt(discount))
+                    } else if (totalRe < parseInt(discount)) {
+                        totalRe = minPrice
+                    }
+                }
             } else {
-                totalRe = totalRe - credit_available
-                setCredit(credit_available)
-                if (totalRe < minPrice) {
-                    setCredit(credit_available - minPrice + totalRe)
-                    totalRe = minPrice;
+                if (percent !== "") {
+                    totalRe = totalRe * (parseInt(percent) / 100)
+                }
+                if (discount !== "") {
+                    if (totalRe > parseInt(discount)) {
+                        totalRe = totalRe - (parseInt(discount))
+                    } else if (totalRe < parseInt(discount)) {
+                        totalRe = 0
+                    }
                 }
             }
             setTotalRemain(totalRe);
         }
-
         setTotal(sum)
     }, [listPrice, countries, percent, discount, type]);
 

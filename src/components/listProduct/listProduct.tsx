@@ -150,7 +150,6 @@ export const CustomListProduct = (props: any) => {
         Put(`/api/v1/subscriptions/${subscription_id}/update-billing-cycle-anchor`, body)
             .then(response => {
                 response.json().then(data => {
-                    console.log("data  time",  data)
                     if (data.message) {
                         DropDownHolder.showError("", data.message)
                     } 

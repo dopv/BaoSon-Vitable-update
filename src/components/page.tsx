@@ -3,6 +3,7 @@ import { Text, TouchableWithoutFeedback, View, StyleSheet, Dimensions } from 're
 import { FONT_14 } from '../themes/fontSize';
 import { size } from '../themes/size';
 import ViewPager from '@react-native-community/viewpager';
+import { ORDER_STATUS_CANCELED, ORDER_STATUS_DELIVERED } from '../config';
 
 const { width } = Dimensions.get('window');
 
@@ -16,13 +17,14 @@ export const CustomPage = (props: any) => {
         viewPageLeft,
         viewPageRight,
         onClickTabChange,
-        isClickTabAble
+        isClickTabAble,
+        orderStatus
     } = props;
 
     const _viewPager = useRef<ViewPager>(null);
 
     const onChangeTab = (index: number) => {
-        if(isClickTabAble || index === tabIndex) return;
+        if (isClickTabAble || index === tabIndex) return;
         setTabIndex(index);
         _viewPager && _viewPager.current && _viewPager.current.setPage(index);
         onClickTabChange && onClickTabChange();
@@ -35,43 +37,46 @@ export const CustomPage = (props: any) => {
 
     return (
         <View style={styles.vContent}>
-            <View style={styles.vTab}>
-                {titleLeft &&
-                    <TouchableWithoutFeedback
-                        disabled={isClickTabAble}
-                        onPress={() => { !isClickTabAble && onChangeTab && onChangeTab(0) }}
-                    >
-                        <View
-                            style={tabIndex === 0 ? [styles.vTabsLeftRight, styles.borderPageLeft] : [styles.vTabsLeftRight]}
-                        >
-                            <Text
-                                allowFontScaling={false}
-                                style={styles.sTitleTracker}
-                            >
-                                {titleLeft}
-                            </Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                }
-                {titleRight &&
-                    <TouchableWithoutFeedback
-                        disabled={isClickTabAble}
-                        onPress={() => { !isClickTabAble && onChangeTab && onChangeTab(1) }}
-                    >
-                        <View
-                            style={tabIndex === 1 ? [styles.vTabsLeftRight, styles.borderPageRight] : [styles.vTabsLeftRight]}
-                        >
-                            <Text
-                                allowFontScaling={false}
-                                style={styles.sTitleTracker}
-                            >
-                                {titleRight}
-                            </Text>
-                        </View>
-                    </TouchableWithoutFeedback>
-                }
+            {orderStatus !== ORDER_STATUS_DELIVERED
+                && orderStatus !== ORDER_STATUS_CANCELED &&
+                <View style={styles.vTab}>
 
-            </View>
+                    {titleLeft &&
+                        <TouchableWithoutFeedback
+                            disabled={isClickTabAble}
+                            onPress={() => { !isClickTabAble && onChangeTab && onChangeTab(0) }}
+                        >
+                            <View
+                                style={tabIndex === 0 ? [styles.vTabsLeftRight, styles.borderPageLeft] : [styles.vTabsLeftRight]}
+                            >
+                                <Text
+                                    allowFontScaling={false}
+                                    style={styles.sTitleTracker}
+                                >
+                                    {titleLeft}
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    }
+                    {titleRight &&
+                        <TouchableWithoutFeedback
+                            disabled={isClickTabAble}
+                            onPress={() => { !isClickTabAble && onChangeTab && onChangeTab(1) }}
+                        >
+                            <View
+                                style={tabIndex === 1 ? [styles.vTabsLeftRight, styles.borderPageRight] : [styles.vTabsLeftRight]}
+                            >
+                                <Text
+                                    allowFontScaling={false}
+                                    style={styles.sTitleTracker}
+                                >
+                                    {titleRight}
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    }
+                </View>
+            }
 
             {viewPageLeft ?
                 <ViewPager

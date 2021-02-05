@@ -203,8 +203,7 @@ export const ItemPackManage = (props: any) => {
                                             </MenuOptions>
                                         </Menu>
                                     </TouchableOpacity>
-
-                                    <Text style={styles.tOption}>{count > 1 ? "tablets / day" : "tablet / day"}</Text>
+                                    <Text style={styles.tOption}>{count > 1 ? `${item.unit}s / day` : `${item.unit} / day`}</Text>
                                 </View>
                             }
                         </View>

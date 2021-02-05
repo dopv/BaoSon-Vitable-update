@@ -58,9 +58,7 @@ export const PackScreen = (props: PackProps) => {
         Get(`/api/v1/subscriptions/check`)
             .then(response => {
                 response.json().then(data => {
-                    console.log("data check", data)
                     const result = data && data.data && data.data.subscription && data.data.subscription.data
-                    console.log(result)
                     if (result && result.next_invoice) {
                         setSubscription_id(result.id)
                         setCoupons(result.coupons)
@@ -148,6 +146,7 @@ export const PackScreen = (props: PackProps) => {
                         onPressLeft={onPressGoToMenu}
                     />
                     <CustomPage
+                        orderStatus={orderStatus}
                         navigation={navigation}
                         tabIndex={tabIndex}
                         setTabIndex={setTabIndex}
