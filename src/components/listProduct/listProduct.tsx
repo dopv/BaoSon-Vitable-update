@@ -39,7 +39,6 @@ export const CustomListProduct = (props: any) => {
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
     const [indexDisplay, setIndexDisplay] = useState(0);
     const [dataList, setDataList] = useState(null);
-    // const [dateEst]
     const refDot = useRef<any>(null);
 
     const onRefresh = React.useCallback(() => {
@@ -161,9 +160,7 @@ export const CustomListProduct = (props: any) => {
                 console.log('err', err)
             })
     };
-    useEffect(() => {
-        console.log("estNextPack", estNextPack)
-    }, [estNextPack])
+
     return (
         <ScrollView style={styles.vFullScreen}>
             {titleNotPage ?
@@ -189,7 +186,7 @@ export const CustomListProduct = (props: any) => {
                             onPress={showDatePicker}
                         >
                             {estNextPack && estNextPack !== undefined && estNextPack !== ''  ? <Text style={styles.tEditTit}>
-                                {estNextPack && format(new Date(estNextPack), 'do MMMM') || new Date}
+                                {estNextPack !== undefined && format(new Date(estNextPack), 'do MMMM') || new Date}
                             </Text> : null}
                             {estNextPack &&
                                 <View style={styles.vEdit}>
