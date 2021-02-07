@@ -9,11 +9,13 @@ import { Screen } from '../../../library/components/screen/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Post } from '../../../library/networking/fetch';
 import { validateEmail } from '../../../library/utils/validate';
-import { TOKEN } from '../../../common/keyStore';
+import { TOKEN, IS_ONBOARDING } from '../../../common/keyStore';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
 import { ProcessDialog } from '../../../library/components/processDialog';
 import { trackEvent, trackCurrentScreen } from '../../../library/analytics-tracking';
+import { ONBOARDING } from '../../../navigation/TypeScreen';
+import DropDownHolder from '../../../library/utils/dropDownHolder';
 
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
@@ -75,8 +77,14 @@ export const Login = (props: LoginProps) => {
                         setLoginState(data.message);
                         trackEvent('LOGIN_FAILURE', 'login_failure', 'login');
                     } else {
-                        AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-                        actionLogin && actionLogin(data || null);
+                        AsyncStorage.getItem(IS_ONBOARDING).then((checkBoarding: any) => {
+                            if (checkBoarding) {
+                                AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+                                actionLogin && actionLogin(data || null);
+                            } else {
+                                navigation && navigation.navigate(ONBOARDING, { data: data})
+                            }
+                        })
                         trackEvent('LOGIN_SUCCESS', 'login_success', 'login', 'go to home screen');
                     }
                     setLogin(false);
@@ -84,6 +92,7 @@ export const Login = (props: LoginProps) => {
             }).catch(err => {
                 trackEvent('LOGIN_EXCEPTION', 'login_exception', 'login');
                 setLogin(false);
+                DropDownHolder.showError("", err)
                 console.log('err', err);
             })
     }

@@ -5,9 +5,12 @@ import { Splash } from '../screens/unAuthentication/splash/Splash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TOKEN } from '../common/keyStore';
 import { MyDrawer } from './Drawer';
-import { QUIZ_SCREEN } from './TypeScreen';
+import { QUIZ_SCREEN, ONBOARDING, ONBOARDING_SCROLL, ONBOARDING_END } from './TypeScreen';
 import { Quiz } from '../screens/authentication/quiz/Quiz';
 import { ForgotPassword } from '../screens/unAuthentication/forgot-password/ForgotPassword';
+import { OnBoarding } from '../screens/unAuthentication/onboarding';
+import { OnBoardingScroll } from '../screens/unAuthentication/onboarding/components/onBoardingScroll';
+import { OnBoardingEnd } from '../screens/unAuthentication/onboarding/components/welcomeEnd/OnBoardingEnd';
 
 const Stack = createStackNavigator();
 
@@ -70,6 +73,21 @@ export const StackNavigator = (props: any) => {
                             <Stack.Screen
                                 component={ForgotPassword}
                                 name="ForgotPassword"
+                                initialParams={props.props}
+                            />
+                            <Stack.Screen
+                                component={OnBoarding}
+                                name={ONBOARDING}
+                                initialParams={props.props}
+                            />
+                            <Stack.Screen
+                                component={OnBoardingScroll}
+                                name={ONBOARDING_SCROLL}
+                                initialParams={props.props}
+                            />
+                            <Stack.Screen
+                                component={OnBoardingEnd}
+                                name={ONBOARDING_END}
                                 initialParams={props.props}
                             />
                         </>

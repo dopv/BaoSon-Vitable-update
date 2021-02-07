@@ -32,36 +32,36 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: "center",
     },
-    viewTextContent:{
+    viewTextContent: {
         marginTop: 40 / 568 * height,
         marginLeft: 24 / 320 * width,
         marginRight: 24 / 320 * width,
     },
-    textContent:{
+    textContent: {
         fontFamily: "NHaasGroteskTXPro",
-        fontSize: 13/320*width,
-        lineHeight: 18.2/ 568 * height,
+        fontSize: 13 / 320 * width,
+        lineHeight: 18.2 / 568 * height,
         textAlign: "center",
-        letterSpacing: 0.21/320*width,
+        letterSpacing: 0.21 / 320 * width,
         color: "#272626"
     },
-    buttonStarted:{
-        width:268/320*width,
-        height:38/ 568 * height,
+    buttonStarted: {
+        width: 268 / 320 * width,
+        height: 38 / 568 * height,
         marginTop: 197 / 568 * height,
         marginLeft: 26 / 320 * width,
         marginRight: 26 / 320 * width,
-        backgroundColor:"#F5785A",
+        backgroundColor: "#F5785A",
         alignItems: 'center',
         justifyContent: "center",
-        borderWidth:0.5/320*width,
-        borderColor:"#272626",
+        borderWidth: 0.5 / 320 * width,
+        borderColor: "#272626",
     },
-    textButton:{
+    textButton: {
         fontFamily: "NHaasGroteskTXPro",
-        fontSize: 14/320*width,
-        lineHeight: 22/ 568 * height,
-        letterSpacing: 0.21/320*width,
+        fontSize: 14 / 320 * width,
+        lineHeight: 22 / 568 * height,
+        letterSpacing: 0.21 / 320 * width,
         color: "#272626"
     }
 });

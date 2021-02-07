@@ -13,7 +13,6 @@ import { Profile } from '../screens/authentication/profile/Profile';
 import { BrowserShopScreen } from '../screens/authentication/browserShop/BrowerShopScreen';
 import { Support } from '../screens/authentication/support-help/Support';
 import { AccountDetail } from '../screens/authentication/account-detail/AccountDetail';
-import { OnBoarding } from '../screens/authentication/onboarding/OnBoarding';
 const Drawer = createDrawerNavigator();
 const { width } = Dimensions.get('window');
 
@@ -30,7 +29,7 @@ export const MyDrawer = (props: any) => {
             <Drawer.Screen name={BROWSER_SHOP_SCREEN} component={BrowserShopScreen} />
             <Drawer.Screen
                 name={PROFILE_SCREEN}
-                component={OnBoarding}
+                component={Profile}
             />
             <Drawer.Screen name={SUPPORT_SCREEN} component={Support} />
             <Drawer.Screen
