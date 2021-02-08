@@ -67,10 +67,12 @@ export const PackScreen = (props: PackProps) => {
                     }
                     let subscriptionStatus = result && result.status
                     setCheckSubscriptionStatus(subscriptionStatus)
+                    setLoading(false)
                 });
             }).catch(err => {
                 DropDownHolder.showError("", translate('MESS:error') || "")
                 console.log('err', err)
+                setLoading(false)
             })
     }
 
@@ -187,6 +189,7 @@ export const PackScreen = (props: PackProps) => {
                                 navigation={navigation}
                                 estNextPack={estNextPack}
                                 setEstNextPack={setEstNextPack}
+                                checkSubscription={checkSubscription}
                                 route={route} />
                         }
                     />
