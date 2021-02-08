@@ -83,7 +83,8 @@ export const CustomListProduct = (props: any) => {
                 setRefresh(false);
                 setLoading(false);
             })
-    }
+    };
+    
     const renderItem = (props: propRender) => {
         const { item, index } = props
         return (
@@ -246,6 +247,7 @@ export const CustomListProduct = (props: any) => {
                 textColor="#272626"
                 headerTextIOS="Pick Est. Delivery"
                 minimumDate={new Date(estNextPack) || new Date}
+                maximumDate={new Date(estNextPack).setDate(new Date(estNextPack).getDate() + 4*7) || new Date}
             />
         </ScrollView>
     )

@@ -152,7 +152,7 @@ export const PackScreen = (props: PackProps) => {
                         setTabIndex={setTabIndex}
                         onClickTabChange={onClickTabChange}
                         isClickTabAble={isClickTabAble}
-                        titleLeft={'In transit pack'}
+                        titleLeft={'View my pack'}
                         titleRight={'Next pack'}
                         viewPageLeft={
                             orderStatus !== ORDER_STATUS_DELIVERED

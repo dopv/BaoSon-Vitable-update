@@ -311,7 +311,7 @@ export const MyPackScreen = (props: MyPackProps) => {
                         imgBackground={require('../../../../assets/images/bg_manage_pack.png')}
                         logoLeft={require('../../../../assets/images/icons/Back.png')}
                         onPressLeft={goBack}
-                        title={type === 'TRANSIT' ? 'In transit' : 'Manage my pack'}
+                        title={type === 'TRANSIT' ? 'View my pack' : 'Manage my pack'}
                     />
                     <ScrollView
                         keyboardShouldPersistTaps={'always'}
@@ -330,7 +330,7 @@ export const MyPackScreen = (props: MyPackProps) => {
                                     <Text style={styles.tUrl}>Resume my subscription</Text>
                                 </View>
                             }
-                            <Text style={styles.tTitle}>{type === 'TRANSIT' ? 'Order number :' : 'Estimated delivery :'}</Text>
+                            <Text style={styles.tTitle}>{type === 'TRANSIT' ? 'Order number :' : 'You can edit your order until :'}</Text>
                             <Text style={[styles.tTitle, { color: '#000' }]}>{type === 'TRANSIT' ? time : time}</Text>
                             <CustomListManagePack
                                 type={type}
