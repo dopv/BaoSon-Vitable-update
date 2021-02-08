@@ -16,6 +16,8 @@ import { ProcessDialog } from '../../../library/components/processDialog';
 import { trackEvent, trackCurrentScreen } from '../../../library/analytics-tracking';
 import { ONBOARDING } from '../../../navigation/TypeScreen';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
+import Constants from 'expo-constants';
+const { manifest: { extra: { boarding } } } = Constants;
 
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
@@ -77,14 +79,19 @@ export const Login = (props: LoginProps) => {
                         setLoginState(data.message);
                         trackEvent('LOGIN_FAILURE', 'login_failure', 'login');
                     } else {
-                        AsyncStorage.getItem(IS_ONBOARDING).then((checkBoarding: any) => {
-                            if (checkBoarding) {
-                                AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-                                actionLogin && actionLogin(data || null);
-                            } else {
-                                navigation && navigation.navigate(ONBOARDING, { data: data})
-                            }
-                        })
+                        if (boarding) {
+                            navigation && navigation.navigate(ONBOARDING, { data: data })
+                        } else {
+                            AsyncStorage.getItem(IS_ONBOARDING).then((checkBoarding: any) => {
+                                if (checkBoarding) {
+                                    AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+                                    actionLogin && actionLogin(data || null);
+                                } else {
+                                    navigation && navigation.navigate(ONBOARDING, { data: data })
+                                }
+                            })
+                        }
+
                         trackEvent('LOGIN_SUCCESS', 'login_success', 'login', 'go to home screen');
                     }
                     setLogin(false);

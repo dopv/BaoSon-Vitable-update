@@ -26,10 +26,8 @@ export const OnBoarding = (props: any) => {
         };
 
         let url = new URL(`${apiUrl}/api/v1/me/profile`);
-        // url.search = new URLSearchParams(param).toString();
        Fetch(`${url}`, { method: 'GET', headers: header }).then(response => {
             response.json().then(data => {
-                console.log("data", data.data)
                 const name = data && data.data && data.data.customer && data.data.customer.data && data.data.customer.data.name_on_pack || "";
                 setName(name);
             });
