@@ -2,6 +2,9 @@ export const Images = {
     eyes: {
         uri: require('../../assets/images/Eye_Icon.svg')
     },
+    eye: {
+        uri: require('../../assets/images/Eye_Icon.svg')
+    },
     australia: {
         uri: require('../../assets/images/icons/png/Australia_Icon.png')
     },

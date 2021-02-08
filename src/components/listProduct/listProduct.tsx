@@ -33,12 +33,14 @@ export const CustomListProduct = (props: any) => {
         setRefresh,
         setEstNextPack,
         orderNumber,
-        isResume
+        isResume,
+        checkSubscription
     } = props;
 
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
     const [indexDisplay, setIndexDisplay] = useState(0);
     const [dataList, setDataList] = useState(null);
+    const [oldEstNextPack, setOldEstNextPack] = useState(estNextPack);
     const refDot = useRef<any>(null);
 
     const onRefresh = React.useCallback(() => {
@@ -51,7 +53,7 @@ export const CustomListProduct = (props: any) => {
     };
 
     const checkType = () => {
-        if (listIdSub || listIdTransit){
+        if (listIdSub || listIdTransit) {
             setLoading(true)
             switch (type) {
                 case "SUBSCRIPTION":
@@ -83,11 +85,12 @@ export const CustomListProduct = (props: any) => {
                 setRefresh(false);
                 setLoading(false);
             })
-    }
+    };
+
     const renderItem = (props: propRender) => {
         const { item, index } = props
         return (
-            <ItemProduct item={item} index={index} navigation={navigation}/>
+            <ItemProduct item={item} index={index} navigation={navigation} />
         )
     }
 
@@ -140,23 +143,27 @@ export const CustomListProduct = (props: any) => {
         const formatDate = format(new Date(date), 'yyyy-MM-dd')
         const dayOffDate = format(new Date(date), 'do MMMM')
         putEditTime(formatDate);
-        setEstNextPack(formatDate)
+        // setEstNextPack(formatDate)
         hideDatePicker();
     };
 
     const putEditTime = (date: string) => {
         const body = { date: date }
-
+        setLoading(true)
         Put(`/api/v1/subscriptions/${subscription_id}/update-billing-cycle-anchor`, body)
             .then(response => {
                 response.json().then(data => {
                     if (data.message) {
                         DropDownHolder.showError("", data.message)
-                    } 
+                        setLoading(false)
+                        return;
+                    }
+                    checkSubscription && checkSubscription();
                 });
             }).catch(err => {
                 DropDownHolder.showError("", translate('MESS:error') || "")
                 console.log('err', err)
+                setLoading(false)
             })
     };
 
@@ -184,7 +191,7 @@ export const CustomListProduct = (props: any) => {
                         <TouchableOpacity style={styles.btnEdit}
                             onPress={showDatePicker}
                         >
-                            {estNextPack && estNextPack !== undefined && estNextPack !== ''  ? <Text style={styles.tEditTit}>
+                            {estNextPack && estNextPack !== undefined && estNextPack !== '' ? <Text style={styles.tEditTit}>
                                 {estNextPack !== undefined && format(new Date(estNextPack), 'do MMMM') || new Date}
                             </Text> : null}
                             {estNextPack &&
@@ -199,7 +206,6 @@ export const CustomListProduct = (props: any) => {
                     </View>
                 </View>
             }
-
 
             <FlatList
                 onViewableItemsChanged={onViewRef.current}
@@ -246,6 +252,7 @@ export const CustomListProduct = (props: any) => {
                 textColor="#272626"
                 headerTextIOS="Pick Est. Delivery"
                 minimumDate={new Date(estNextPack) || new Date}
+                maximumDate={new Date(estNextPack).setDate(new Date(estNextPack).getDate() + 4 * 7) || new Date}
             />
         </ScrollView>
     )

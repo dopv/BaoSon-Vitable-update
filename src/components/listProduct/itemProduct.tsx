@@ -29,7 +29,7 @@ export const ItemProduct = (props: propRender) => {
         const image = item.slug;
         const uri = Images && Images[image] && Images[image].uri && Images[image].uri || null;
         return (
-            <View style={!uri ? [styles.vIconCategory, styles.vImageNull] : styles.vIconCategory}>
+            <View style={!uri ? styles.vImageNull : styles.vIconCategory}>
                 {/* { item.image && item.image.includes('png') ?
                     <Image source={uri} style={styles.imgCategory} />
                     : */}
@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
         height: size[24],
         borderRadius: size[100],
         borderWidth: 1,
-        borderColor: '#292424'
+        borderColor: '#292424',
+        marginRight: size[8]
     }
 })
