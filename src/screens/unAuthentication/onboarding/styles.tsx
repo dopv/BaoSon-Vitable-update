@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions, StatusBar } from 'react-native';
+import { FONT_32 } from '../../../themes/fontSize';
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
     StatusBar.currentHeight >= 38 &&
@@ -31,6 +32,11 @@ export const styles = StyleSheet.create({
         height: 48 / 568 * height,
         alignItems: 'center',
         justifyContent: "center",
+    },
+    tName:{
+        fontSize: FONT_32,
+        fontFamily: 'HOMEMADE_APPLE',
+        color: '#272626'
     },
     viewTextContent: {
         marginTop: 40 / 568 * height,

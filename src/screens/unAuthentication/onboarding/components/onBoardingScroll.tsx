@@ -68,7 +68,10 @@ export const OnBoardingScroll = (props: any) => {
 
     return (
         <View style={styles.vFullscreen}>
-            <View style={{ backgroundColor: '#BED0A2', flex: 1, position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
+            <View style={{ flex:1, position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}>
+            <View style={{ backgroundColor: '#BED0A2', flex: 7.9}} />
+            <View style={{ backgroundColor: '#F2EDE0', flex: 3.1}}/>
+            </View>
             <FlatList
                 pagingEnabled
                 onViewableItemsChanged={onViewRef.current}

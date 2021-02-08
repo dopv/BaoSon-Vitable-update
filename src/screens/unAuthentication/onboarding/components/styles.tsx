@@ -89,14 +89,14 @@ export const styles = StyleSheet.create({
         height: 8 / 568 * height,
         marginLeft: 16 / 320 * width,
         backgroundColor: "#637C5A",
-        borderRadius: 4
+        borderRadius: 100
     },
     paggingDisable: {
         width: 8 / 320 * width,
         height: 8 / 568 * height,
         marginLeft: 16 / 320 * width,
         backgroundColor: "#BED0A2",
-        borderRadius: 4
+        borderRadius: 100
     },
     viewImage1: {
         zIndex: 2,
