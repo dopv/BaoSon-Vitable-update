@@ -349,21 +349,21 @@ export const MyPackScreen = (props: MyPackProps) => {
                                 <Text style={styles.tTotal}>Total</Text>
                                 <View style={styles.vRightTotal}>
                                     <View style={styles.vPrice}>
-                                        <Text style={[styles.tPrice, { opacity: 0.5 }]}>{total.toFixed(2)} $</Text>
+                                        <Text style={[styles.tPrice, { opacity: 0.5 }]}>${total.toFixed(2)}</Text>
                                         <View style={styles.vLine} />
                                     </View>
-                                    <Text style={styles.tPrice}>{totalRemain.toFixed(2)} $</Text>
+                                    <Text style={styles.tPrice}>${totalRemain.toFixed(2)}</Text>
                                     <SvgDownBig viewBox={`0 0 ${size[40]} ${size[40]}`} />
                                 </View>
                             </View>
                             <View style={styles.vBottomTotal}>
                                 <View style={styles.rowTotal}>
                                     <Text style={styles.titleBottomTotal}>Subtotal</Text>
-                                    <Text style={styles.tSubPrice}>{total}$</Text>
+                                    <Text style={styles.tSubPrice}>${total}</Text>
                                 </View>
                                 <View style={[styles.rowTotal, { marginTop: size[16] }]}>
                                     <Text style={styles.titleBottomTotal}>Shipping</Text>
-                                    <Text style={styles.priceBottomTotal}>{countries && countries[0] && (total >= countries[0].freeShipping ? 'FREE' : `${countries[0].shippingCost}$`) || 0}</Text>
+                                    <Text style={styles.priceBottomTotal}>{countries && countries[0] && (total >= countries[0].freeShipping ? 'FREE' : `$${countries[0].shippingCost}`) || 0}</Text>
                                 </View>
                                 {(discount !== "" || percent !== "") &&
                                     <View style={[styles.rowTotal, { marginTop: size[16] }]}>
@@ -375,7 +375,7 @@ export const MyPackScreen = (props: MyPackProps) => {
                                 {credit_available > 0 &&
                                     <View style={[styles.rowTotal, { marginTop: size[16] }]}>
                                         <Text style={styles.titleBottomTotal}>Credit</Text>
-                                        <Text style={styles.priceBottomTotal}>{credit.toFixed(2)}$</Text>
+                                        <Text style={styles.priceBottomTotal}>${credit.toFixed(2)}</Text>
                                     </View>
                                 }
                                 {setting && setting.data && setting.data.minimum_order_price && totalRemain <= setting.data.minimum_order_price &&
