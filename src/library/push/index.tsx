@@ -75,22 +75,25 @@ export function Demo() {
 }
 */
 export async function initPush(){
-  console.log('initPush')
+  // console.log('initPush')
   await registerForPushNotificationsAsync()
-  // updateReminderSchedule()
+  updateReminderSchedule()
 }
 async function updateReminderSchedule(){
-  const notifications = await Notifications.getAllScheduledNotificationsAsync()
-  console.log('notifications', notifications)
+  // const notifications = await Notifications.getAllScheduledNotificationsAsync()
+  // console.log('notifications', notifications)
   //clear any existing
   await Notifications.cancelAllScheduledNotificationsAsync()
   let reminderEnabled = await AsyncStorage.getItem(REMINDER_ENABLED)
   reminderEnabled = reminderEnabled === 'true'
-  console.log('reminderEnabled', reminderEnabled)
+  // console.log('reminderEnabled', reminderEnabled)
   if(reminderEnabled){
     let reminderHour = await AsyncStorage.getItem(REMINDER_HOUR)
     reminderHour = parseInt(reminderHour)
-    console.log('reminderHour', reminderHour)
+    // console.log('reminderHour', reminderHour)
+    var date = new Date();
+    var offset = date.getTimezoneOffset() / 60;
+    // console.log('offset', offset)
     // const deviceToken = await Notifications.getDevicePushTokenAsync()
     // console.log('deviceToken', deviceToken)
     // const expoToken = registerForPushNotificationsAsync()
@@ -98,33 +101,45 @@ async function updateReminderSchedule(){
     // const notifications = await Notifications.getAllScheduledNotificationsAsync()
     // console.log('notifications', notifications)
     let trigger
-    console.log('Platform.OS', Platform.OS)
+    // console.log('Platform.OS', Platform.OS)
+    // reminderHour = 10
+    // console.log('reminderHour', reminderHour)
     const now = moment()
+    // console.log('now', now)
     const current = moment()
     let hour = reminderHour
+    // let hour = reminderHour + offset
+    // if(hour<0) hour += 24
     let minute = 0
     let second = 0
+    let millisecond = 0
+    // console.log('hour', hour)
     // hour = now.hour()
     // minute = now.minute()
     // second = now.second() + 3
-    current.hour(hour)
-    current.minute(minute)
-    current.second(second)
-    current.millisecond(0)
+    current.set({hour,minute,second,millisecond});
+    // current.hour(hour)
+    // current.minute(minute)
+    // current.second(second)
+    // current.millisecond(0)
     if(current.isBefore(now)) current.add(1, 'days')
+    // console.log('current start', current)
     for (let i = 0; i < ADVANCE_SCHEDULE; i++) {
       // trigger = current.toDate()
-      console.log('current', current)
+      // console.log('current', current)
       // console.log('trigger', trigger)
       const seconds = current.diff(now, 'seconds')
-      console.log('seconds', seconds)
+      // console.log('seconds', seconds)
+      // const minutes = seconds / 60
+      // const hours = minutes / 60
+      // console.log('hours', hours)
       trigger = {seconds}
-      console.log('trigger', trigger)
+      // console.log('trigger', trigger)
       await Notifications.scheduleNotificationAsync({
         // identifier:DAILY_REMINDER,
         content: {
           title: "Time to take your vitamins",
-          body: `trigger ${i}`,
+          // body: `trigger ${i}`,
           data: { data: 'goes here' },
         },
         trigger,
