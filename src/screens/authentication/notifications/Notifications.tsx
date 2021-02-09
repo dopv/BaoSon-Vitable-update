@@ -75,14 +75,14 @@ export const Notifications = (props: NotificationsProps) => {
                 <Text>Notification settings</Text>
                 <Text>Reminder enabled {reminderEnabled}</Text>
                 <Switch value={reminderEnabled} onValueChange={changeReminderEnabled} />
-                {/* <View>
+                <View>
                   <NumberPlease
                     digits={hourNumbers}
                     values={hourValue}
                     onChange={changeReminderHour}
                   />
                   <Text>: 00</Text>
-                </View> */}
+                </View>
             </View>
         </Screen>
     );
