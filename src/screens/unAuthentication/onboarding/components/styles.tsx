@@ -75,9 +75,9 @@ export const styles = StyleSheet.create({
         color: "#272626",
     },
     imageButtom: {
-        width: 7 / 320 * width,
-        height: 12 / 568 * height,
-        marginLeft: 18.63 / 320 * width
+        width: size[24],
+        height: size[24],
+        marginLeft: size[10]
     },
     viewPaging: {
         width:'100%',
@@ -85,15 +85,15 @@ export const styles = StyleSheet.create({
         marginTop: size[5],
     },
     paggingEnable: {
-        width: 8 / 320 * width,
-        height: 8 / 568 * height,
+        width: size[10],
+        height: size[10],
         marginLeft: 16 / 320 * width,
         backgroundColor: "#637C5A",
         borderRadius: 100
     },
     paggingDisable: {
-        width: 8 / 320 * width,
-        height: 8 / 568 * height,
+        width: size[10],
+        height: size[10],
         marginLeft: 16 / 320 * width,
         backgroundColor: "#BED0A2",
         borderRadius: 100

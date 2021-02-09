@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-native';
 import { Screen } from '../../../library/components/screen';
 import { Get } from '../../../library/networking/fetch';
@@ -26,7 +26,7 @@ export const OnBoarding = (props: any) => {
         };
 
         let url = new URL(`${apiUrl}/api/v1/me/profile`);
-       Fetch(`${url}`, { method: 'GET', headers: header }).then(response => {
+        Fetch(`${url}`, { method: 'GET', headers: header }).then(response => {
             response.json().then(data => {
                 const name = data && data.data && data.data.customer && data.data.customer.data && data.data.customer.data.name_on_pack || "";
                 setName(name);
@@ -34,7 +34,7 @@ export const OnBoarding = (props: any) => {
         }).catch(err => {
             console.log('err', err);
         })
-    },[])
+    }, [])
     return (
         <Screen
             isScroll={false}
@@ -50,16 +50,9 @@ export const OnBoarding = (props: any) => {
                     resizeMode='stretch'
                 >
                     <View style={styles.viewTextDearAime}>
-                        <View >
-                            <View style={{
-                                alignItems: 'center',
-                                justifyContent: "center",
-                            }}>
-                                <Text style={styles.textDear}>Dear</Text>
-                            </View>
-                        </View>
+                        <Text style={styles.textDear}>Dear</Text>
                         <View style={styles.textAime}>
-                           <Text style={styles.tName}>{`${name},`}</Text>
+                            {name !== '' && <Text style={styles.tName}>{`${name},`}</Text>}
                         </View>
 
                     </View>

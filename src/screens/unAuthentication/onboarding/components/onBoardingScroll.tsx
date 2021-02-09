@@ -7,8 +7,12 @@ import { styles } from './styles';
 
 export const OnBoardingScroll = (props: any) => {
     const { navigation, route } = props;
-    const {data} = route.params;
+    const { data } = route.params;
     const refDot = useRef<any>(null);
+    const refList = useRef<any>(null);
+    const [hourValue, setHourValue] = useState([{ id: 'hour', value: 0 }])
+    const hourNumbers = [{ id: 'hour', min: 0, max: 12 }]
+
     interface propRender {
         item: any,
         index: number
@@ -49,7 +53,12 @@ export const OnBoardingScroll = (props: any) => {
     const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 80 })
 
     const onNext = () => {
-        navigation && navigation.navigate(ONBOARDING_END, { data: data})
+        if (indexDisplay < 3) {
+            setIndexDisplay(indexDisplay + 1)
+            refList && refList.current.scrollToIndex({ animated: true, index: indexDisplay + 1 });
+        } else {
+            navigation && navigation.navigate(ONBOARDING_END, { data: data })
+        }
     };
 
     const renderItem = (props: propRender) => {
@@ -68,11 +77,12 @@ export const OnBoardingScroll = (props: any) => {
 
     return (
         <View style={styles.vFullscreen}>
-            <View style={{ flex:1, position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}}>
-            <View style={{ backgroundColor: '#BED0A2', flex: 7.9}} />
-            <View style={{ backgroundColor: '#F2EDE0', flex: 3.1}}/>
+            <View style={{ flex: 1, position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+                <View style={{ backgroundColor: '#BED0A2', flex: 7.9 }} />
+                <View style={{ backgroundColor: '#F2EDE0', flex: 3.1 }} />
             </View>
             <FlatList
+                ref={refList}
                 pagingEnabled
                 onViewableItemsChanged={onViewRef.current}
                 viewabilityConfig={viewConfigRef.current}
@@ -100,7 +110,7 @@ export const OnBoardingScroll = (props: any) => {
                     <Text style={styles.textButton}>Next</Text>
                     <Image
                         style={styles.imageButtom}
-                        source={require('../../../../../assets/images/onboarding/layer1.png')}
+                        source={require('../../../../../assets/images/onboarding/ic_next.png')}
                     >
                     </Image>
                 </TouchableOpacity>

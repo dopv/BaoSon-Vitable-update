@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { FONT_32 } from '../../../themes/fontSize';
+import { size } from '../../../themes/size';
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
     StatusBar.currentHeight >= 38 &&
@@ -14,22 +15,20 @@ export const styles = StyleSheet.create({
     viewTextDearAime: {
         marginTop: 114 / 568 * height,
         marginLeft: 99 / 320 * width,
-        marginRight: 99 / 320 * width
+        marginRight: 99 / 320 * width,
+        alignItems:'center',
+        justifyContent:'center'
     },
     textDear: {
-        width: 49 / 320 * width,
-        height: 31 / 568 * height,
         fontFamily: "SolaireDT",
-        fontSize: 24 / 320 * width,
-        lineHeight: 31.2 / 320 * width,
-        letterSpacing: 0.09 / 320 * width,
+        fontSize: size[24],
+        // lineHeight: 31.2 / 320 * width,
+        // letterSpacing: 0.09 / 320 * width,
         color: "#272626",
 
     },
     textAime: {
-        marginTop: 6 / 568 * height,
-        width: 122 / 320 * width,
-        height: 48 / 568 * height,
+        // marginTop: size[3],
         alignItems: 'center',
         justifyContent: "center",
     },

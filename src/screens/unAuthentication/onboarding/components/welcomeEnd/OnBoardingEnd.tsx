@@ -5,6 +5,9 @@ import { styles } from './styles';
 import ScrollPicker from 'react-native-picker-scrollview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IS_ONBOARDING, TOKEN } from '../../../../../common/keyStore';
+import { setReminderSchedule } from '../../../../../library/push';
+import DropDownHolder from '../../../../../library/utils/dropDownHolder';
+import { translate } from '../../../../../library/utils/i18n/translate';
 
 const { width, height } = Dimensions.get('window');
 
@@ -16,12 +19,18 @@ export const OnBoardingEnd = (props: any) => {
 
 
     const onReminder = () => {
-        AsyncStorage.setItem(IS_ONBOARDING, JSON.stringify("Open OnBoarding"));
-        AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-        actionLogin && actionLogin(data || null);
+        if (timeSelect) {
+            setReminderSchedule(timeSelect)
+            // AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+            // actionLogin && actionLogin(data || null);
+        } else {
+            DropDownHolder.showWarning("", translate('UNAUTHENTIC:BOARDING:NULL_HOUR'));
+        }
+        // AsyncStorage.setItem(IS_ONBOARDING, JSON.stringify("Open OnBoarding"));
+      
     };
     const onNotTime = () => {
-        AsyncStorage.setItem(IS_ONBOARDING, JSON.stringify("Open OnBoarding"));
+        // AsyncStorage.setItem(IS_ONBOARDING, JSON.stringify("Open OnBoarding"));
         AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
         actionLogin && actionLogin(data || null);
     };

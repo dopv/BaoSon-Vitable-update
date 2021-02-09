@@ -6,6 +6,7 @@ import { trackEvent, trackCurrentScreen } from '../../../library/analytics-track
 import {getReminderSchedule, setReminderSchedule, getReminderEnabled, disableReminders} from '../../../library/push';
 import NumberPlease from "react-native-number-please";
 import { Switch } from 'react-native-paper';
+
 interface NotificationsProps {
     navigation: any,
     actionLogout: any,
@@ -43,9 +44,9 @@ export const Notifications = (props: NotificationsProps) => {
       }
     }
     function changeReminderHour(val){
-      // console.log('changeReminderHour', val)
+      console.log('changeReminderHour', val)
       const hour = val[0].value
-      // console.log('hour', hour)
+      console.log('hour', hour)
       setHourValue(val)
       setReminderHour(hour)
       setReminderSchedule(hour)
@@ -74,14 +75,14 @@ export const Notifications = (props: NotificationsProps) => {
                 <Text>Notification settings</Text>
                 <Text>Reminder enabled {reminderEnabled}</Text>
                 <Switch value={reminderEnabled} onValueChange={changeReminderEnabled} />
-                <View>
+                {/* <View>
                   <NumberPlease
                     digits={hourNumbers}
                     values={hourValue}
                     onChange={changeReminderHour}
                   />
                   <Text>: 00</Text>
-                </View>
+                </View> */}
             </View>
         </Screen>
     );

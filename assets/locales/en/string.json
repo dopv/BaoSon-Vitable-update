@@ -25,7 +25,10 @@
         "AFTER_REQUEST": "After submitting your request successfully, please visit your email to confirm.",
         "REQUEST_FORGOT_SUCCESS": "We've just emailed you instructions on how to reset your password.",
         "GO_TO_LOGIN": "Go to login",
-        "INCORRECT_LOGIN": "Incorrect email or password"
+        "INCORRECT_LOGIN": "Incorrect email or password",
+        "BOARDING": {
+            "NULL_HOUR": "You have not chosen a time"
+        }
     },
     "AUTHENTIC": {
         "HOME": {
