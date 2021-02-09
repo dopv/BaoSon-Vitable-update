@@ -21,8 +21,8 @@ export const OnBoardingEnd = (props: any) => {
     const onReminder = () => {
         if (timeSelect) {
             setReminderSchedule(timeSelect)
-            // AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-            // actionLogin && actionLogin(data || null);
+            AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+            actionLogin && actionLogin(data || null);
         } else {
             DropDownHolder.showWarning("", translate('UNAUTHENTIC:BOARDING:NULL_HOUR'));
         }
@@ -47,13 +47,13 @@ export const OnBoardingEnd = (props: any) => {
         <ScrollView style={styles.sFullScreen}>
             <View style={styles.viewBackground}>
                 <View style={styles.viewTitle}>
-                    <Text style={styles.textTitle}>When should we remind you to take your vitamins?</Text>
+                    <Text style={styles.textTitle}>{translate('UNAUTHENTIC:BOARDING:TITLE_END')}</Text>
                 </View>
                 <View style={styles.viewContent1}>
-                    <Text style={styles.textContent}>Consistency is key to achieve great results. A friendly reminder once a day will help you stay on track</Text>
+                    <Text style={styles.textContent}>{translate('UNAUTHENTIC:BOARDING:CONTENT_END')}</Text>
                 </View>
                 <View style={styles.viewContent2}>
-                    <Text style={styles.textContent}>Tip: We recommend taking your vitamins after a main meal with water.</Text>
+                    <Text style={styles.textContent}>{translate('UNAUTHENTIC:BOARDING:TIP_END')}</Text>
                 </View>
                 <View style={styles.vSelectTime}>
                     <View style={styles.vListTime}>
@@ -86,12 +86,12 @@ export const OnBoardingEnd = (props: any) => {
                 <TouchableOpacity
                     onPress={onReminder}
                     style={styles.btnReminder}>
-                    <Text style={styles.tReminder}>Set my reminder</Text>
+                    <Text style={styles.tReminder}>{translate('UNAUTHENTIC:BOARDING:REMINDER_END')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={onNotTime}
                     style={styles.btnNotTime}>
-                    <Text style={styles.tNotTime}>Not this time</Text>
+                    <Text style={styles.tNotTime}>{translate('UNAUTHENTIC:BOARDING:NOT_REMINDER_END')}</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>

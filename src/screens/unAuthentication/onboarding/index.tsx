@@ -7,6 +7,7 @@ import { styles } from './styles';
 import Fetch from 'node-fetch';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
+import { translate } from '../../../library/utils/i18n/translate';
 
 const { manifest: { extra: { apiUrl } } } = Constants;
 
@@ -50,7 +51,7 @@ export const OnBoarding = (props: any) => {
                     resizeMode='stretch'
                 >
                     <View style={styles.viewTextDearAime}>
-                        <Text style={styles.textDear}>Dear</Text>
+                        <Text style={styles.textDear}>{translate('UNAUTHENTIC:BOARDING:DEAR')}</Text>
                         <View style={styles.textAime}>
                             {name !== '' && <Text style={styles.tName}>{`${name},`}</Text>}
                         </View>
@@ -58,7 +59,7 @@ export const OnBoarding = (props: any) => {
                     </View>
                     <View style={styles.viewTextContent}>
                         <Text style={styles.textContent} >
-                            Your health is your most precious gift, so we created the easiest way to keep your health routine going.
+                            {translate('UNAUTHENTIC:BOARDING:YOUR_HEALTH')}
                             </Text>
                     </View>
                     <TouchableOpacity
@@ -68,7 +69,7 @@ export const OnBoarding = (props: any) => {
                         <Text
                             style={styles.textButton}
                             allowFontScaling={false}
-                        >Let’s get you started
+                        >{translate('UNAUTHENTIC:BOARDING:LET_START')}
                         </Text>
                     </TouchableOpacity>
                 </ImageBackground>

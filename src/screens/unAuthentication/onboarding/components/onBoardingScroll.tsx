@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
+import { translate } from '../../../../library/utils/i18n/translate';
 import { ONBOARDING_END } from '../../../../navigation/TypeScreen';
 import { size } from '../../../../themes/size';
 import { ItemOnBoarding } from './itemOnBoarding';
@@ -19,20 +20,20 @@ export const OnBoardingScroll = (props: any) => {
     };
     const dataBoarding = [
         {
-            title: 'Stay on top of your health routine',
-            content: 'Track your daily routine. Earn rewards. Support your health. Every day.',
+            title: translate('UNAUTHENTIC:BOARDING:DATA_TITLE_1'),
+            content: translate('UNAUTHENTIC:BOARDING:DATA_CONTENT_1'),
             image: require('../../../../../assets/images/onboarding/image1.png')
         }, {
-            title: 'See your progress',
-            content: 'Set yourself up for success by tracking your progress. Get a tailored guidance towards your goals.',
+            title: translate('UNAUTHENTIC:BOARDING:DATA_TITLE_2'),
+            content: translate('UNAUTHENTIC:BOARDING:DATA_CONTENT_2'),
             image: require('../../../../../assets/images/onboarding/image2.png')
         }, {
-            title: 'Manage your pack',
-            content: 'Browse, add and remove products easily. You can also track, delay or pause orders at any time.',
+            title: translate('UNAUTHENTIC:BOARDING:DATA_TITLE_3'),
+            content: translate('UNAUTHENTIC:BOARDING:DATA_CONTENT_3'),
             image: require('../../../../../assets/images/onboarding/image3.png')
         }, {
-            title: 'Learn more about your vitamins',
-            content: 'Because we know how important it is to know what your vitamins are made of and how they work.',
+            title: translate('UNAUTHENTIC:BOARDING:DATA_TITLE_4'),
+            content: translate('UNAUTHENTIC:BOARDING:DATA_CONTENT_4'),
             image: require('../../../../../assets/images/onboarding/image4.png')
         },
     ]
@@ -107,7 +108,7 @@ export const OnBoardingScroll = (props: any) => {
                 <TouchableOpacity
                     style={styles.viewButton}
                     onPress={onNext}>
-                    <Text style={styles.textButton}>Next</Text>
+                    <Text style={styles.textButton}>{translate('UNAUTHENTIC:BOARDING:NEXT')}</Text>
                     <Image
                         style={styles.imageButtom}
                         source={require('../../../../../assets/images/onboarding/ic_next.png')}
