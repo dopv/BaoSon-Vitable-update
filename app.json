@@ -29,7 +29,8 @@
       },
       "package": "com.vitable.local",
       "permissions":[],
-      "googleServicesFile": "./env/local/google-services.json"
+      "googleServicesFile": "./env/local/google-services.json",
+      "useNextNotificationsApi": true,
     },
     "web": {
       "favicon": "./assets/favicon.png",

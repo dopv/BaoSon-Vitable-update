@@ -31,7 +31,8 @@
       "package": "com.vitable.staging",
       "permissions":[],
       "googleServicesFile": "./env/staging/google-services.json",
-      "versionCode" : 4
+      "versionCode" : 4,
+      "useNextNotificationsApi": true,
     },
     "web": {
       "favicon": "./assets/favicon.png",
