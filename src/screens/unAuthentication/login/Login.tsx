@@ -79,18 +79,18 @@ export const Login = (props: LoginProps) => {
                         setLoginState(data.message);
                         trackEvent('LOGIN_FAILURE', 'login_failure', 'login');
                     } else {
-                        if (boarding) {
-                            navigation && navigation.navigate(ONBOARDING, { data: data })
-                        } else {
-                            AsyncStorage.getItem(IS_ONBOARDING).then((checkBoarding: any) => {
-                                if (checkBoarding) {
-                                    AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-                                    actionLogin && actionLogin(data || null);
-                                } else {
+                        // if (boarding) {
+                        //     navigation && navigation.navigate(ONBOARDING, { data: data })
+                        // } else {
+                            // AsyncStorage.getItem(IS_ONBOARDING).then((checkBoarding: any) => {
+                            //     if (checkBoarding) {
+                            //         AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+                            //         actionLogin && actionLogin(data || null);
+                            //     } else {
                                     navigation && navigation.navigate(ONBOARDING, { data: data })
-                                }
-                            })
-                        }
+                                // }
+                            // })
+                        // }
 
                         trackEvent('LOGIN_SUCCESS', 'login_success', 'login', 'go to home screen');
                     }
