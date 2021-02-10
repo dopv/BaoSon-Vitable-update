@@ -62,7 +62,9 @@ export const PackScreen = (props: PackProps) => {
                     if (result && result.next_invoice) {
                         setSubscription_id(result.id)
                         setCoupons(result.coupons)
-                        const date = format((new Date(result.next_invoice)).setDate((new Date(result.next_invoice).getDate() + 7)), 'MM-dd-yyyy HH:mm')
+                        // console.log('result.next_invoice', result.next_invoice)
+                        const date = (new Date(result.next_invoice)).setDate((new Date(result.next_invoice).getDate() + 7))
+                        // console.log('date', date)
                         setEstNextPack(date)
                     }
                     let subscriptionStatus = result && result.status
