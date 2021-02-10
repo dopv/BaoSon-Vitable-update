@@ -46,7 +46,7 @@ export const ItemProduct = (props: propRender) => {
     const goDetail = () => {
         navigation && navigation.navigate(DETAIL)
     };
-    
+
     return (
         <View style={styles.vItem}>
             <Image
@@ -72,7 +72,7 @@ export const ItemProduct = (props: propRender) => {
                     <Text
                         style={styles.tContent}
                         numberOfLines={3}
-                        ellipsizeMode='clip'
+                        ellipsizeMode='tail'
                     >
                         {detail.description}
                     </Text>
