@@ -238,7 +238,7 @@ export const CustomListProduct = (props: any) => {
                 <TouchableOpacity
                     onPress={openManagerPack}
                     style={styles.btnManager}>
-                    <Text style={styles.tManage}>Manage my pack</Text>
+                    <Text style={styles.tManage}>{type === 'TRANSIT'?'View my pack':'Manage my pack'}</Text>
                 </TouchableOpacity>
             </View>
             <DateTimePickerModal
