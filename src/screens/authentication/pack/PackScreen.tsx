@@ -9,7 +9,15 @@ import { CustomListProduct } from '../../../components/listProduct/listProduct';
 import { Get } from '../../../library/networking/fetch';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
 import { translate } from '../../../library/utils/i18n/translate';
-import { SUBSCRIPTION_STATUS_ACTIVE, ORDER_STATUS_DELIVERED, ORDER_STATUS_CANCELED } from '../../../config';
+import {
+  SUBSCRIPTION_STATUS_ACTIVE,
+  ORDER_STATUS_DELIVERED,
+  ORDER_STATUS_CANCELED,
+  ORDER_STATUS_IN_DELIVERY,
+  ORDER_STATUS_PAID,
+  ORDER_STATUS_PROCESSING,
+  ORDER_STATUS_READY_FOR_DELIVERY,
+} from '../../../config';
 import { ProcessDialog } from '../../../library/components/processDialog';
 import { format } from 'date-fns';
 
@@ -27,6 +35,7 @@ export const PackScreen = (props: PackProps) => {
     const [subscriptionStatus, setCheckSubscriptionStatus] = useState(SUBSCRIPTION_STATUS_ACTIVE);
     const [subscription_id, setSubscription_id] = useState(0);
     const [coupons, setCoupons] = useState("");
+    const [nextInvoice, setNextInvoice] = useState();
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefresh] = useState(false);
     const [timeEst, setTimeEst] = useState('');
@@ -60,6 +69,7 @@ export const PackScreen = (props: PackProps) => {
                 response.json().then(data => {
                     const result = data && data.data && data.data.subscription && data.data.subscription.data
                     if (result && result.next_invoice) {
+                        setNextInvoice(new Date(result.next_invoice))
                         setSubscription_id(result.id)
                         setCoupons(result.coupons)
                         // console.log('result.next_invoice', result.next_invoice)
@@ -126,7 +136,20 @@ export const PackScreen = (props: PackProps) => {
         getTransition()
         getSubscription()
     }, []);
-
+    // console.log('nextInvoice', nextInvoice)
+    const nextInvoiceDisplay = nextInvoice? format(nextInvoice, 'do LLLL') : ''
+    let reminder = `You can edit your next pack until ${nextInvoiceDisplay}`
+    // console.log('orderStatus', orderStatus)
+    const inTransit = (
+      orderStatus == ORDER_STATUS_IN_DELIVERY
+      || orderStatus == ORDER_STATUS_PAID
+      || orderStatus == ORDER_STATUS_PROCESSING
+      || orderStatus == ORDER_STATUS_READY_FOR_DELIVERY
+    )
+    // console.log('inTransit', inTransit)
+    if(inTransit){
+      reminder = `Your current pack is in transit. You can still edit your next pack.`
+    }
     return (
         <Screen
             isScroll={false}
@@ -143,14 +166,14 @@ export const PackScreen = (props: PackProps) => {
                         navigation={navigation}
                         onPressRight={onBackTracker}
                         userName={customer && customer.name_on_pack}
-                        reminder={`Your January pack will be delivered to you soon. You can still edit the delivery date.`}
+                        reminder={reminder}
                         imgBackground={require('../../../../assets/images/background_tracker.png')}
                         logoRight={require('../../../../assets/images/logo_tracker.png')}
                         logoLeft={require('../../../../assets/images/Menu.png')}
                         onPressLeft={onPressGoToMenu}
                     />
                     <CustomPage
-                        orderStatus={orderStatus}
+                        inTransit={inTransit}
                         navigation={navigation}
                         tabIndex={tabIndex}
                         setTabIndex={setTabIndex}
@@ -158,9 +181,7 @@ export const PackScreen = (props: PackProps) => {
                         isClickTabAble={isClickTabAble}
                         titleLeft={'In transit'}
                         titleRight={'Next pack'}
-                        viewPageLeft={
-                            orderStatus !== ORDER_STATUS_DELIVERED
-                                && orderStatus !== ORDER_STATUS_CANCELED ?
+                        viewPageLeft={inTransit ?
                                 <CustomListProduct
                                     setRefresh={setRefresh}
                                     listIdTransit={listIdTransit}

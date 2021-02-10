@@ -18,7 +18,7 @@ export const CustomPage = (props: any) => {
         viewPageRight,
         onClickTabChange,
         isClickTabAble,
-        orderStatus
+        inTransit
     } = props;
 
     const _viewPager = useRef<ViewPager>(null);
@@ -37,8 +37,7 @@ export const CustomPage = (props: any) => {
 
     return (
         <View style={styles.vContent}>
-            {orderStatus !== ORDER_STATUS_DELIVERED
-                && orderStatus !== ORDER_STATUS_CANCELED &&
+            {inTransit &&
                 <View style={styles.vTab}>
 
                     {titleLeft &&
