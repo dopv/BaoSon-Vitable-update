@@ -6,7 +6,7 @@ import { CustomHeader } from "../../../components/header";
 import { HOME_SCREEN } from '../../../navigation/TypeScreen';
 import { CustomPage } from '../../../components/page';
 import { CustomListProduct } from '../../../components/listProduct/listProduct';
-import { Get } from '../../../library/networking/fetch';
+import { Get, Put } from '../../../library/networking/fetch';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
 import { translate } from '../../../library/utils/i18n/translate';
 import {
@@ -43,6 +43,7 @@ export const PackScreen = (props: PackProps) => {
     const [listIdSub, setListIdSub] = useState(null);
     const [orderStatus, setOrderStatus] = useState(0);
     const [orderNumber, setOrderNumber] = useState("");
+    const [userId, setUserId] = useState("");
     const { getTransAction, getNextPackAction } = route && route.params;
 
     const onClickTabChange = () => {
@@ -71,6 +72,8 @@ export const PackScreen = (props: PackProps) => {
                     if (result && result.next_invoice) {
                         setNextInvoice(new Date(result.next_invoice))
                         setSubscription_id(result.id)
+                        // console.log('result', result)
+                        setUserId(result.user_id)
                         setCoupons(result.coupons)
                         // console.log('result.next_invoice', result.next_invoice)
                         const date = (new Date(result.next_invoice)).setDate((new Date(result.next_invoice).getDate() + 7))
@@ -88,8 +91,9 @@ export const PackScreen = (props: PackProps) => {
             })
     }
 
-    const onPressResume = () => {
-
+    const onPressResume = async () => {
+      Put(`/api/v1/users/${userId}/subscriptions/${subscription_id}`)
+      .then(checkSubscription)
     }
 
     const getTransition = () => {
