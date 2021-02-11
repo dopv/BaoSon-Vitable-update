@@ -5,12 +5,20 @@ import { NetworkError } from './src/components/NetworkError';
 import { rootReducer, mapStateToProps, mapDispatchToProps } from "./src/store/store";
 import Provider, { connect } from 'un-redux';
 import DropDownHolder from './src/library/utils/dropDownHolder';
+import {initPush} from './src/library/push';
 import DropdownAlert from 'react-native-dropdownalert';
 import { StatusBarHeight } from './src/config/heightStatusbar';
 import { FONT_14 } from './src/themes/fontSize';
 import * as Font from 'expo-font';
 import * as Analytics from 'expo-firebase-analytics';
-
+import * as Sentry from 'sentry-expo';
+import Constants from 'expo-constants';
+const {manifest:{extra:{sentry}}} = Constants;
+Sentry.init({
+  dsn: sentry.dsn,
+  enableInExpoDevelopment: true,
+  debug: sentry.debug, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+});
 export default function App() {
   const [isDisconnect, setDisconnect] = useState(false);
   const [fontsLoaded, setLoadFont] = useState(false);
@@ -32,10 +40,11 @@ export default function App() {
   useEffect(() => {
     logEventOpenApp();
   }, []);
+  useEffect(() => {
+    initPush();
+  }, []);
 
   const logEventOpenApp = async () => {
-    await Analytics.setCurrentScreen('App');
-
     await Analytics.logEvent('APP_OPEN', {
       name: 'app_open',
       screen: 'app',

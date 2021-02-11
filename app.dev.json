@@ -3,6 +3,7 @@
     "name": "vitable-mobile-dev",
     "slug": "vitable-mobile-dev",
     "version": "1.0.0",
+    "owner": "vitable",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -17,20 +18,41 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vitable.dev",
+      "googleServicesFile": "./env/dev/GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.vitable.dev"
+      "package": "com.vitable.dev",
+      "permissions":[],
+      "googleServicesFile": "./env/dev/google-services.json",
+      "useNextNotificationsApi": true,
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyAxPhAurnxJaJ3J-PGfIUnuoaG5phgqPLE",
+          "authDomain": "vitable-mobile-dev.firebaseapp.com",
+          "projectId": "vitable-mobile-dev",
+          "storageBucket": "vitable-mobile-dev.appspot.com",
+          "messagingSenderId": "141521035609",
+          "appId": "1:141521035609:web:90f942cf08d3a95b466c48",
+          "measurementId": "G-MSMWBXW0H3"
+        }
+      }
     },
     "extra":{
-      "apiUrl":"https://api-dev.vitable.com.au"
+      "apiUrl":"https://api-dev.vitable.com.au",
+      "sentry":{
+        "debug":true,
+        "dsn":"https://c415a1aece4c434cb72347aa845e08e0@o516210.ingest.sentry.io/5622371"
+      },
+      "boarding":true
     }
   }
 }

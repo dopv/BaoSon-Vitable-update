@@ -26,6 +26,7 @@ export const CustomListProduct = (props: any) => {
         getTransition,
         getSubscription,
         timeEst,
+        nextInvoice,
         refreshing,
         setLoading,
         listIdSub,
@@ -36,6 +37,7 @@ export const CustomListProduct = (props: any) => {
         isResume,
         checkSubscription
     } = props;
+    // console.log('nextInvoice', nextInvoice)
 
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
     const [indexDisplay, setIndexDisplay] = useState(0);
@@ -101,6 +103,9 @@ export const CustomListProduct = (props: any) => {
         )
     };
 
+    // console.log('orderNumber', orderNumber)
+    // console.log('estNextPack', estNextPack)
+    // console.log('nextInvoice', nextInvoice)
     const openManagerPack = () => {
         navigation && navigation.navigate(MY_PACK, {
             getTransition: getTransition,
@@ -110,7 +115,8 @@ export const CustomListProduct = (props: any) => {
             type: type,
             coupons: coupons,
             isResume: isResume,
-            time: orderNumber || estNextPack && format(new Date(estNextPack), 'do MMMM')
+            nextInvoice: nextInvoice,
+            orderNumber: orderNumber
         })
     };
 

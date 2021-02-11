@@ -5,11 +5,15 @@ npm-debug.*
 *.p8
 *.p12
 *.key
+*.apk
+*.ipa
 *.mobileprovision
 *.orig.*
 web-build/
 
 # macOS
 .DS_Store
+pc-api*.json
 yarn.lock
+yarn-error.log
 debug.log

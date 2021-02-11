@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "141521035609",
+    "project_id": "vitable-mobile-dev",
+    "storage_bucket": "vitable-mobile-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141521035609:android:178f478c8a1c9c7e466c48",
+        "android_client_info": {
+          "package_name": "com.vitable.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141521035609-pplv9t0ia7igjlsn81bed114l3vofgtm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBskP3SetHzxdY2HRd-a3jYvpTMp7MHRos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141521035609-pplv9t0ia7igjlsn81bed114l3vofgtm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "141521035609-rodold41ueq0qprd8utu980obgthjkql.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vitable.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

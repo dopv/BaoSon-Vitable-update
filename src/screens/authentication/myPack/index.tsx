@@ -14,6 +14,7 @@ import { translate } from '../../../library/utils/i18n/translate';
 import { CustomListManagePack } from './component/listManagePack';
 import { analytics } from 'firebase';
 import { ProcessDialog } from '../../../library/components/processDialog';
+import { format } from "date-fns";
 import {
     MenuProvider,
 } from 'react-native-popup-menu';
@@ -32,17 +33,20 @@ export const MyPackScreen = (props: MyPackProps) => {
     var subscription_id = 0;
     var type = '';
     var coupons = '';
-    var time = ''
+    var orderNumber = ''
+    var nextInvoice = null
     var getTransition = null;
     var getSubscription = null;
     var isResume = false;
+    // console.log('route.params', route.params)
     if (route && route.params) {
         dataList = route.params.dataList
         credit_available = route.params.stateAuth && route.params.stateAuth.userInfo && route.params.stateAuth.userInfo.customer && route.params.stateAuth.userInfo.customer.data && route.params.stateAuth.userInfo.customer.data.credit_available || 0
         subscription_id = route.params.subscription_id;
         coupons = route.params.coupons;
         type = route.params.type
-        time = route.params.time
+        orderNumber = route.params.orderNumber
+        nextInvoice = route.params.nextInvoice
         getTransition = route.params.getTransition
         getSubscription = route.params.getSubscription
         isResume = route.params.isResume
@@ -294,7 +298,8 @@ export const MyPackScreen = (props: MyPackProps) => {
         }
         setTotal(sum)
     }, [listPrice, countries, percent, discount, type]);
-
+    // console.log('orderNumber', orderNumber)
+    // console.log('nextInvoice', nextInvoice)
     return (
         <MenuProvider>
             <Screen
@@ -331,7 +336,7 @@ export const MyPackScreen = (props: MyPackProps) => {
                                 </View>
                             }
                             <Text style={styles.tTitle}>{type === 'TRANSIT' ? 'Order number :' : 'You can edit your order until :'}</Text>
-                            <Text style={[styles.tTitle, { color: '#000' }]}>{type === 'TRANSIT' ? time : time}</Text>
+                            <Text style={[styles.tTitle, { color: '#000' }]}>{type === 'TRANSIT' ? orderNumber : format(new Date(nextInvoice), 'do MMMM')}</Text>
                             <CustomListManagePack
                                 type={type}
                                 route={route}

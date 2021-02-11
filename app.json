@@ -3,6 +3,7 @@
     "name": "vitable-mobile-local",
     "slug": "vitable-mobile-local",
     "version": "1.0.0",
+    "owner": "vitable",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -19,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.vitable.local",
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./env/local/GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,24 +28,31 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.vitable.local",
-      "googleServicesFile": "./google-services.json"
+      "permissions":[],
+      "googleServicesFile": "./env/local/google-services.json",
+      "useNextNotificationsApi": true,
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "config": {
         "firebase": {
-          "apiKey": "AIzaSyCPE4ftspnCAkZDJAtn6iVN6eYvm3BGB74",
-          "authDomain": "trongdai-firebase.firebaseapp.com",
-          "projectId": "trongdai-firebase",
-          "storageBucket": "trongdai-firebase.appspot.com",
-          "messagingSenderId": "323439434532",
-          "appId": "1:323439434532:web:1e55a895f109683694b1b1",
-          "measurementId": "G-HZ6QBQ8DYZ"
+          "apiKey": "AIzaSyBsk7kKObSC5RQecSdaL0MJicBhxuXrXnw",
+          "authDomain": "vitable-mobile-local.firebaseapp.com",
+          "projectId": "vitable-mobile-local",
+          "storageBucket": "vitable-mobile-local.appspot.com",
+          "messagingSenderId": "466213880795",
+          "appId": "1:466213880795:web:22602670b4c7e5f4f35dfe",
+          "measurementId": "G-XJFGFKT5LL"
         }
       }
     },
     "extra": {
-      "apiUrl": "https://api-dev.vitable.com.au"
+      "apiUrl": "https://api-dev.vitable.com.au",
+      "sentry":{
+        "debug":true,
+        "dsn":"https://c415a1aece4c434cb72347aa845e08e0@o516210.ingest.sentry.io/5622371"
+      },
+      "boarding":true
     }
   }
 }

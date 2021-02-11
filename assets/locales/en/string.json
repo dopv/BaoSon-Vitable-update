@@ -27,7 +27,27 @@
         "AFTER_REQUEST": "After submitting your request successfully, please visit your email to confirm.",
         "REQUEST_FORGOT_SUCCESS": "We've just emailed you instructions on how to reset your password.",
         "GO_TO_LOGIN": "Go to login",
-        "INCORRECT_LOGIN": "Incorrect email or password"
+        "INCORRECT_LOGIN": "Incorrect email or password",
+        "BOARDING": {
+            "NULL_HOUR": "You have not chosen a time",
+            "DEAR": "Dear",
+            "YOUR_HEALTH": " Your health is your most precious gift, so we created the easiest way to keep your health routine going.",
+            "LET_START": "Let’s get you started",
+            "NEXT": "Next",
+            "DATA_TITLE_1": "Stay on top of your health routine",
+            "DATA_TITLE_2": "See your progress",
+            "DATA_TITLE_3": "Manage your pack",
+            "DATA_TITLE_4": "Learn more about your vitamins",
+            "DATA_CONTENT_1": "Track your daily routine. Earn rewards. Support your health. Every day.",
+            "DATA_CONTENT_2": "Set yourself up for success by tracking your progress. Get a tailored guidance towards your goals.",
+            "DATA_CONTENT_3": "Browse, add and remove products easily. You can also track, delay or pause orders at any time.",
+            "DATA_CONTENT_4": "Because we know how important it is to know what your vitamins are made of and how they work.",
+            "TITLE_END": "When should we remind you to take your vitamins?",
+            "CONTENT_END": "Consistency is key to achieve great results. A friendly reminder once a day will help you stay on track",
+            "TIP_END": "Tip: We recommend taking your vitamins after a main meal with water.",
+            "REMINDER_END": "Set my reminder",
+            "NOT_REMINDER_END": "Not this time"
+        }
     },
     "AUTHENTIC": {
         "HOME": {
@@ -57,7 +77,8 @@
             "BROWSE_ON_SHOP": "Browse our shop",
             "MY_PROFILE": "My profile",
             "SUPPORT_HELP": "Support / Help",
-            "ACCOUNT_DETAILS": "Account details"
+            "ACCOUNT_DETAILS": "Account details",
+            "NOTIFICATIONS": "Notifications"
         }
     }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Text, TextInput, View, TouchableOpacity,
     ScrollView, ImageBackground, Dimensions,
@@ -13,6 +13,7 @@ import { validateEmail } from '../../../library/utils/validate';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
 import { ProcessDialog } from '../../../library/components/processDialog';
+import { trackEvent, trackCurrentScreen } from '../../../library/analytics-tracking';
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
     StatusBar.currentHeight >= 38 &&
@@ -31,6 +32,10 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
     const [forgotState, setForgotState] = useState('');
     const [visible, setVisible] = useState(false);
 
+    useEffect(() => {
+        trackCurrentScreen('ForgotPassword');
+    }, [])
+
     const onChange = (value: string) => {
         if (value !== '') {
             setValidateInputEmail('');
@@ -41,6 +46,7 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
 
     const onPressToReset = () => {
         if (isLoadForgot) return;
+        trackEvent('CLICKED_FORGOT', 'clicked_forgot ', 'ForgotPassword');
         setForgotState('');
         if (!email || !validateEmail(email)) {
             setValidateInputEmail(`${translate('UNAUTHENTIC:INVALID_EMAIL')}`);
@@ -53,11 +59,13 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
                     if (data.message) {
                         setForgotState(data.message);
                         setLoadForgot(false);
+                        trackEvent('FORGOT_FAILURE', 'forgot_failure', 'ForgotPassword');
                         return;
                     }
                     if (data.data && data.data.success) {
                         setLoadForgot(false);
                         setVisible(true);
+                        trackEvent('FORGOT_SUCCESS', 'forgot_success', 'ForgotPassword');
                         return;
                     }
                     setLoadForgot(false);
@@ -87,7 +95,7 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
                     style={{
                         width: width,
                         height: height,
-                        opacity: visible ? 0.3 : 1
+                        opacity: visible ? 0.5 : 1
                     }}
                     resizeMode="stretch"
                 >
@@ -184,22 +192,21 @@ export const ForgotPassword = (props: ForgotPasswordProps) => {
                         visible={visible}
                     >
                         <View style={styles.centeredView}>
-                            <ImageBackground
-                                source={require('../../../../assets/images/popup-bg.png')}
+                            <View
                                 style={styles.modalView}>
                                 <Text style={styles.modalText}>{translate('UNAUTHENTIC:REQUEST_FORGOT_SUCCESS')}</Text>
                                 <TouchableOpacity
-                                    style={{ zIndex: 2 }}
+                                    style={styles.vButtonModal}
                                     onPress={onPressToLogin}
                                 >
                                     <Text
                                         allowFontScaling={false}
-                                        style={styles.sTextForgotModal}
+                                        style={styles.sTextToLoginModal}
                                     >
                                         {translate('UNAUTHENTIC:BACK_TO_LOGIN')}
                                     </Text>
                                 </TouchableOpacity>
-                            </ImageBackground>
+                            </View>
                         </View>
                     </Modal>
                 </ImageBackground>

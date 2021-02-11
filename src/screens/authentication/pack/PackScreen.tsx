@@ -192,6 +192,7 @@ export const PackScreen = (props: PackProps) => {
                                     coupons={coupons}
                                     type={'TRANSIT'}
                                     timeEst={timeEst}
+                                    nextInvoice={nextInvoice}
                                     navigation={navigation}
                                     refreshing={refreshing}
                                     orderNumber={orderNumber}
@@ -211,6 +212,7 @@ export const PackScreen = (props: PackProps) => {
                                 type={'SUBSCRIPTION'}
                                 navigation={navigation}
                                 estNextPack={estNextPack}
+                                nextInvoice={nextInvoice}
                                 setEstNextPack={setEstNextPack}
                                 checkSubscription={checkSubscription}
                                 route={route} />

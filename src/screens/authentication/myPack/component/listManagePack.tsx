@@ -72,7 +72,7 @@ export const CustomListManagePack = (props: any) => {
         }
     }, [])
 
-    console.log("dataPr", dataPr)
+    // console.log("dataPr", dataPr)
     return (
         <View style={styles.vContent}>
             <Text style={styles.tTitle}>{title}</Text>

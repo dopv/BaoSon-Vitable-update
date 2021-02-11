@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Text, TextInput, View, TouchableOpacity,
     ScrollView, ImageBackground, Dimensions,
@@ -9,10 +9,16 @@ import { Screen } from '../../../library/components/screen/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Get, Post } from '../../../library/networking/fetch';
 import { validateEmail } from '../../../library/utils/validate';
-import { TOKEN } from '../../../common/keyStore';
+import { TOKEN, IS_ONBOARDING } from '../../../common/keyStore';
 import { styles } from './style';
 import { translate } from '../../../library/utils/i18n/translate';
 import { ProcessDialog } from '../../../library/components/processDialog';
+import { trackEvent, trackCurrentScreen } from '../../../library/analytics-tracking';
+import { ONBOARDING } from '../../../navigation/TypeScreen';
+import DropDownHolder from '../../../library/utils/dropDownHolder';
+import Constants from 'expo-constants';
+const { manifest: { extra: { boarding } } } = Constants;
+
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
     StatusBar.currentHeight >= 38 &&
@@ -33,6 +39,10 @@ export const Login = (props: LoginProps) => {
     const [isLogin, setLogin] = useState(false);
     const [loginState, setLoginState] = useState('');
 
+    useEffect(() => {
+        trackCurrentScreen('ForgotPassword');
+    }, [])
+
     const onChange = (key: string, value: string) => {
         if (key === 'email' && value !== '') {
             setValidateInputEmail('');
@@ -49,6 +59,7 @@ export const Login = (props: LoginProps) => {
 
     const onPressToLogin = () => {
         if (isLogin) return;
+        trackEvent('CLICKED_LOGIN', 'clicked login', 'login', 'login action');
         setLoginState('');
         if (!dataLogin.email || !validateEmail(dataLogin.email)) {
             setValidateInputEmail(`${translate('UNAUTHENTIC:INVALID_EMAIL')}`);
@@ -66,15 +77,32 @@ export const Login = (props: LoginProps) => {
                 response.json().then(async data => {
                     if (data.message) {
                         setLoginState(data.message);
+                        trackEvent('LOGIN_FAILURE', 'login_failure', 'login');
                     } else {
                         await AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
                         getUserInfo(data.access_token);
+                        // if (boarding) {
+                        //     navigation && navigation.navigate(ONBOARDING, { data: data })
+                        // } else {
+                            // AsyncStorage.getItem(IS_ONBOARDING).then((checkBoarding: any) => {
+                            //     if (checkBoarding) {
+                            //         AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+                            //         actionLogin && actionLogin(data || null);
+                            //     } else {
+                                    navigation && navigation.navigate(ONBOARDING, { data: data })
+                                // }
+                            // })
+                        // }
+
+                        trackEvent('LOGIN_SUCCESS', 'login_success', 'login', 'go to home screen');
                     }
                     setLogin(false);
                 });
             }).catch(err => {
+                trackEvent('LOGIN_EXCEPTION', 'login_exception', 'login');
                 setLogin(false);
-                console.log('err', err)
+                DropDownHolder.showError("", err)
+                console.log('err', err);
             })
     }
 
