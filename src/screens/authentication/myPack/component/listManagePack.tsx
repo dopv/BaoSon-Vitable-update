@@ -7,6 +7,7 @@ import { ItemPackManage } from './itemPackManage';
 import { Get } from '../../../../library/networking/fetch';
 import DropDownHolder from '../../../../library/utils/dropDownHolder';
 import { translate } from '../../../../library/utils/i18n/translate';
+import { TRANSIT } from '../../../../config';
 
 const { width, height } = Dimensions.get('window');
 
@@ -65,14 +66,13 @@ export const CustomListManagePack = (props: any) => {
     };
 
     useEffect(() => {
-        if (type === "TRANSIT") {
+        if (type === TRANSIT) {
             getTransition()
         } else {
             getSubscription()
         }
     }, [])
 
-    // console.log("dataPr", dataPr)
     return (
         <View style={styles.vContent}>
             <Text style={styles.tTitle}>{title}</Text>
@@ -82,6 +82,7 @@ export const CustomListManagePack = (props: any) => {
                 if (isHideBorder) {
                     return (
                         <ItemPackManage
+                            key={index}
                             index={index}
                             getTransition={getTransition}
                             getSubscription={getSubscription}
@@ -91,12 +92,13 @@ export const CustomListManagePack = (props: any) => {
                             listPrice={listPrice}
                             setListPrice={setListPrice}
                             quantity={item.quantity}
-                            item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
+                            item={type === TRANSIT ? item : (item.product.data && item.product.data || null)}
                             isHideBorder={index == dataPack.length - 1 ? true : false} />
                     )
                 } else {
                     return (
                         <ItemPackManage
+                            key={index}
                             index={index}
                             getTransition={getTransition}
                             getSubscription={getSubscription}
@@ -106,7 +108,7 @@ export const CustomListManagePack = (props: any) => {
                             listPrice={listPrice}
                             quantity={item.quantity}
                             setListPrice={setListPrice}
-                            item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
+                            item={type === TRANSIT ? item : (item.product.data && item.product.data || null)}
                         />
                     )
                 }

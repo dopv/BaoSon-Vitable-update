@@ -9,8 +9,9 @@ import { ProcessDialog } from '../../library/components/processDialog';
 import { ItemProduct } from './itemProduct';
 import { SvgEdit } from '../../themes/svg';
 import { MY_PACK } from '../../navigation/TypeScreen';
-import { format } from "date-fns";
+import moment from 'moment'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { TRANSIT, SUBSCRIPTION } from '../../config';
 
 const { width } = Dimensions.get('window');
 
@@ -20,7 +21,6 @@ export const CustomListProduct = (props: any) => {
         type,
         titleNotPage,
         estNextPack,
-        route,
         subscription_id,
         coupons,
         getTransition,
@@ -32,12 +32,10 @@ export const CustomListProduct = (props: any) => {
         listIdSub,
         listIdTransit,
         setRefresh,
-        setEstNextPack,
         orderNumber,
         isResume,
         checkSubscription
     } = props;
-    // console.log('nextInvoice', nextInvoice)
 
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
     const [indexDisplay, setIndexDisplay] = useState(0);
@@ -58,10 +56,10 @@ export const CustomListProduct = (props: any) => {
         if (listIdSub || listIdTransit) {
             setLoading(true)
             switch (type) {
-                case "SUBSCRIPTION":
+                case SUBSCRIPTION:
                     getListProduct(listIdSub)
                     break;
-                case "TRANSIT":
+                case TRANSIT:
                     getListProduct(listIdTransit)
                     break;
                 default:
@@ -103,9 +101,6 @@ export const CustomListProduct = (props: any) => {
         )
     };
 
-    // console.log('orderNumber', orderNumber)
-    // console.log('estNextPack', estNextPack)
-    // console.log('nextInvoice', nextInvoice)
     const openManagerPack = () => {
         navigation && navigation.navigate(MY_PACK, {
             getTransition: getTransition,
@@ -130,7 +125,8 @@ export const CustomListProduct = (props: any) => {
         } else if (index == 0) {
             setIndexDisplay(0)
         }
-    })
+    });
+
     const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 80 })
 
     useEffect(() => {
@@ -146,10 +142,8 @@ export const CustomListProduct = (props: any) => {
     };
 
     const handleConfirm = (date: any) => {
-        const formatDate = format(new Date(date), 'yyyy-MM-dd')
-        const dayOffDate = format(new Date(date), 'do MMMM')
+        const formatDate = moment(new Date(date)).format('YYYY-MM-DD');
         putEditTime(formatDate);
-        // setEstNextPack(formatDate)
         hideDatePicker();
     };
 
@@ -173,16 +167,23 @@ export const CustomListProduct = (props: any) => {
             })
     };
 
+    const momentTimeEst = timeEst && moment(new Date(timeEst)).format('Do MMMM');
+    const momentEstNextPack = estNextPack !== undefined && moment(new Date(estNextPack)).format('Do MMMM');
+    const minDatePicker = new Date(estNextPack) || new Date();
+    const dayMaxDate = new Date(estNextPack).getDate() + 4 * 7 || 0
+    const maxDatePicker = estNextPack && new Date(estNextPack).setDate(dayMaxDate) || new Date();
+    const titleButton = type === TRANSIT ? translate("AUTHENTIC:PACK:V_MY_PACK") : translate("AUTHENTIC:PACK:MANAGE_MY_PACK");
+
     return (
         <ScrollView style={styles.vFullScreen}>
             {titleNotPage ?
                 <View style={styles.vHeader}>
                     <Text style={styles.tTitleNotPage}>{titleNotPage}</Text>
                     <View style={styles.vTitle}>
-                        <Text style={[styles.tTitle, { opacity: 0.7 }]}>Delivered :  </Text>
+                        <Text style={[styles.tTitle, { opacity: 0.7 }]}>{translate("AUTHENTIC:PACK:DELIVERED")}</Text>
                         <TouchableOpacity style={styles.btnEdit}>
                             <Text style={styles.tEditTitNotPage}>
-                                {timeEst && format(new Date(timeEst), 'do MMMM')}
+                                {momentTimeEst}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -190,15 +191,15 @@ export const CustomListProduct = (props: any) => {
                 :
                 <View style={styles.vHeader}>
                     <View style={styles.vTitle}>
-                        <Text style={styles.tTitle}>Est. delivery :  </Text>
+                        <Text style={styles.tTitle}>{translate("AUTHENTIC:PACK:EST_DELIVERY")}</Text>
                         {timeEst && timeEst !== '' ? <Text style={styles.sTextEstTrans}>
-                            {timeEst && format(new Date(timeEst), 'do MMMM')}
+                            {momentTimeEst}
                         </Text> : null}
                         <TouchableOpacity style={styles.btnEdit}
                             onPress={showDatePicker}
                         >
                             {estNextPack && estNextPack !== undefined && estNextPack !== '' ? <Text style={styles.tEditTit}>
-                                {estNextPack !== undefined && format(new Date(estNextPack), 'do MMMM') || new Date}
+                                {momentEstNextPack}
                             </Text> : null}
                             {estNextPack &&
                                 <View style={styles.vEdit}>
@@ -244,7 +245,7 @@ export const CustomListProduct = (props: any) => {
                 <TouchableOpacity
                     onPress={openManagerPack}
                     style={styles.btnManager}>
-                    <Text style={styles.tManage}>{type === 'TRANSIT'?'View my pack':'Manage my pack'}</Text>
+                    <Text style={styles.tManage}>{titleButton}</Text>
                 </TouchableOpacity>
             </View>
             <DateTimePickerModal
@@ -253,12 +254,12 @@ export const CustomListProduct = (props: any) => {
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
                 display="spinner"
-                date={new Date(estNextPack) || new Date}
+                date={minDatePicker}
                 is24Hour={true}
                 textColor="#272626"
-                headerTextIOS="Pick Est. Delivery"
-                minimumDate={new Date(estNextPack) || new Date}
-                maximumDate={new Date(estNextPack).setDate(new Date(estNextPack).getDate() + 4 * 7) || new Date}
+                headerTextIOS={translate("AUTHENTIC:PACK:TITLE_DATE_PICKER") || ""}
+                minimumDate={minDatePicker}
+                maximumDate={maxDatePicker}
             />
         </ScrollView>
     )
