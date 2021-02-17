@@ -8,31 +8,33 @@ import { IS_ONBOARDING, TOKEN } from '../../../../../common/keyStore';
 import { setReminderSchedule } from '../../../../../library/push';
 import DropDownHolder from '../../../../../library/utils/dropDownHolder';
 import { translate } from '../../../../../library/utils/i18n/translate';
+import { useContainer } from '../../../../../store/store';
 
 const { width, height } = Dimensions.get('window');
 
 export const OnBoardingEnd = (props: any) => {
-    const { route, navigation } = props;
-    const { actionLogin, data } = route.params;
+    const { route } = props;
+    const { data } = route.params;
     const [timeSelect, setTimeSelect] = useState(1);
     const [dataTime, setDataTime] = useState([]);
+    const actionLogin = useContainer(container => container.loginAction);
 
 
     const onReminder = () => {
         if (timeSelect) {
             setReminderSchedule(timeSelect)
             AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-            actionLogin && actionLogin(data || null);
+            actionLogin(data || null);
         } else {
             DropDownHolder.showWarning("", translate('UNAUTHENTIC:BOARDING:NULL_HOUR'));
         }
         // AsyncStorage.setItem(IS_ONBOARDING, JSON.stringify("Open OnBoarding"));
-      
+
     };
     const onNotTime = () => {
         // AsyncStorage.setItem(IS_ONBOARDING, JSON.stringify("Open OnBoarding"));
         AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-        actionLogin && actionLogin(data || null);
+        actionLogin(data || null);
     };
 
     useEffect(() => {

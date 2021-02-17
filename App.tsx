@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { RootNavigator } from './src/navigation/Root';
 import NetInfo from "@react-native-community/netinfo";
 import { NetworkError } from './src/components/NetworkError';
-import { rootReducer, mapStateToProps, mapDispatchToProps } from "./src/store/store";
-import Provider, { connect } from 'un-redux';
+import { ContainerProvider } from './src/store/store';
 import DropDownHolder from './src/library/utils/dropDownHolder';
-import {initPush} from './src/library/push';
+import { initPush } from './src/library/push';
 import DropdownAlert from 'react-native-dropdownalert';
 import { StatusBarHeight } from './src/config/heightStatusbar';
 import { FONT_14 } from './src/themes/fontSize';
@@ -13,7 +12,7 @@ import * as Font from 'expo-font';
 import * as Analytics from 'expo-firebase-analytics';
 import * as Sentry from 'sentry-expo';
 import Constants from 'expo-constants';
-const {manifest:{extra:{sentry}}} = Constants;
+const { manifest: { extra: { sentry } } } = Constants;
 Sentry.init({
   dsn: sentry.dsn,
   enableInExpoDevelopment: true,
@@ -64,18 +63,13 @@ export default function App() {
       unsubcribe();
   }, [isDisconnect]);
 
-  const AppConnected = connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(RootNavigator);
-
   if (!fontsLoaded) return null;
 
   return (
-    <Provider reducer={rootReducer}>
+    <ContainerProvider>
       <>
         {isDisconnect && <NetworkError />}
-        <AppConnected />
+        <RootNavigator />
         <DropdownAlert
           imageStyle={{ marginTop: StatusBarHeight }}
           messageStyle={{ marginTop: StatusBarHeight, fontSize: FONT_14, color: '#fff' }}
@@ -84,6 +78,6 @@ export default function App() {
           closeInterval={1000}
         />
       </>
-    </Provider>
+    </ContainerProvider>
   );
 }

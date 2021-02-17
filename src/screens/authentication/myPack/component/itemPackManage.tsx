@@ -14,6 +14,7 @@ import {
     MenuTrigger,
     MenuProvider,
 } from 'react-native-popup-menu';
+import { useContainer } from '../../../../store/store';
 const { SlideInMenu } = renderers;
 
 
@@ -37,7 +38,8 @@ export const ItemPackManage = (props: any) => {
     const [count, setCount] = useState(1);
     const [listQuality, setListQuality] = useState([]);
     const [showListQuality, setShowListQuality] = useState(false);
-    const { dataNextPack, dataTrans } = route && route.params.stateAuth;
+    const dataNextPack = useContainer(container => container.dataNextPack);
+    const dataTrans = useContainer(container => container.dataTrans);
     const [isOpen, setIsOpen] = useState(false);
 
     const showOptionQuality = () => {

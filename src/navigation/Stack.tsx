@@ -14,20 +14,15 @@ import { OnBoardingEnd } from '../screens/unAuthentication/onboarding/components
 import { MyPackScreen } from '../screens/authentication/myPack';
 import { Get } from '../library/networking/fetch';
 import { Detail } from '../screens/authentication/detail/Detail';
+import { useContainer } from '../store/store';
 
 const Stack = createStackNavigator();
 
 export const StackNavigator = (props: any) => {
-    const { stateAuth, setToken, getUserInfoAction } = props.props;
-    let dataAuth = null;
-    let isLogout = false;
-    let token = '';
-    if (stateAuth) {
-        dataAuth = stateAuth.dataAuth
-        isLogout = stateAuth.isLogout
-        token = stateAuth.token
-    }
     const [isLoading, setIsLoading] = useState(true);
+    const setUserInfo = useContainer(container => container.getUserInfoAction);
+    const isLogout = useContainer(container => container.isLogout);
+    const token = useContainer(container => container.token);
 
     useEffect(() => {
         checkToken();
@@ -41,7 +36,7 @@ export const StackNavigator = (props: any) => {
                 if (token) {
                     await getUserInfo(token);
                 }
-            }else{
+            } else {
                 setIsLoading(false);
             }
         }, 2000);
@@ -50,7 +45,7 @@ export const StackNavigator = (props: any) => {
     const getUserInfo = async (token: string) => {
         Get(`/api/v1/me/profile`).then(response => {
             response.json().then(data => {
-                getUserInfoAction && getUserInfoAction(data.data, token);
+                setUserInfo(data.data, token);
                 setIsLoading(false);
             });
         }).catch(err => {
@@ -72,22 +67,18 @@ export const StackNavigator = (props: any) => {
                         <Stack.Screen
                             component={MyDrawer}
                             name='MyDrawer'
-                            initialParams={props}
                         />
                         <Stack.Screen
                             component={Quiz}
                             name={QUIZ_SCREEN}
-                            initialParams={props.props}
                         />
                         <Stack.Screen
                             component={Detail}
                             name={DETAIL}
-                            initialParams={props.props}
                         />
                         <Stack.Screen
                             component={MyPackScreen}
                             name={MY_PACK}
-                            initialParams={props.props}
                         />
                     </>)
                     :
@@ -96,7 +87,6 @@ export const StackNavigator = (props: any) => {
                             <Stack.Screen
                                 component={Login}
                                 name="Login"
-                                initialParams={props.props}
                                 options={{
                                     animationTypeForReplace: isLogout ? 'pop' : 'push'
                                 }}
@@ -104,22 +94,18 @@ export const StackNavigator = (props: any) => {
                             <Stack.Screen
                                 component={ForgotPassword}
                                 name="ForgotPassword"
-                                initialParams={props.props}
                             />
                             <Stack.Screen
                                 component={OnBoarding}
                                 name={ONBOARDING}
-                                initialParams={props.props}
                             />
                             <Stack.Screen
                                 component={OnBoardingScroll}
                                 name={ONBOARDING_SCROLL}
-                                initialParams={props.props}
                             />
                             <Stack.Screen
                                 component={OnBoardingEnd}
                                 name={ONBOARDING_END}
-                                initialParams={props.props}
                             />
                         </>
                     )

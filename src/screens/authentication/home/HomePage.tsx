@@ -9,20 +9,17 @@ import { PACK_SCREEN, QUIZ_SCREEN } from '../../../navigation/TypeScreen';
 import { CustomHeader } from '../../../components/header';
 import { CustomPage } from '../../../components/page';
 import { translate } from '../../../library/utils/i18n/translate';
+import { useContainer } from '../../../store/store';
 
 interface HomePageProps {
-    navigation: any,
-    route: any
+    navigation: any
 }
 
 export const HomePage = (props: HomePageProps) => {
-    const { navigation, route } = props;
+    const { navigation } = props;
     const [tabIndex, setTabIndex] = useState(0);
-  
-    const customer = route && route.params && route.params.stateAuth
-        && route.params.stateAuth.userInfo && route.params.stateAuth.userInfo.customer
-        && route.params.stateAuth.userInfo.customer.data || {};
 
+    const userInfo = useContainer(container => container.userInfo);
     const onGoPack = () => {
         navigation.navigate(PACK_SCREEN)
     }
@@ -44,7 +41,8 @@ export const HomePage = (props: HomePageProps) => {
                 isButtonRight={true}
                 navigation={navigation}
                 onPressRight={onGoPack}
-                userName={customer && customer.name_on_pack}
+                userName={userInfo && userInfo.customer && userInfo.customer && userInfo.customer.data &&
+                    userInfo.customer.data.name_on_pack}
                 titleButton={translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}
                 onPressTitleButton={onPressGoToQuiz}
                 reminder={`It's been two months since you reassessed your needs.`}

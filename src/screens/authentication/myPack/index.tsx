@@ -1,25 +1,21 @@
-import React, { useState, useRef, Children, useEffect } from 'react';
-import { View, Text, TouchableWithoutFeedback, Image, Dimensions, ScrollView, TouchableOpacity, TextInput, Keyboard } from 'react-native';
-import { presets, Screen } from '../../../library/components/screen';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Dimensions, ScrollView, TouchableOpacity, TextInput, Keyboard } from 'react-native';
+import { Screen } from '../../../library/components/screen';
 import { styles } from './styles';
 import { CustomHeader } from "../../../components/header";
-import { SvgBack, SvgDownBig, SvgTracker } from '../../../themes/svg';
+import { SvgDownBig } from '../../../themes/svg';
 import { size } from '../../../themes/size';
-import { HOME_SCREEN } from '../../../navigation/TypeScreen';
-import { CustomPage } from '../../../components/page';
-import { CustomListProduct } from '../../../components/listProduct/listProduct';
 import { Get, Put } from '../../../library/networking/fetch';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
 import { translate } from '../../../library/utils/i18n/translate';
 import { CustomListManagePack } from './component/listManagePack';
-import { analytics } from 'firebase';
 import { ProcessDialog } from '../../../library/components/processDialog';
 import { format } from "date-fns";
 import {
     MenuProvider,
 } from 'react-native-popup-menu';
+import { useContainer } from '../../../store/store';
 
-const { width, height } = Dimensions.get('window');
 
 interface MyPackProps {
     navigation: any,
@@ -38,10 +34,11 @@ export const MyPackScreen = (props: MyPackProps) => {
     var getTransition = null;
     var getSubscription = null;
     var isResume = false;
-    // console.log('route.params', route.params)
+
+    const userInfo = useContainer(container => container.userInfo);
     if (route && route.params) {
         dataList = route.params.dataList
-        credit_available = route.params.stateAuth && route.params.stateAuth.userInfo && route.params.stateAuth.userInfo.customer && route.params.stateAuth.userInfo.customer.data && route.params.stateAuth.userInfo.customer.data.credit_available || 0
+        credit_available = userInfo && userInfo.customer && userInfo.customer.data && userInfo.customer.data.credit_available || 0
         subscription_id = route.params.subscription_id;
         coupons = route.params.coupons;
         type = route.params.type
@@ -67,7 +64,7 @@ export const MyPackScreen = (props: MyPackProps) => {
     const [discount, setDiscount] = useState("");
     const [percent, setPercent] = useState("");
     const [loading, setLoading] = useState(false);
-    const { dataTrans } = route && route.params.stateAuth;
+    const dataTrans = useContainer(container => container.dataTrans);
 
     const changePromoCode = (value: string) => {
         setPromocode(value);

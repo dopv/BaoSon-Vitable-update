@@ -10,25 +10,24 @@ import { Get, Put } from '../../../library/networking/fetch';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
 import { translate } from '../../../library/utils/i18n/translate';
 import {
-  SUBSCRIPTION_STATUS_ACTIVE,
-  ORDER_STATUS_DELIVERED,
-  ORDER_STATUS_CANCELED,
-  ORDER_STATUS_IN_DELIVERY,
-  ORDER_STATUS_PAID,
-  ORDER_STATUS_PROCESSING,
-  ORDER_STATUS_READY_FOR_DELIVERY,
+    SUBSCRIPTION_STATUS_ACTIVE,
+    ORDER_STATUS_DELIVERED,
+    ORDER_STATUS_CANCELED,
+    ORDER_STATUS_IN_DELIVERY,
+    ORDER_STATUS_PAID,
+    ORDER_STATUS_PROCESSING,
+    ORDER_STATUS_READY_FOR_DELIVERY,
 } from '../../../config';
 import { ProcessDialog } from '../../../library/components/processDialog';
 import { format } from 'date-fns';
+import { useContainer } from '../../../store/store';
 
 interface PackProps {
-    navigation: any,
-    route: any
+    navigation: any
 }
 
-
 export const PackScreen = (props: PackProps) => {
-    const { navigation, route } = props;
+    const { navigation } = props;
     const [tabIndex, setTabIndex] = useState(0);
     const [isClickTabAble, setClickTabAble] = useState(false);
     const [estNextPack, setEstNextPack] = useState();
@@ -44,7 +43,9 @@ export const PackScreen = (props: PackProps) => {
     const [orderStatus, setOrderStatus] = useState(0);
     const [orderNumber, setOrderNumber] = useState("");
     const [userId, setUserId] = useState("");
-    const { getTransAction, getNextPackAction } = route && route.params;
+    const userInfo = useContainer(container => container.userInfo);
+    const getTransAction = useContainer(container => container.setDataTransAction);
+    const getNextPackAction = useContainer(container => container.setDataNextPackAction);
 
     const onClickTabChange = () => {
         setClickTabAble(true);
@@ -60,9 +61,7 @@ export const PackScreen = (props: PackProps) => {
         navigation && navigation.openDrawer();
     }
 
-    const customer = route && route.params && route.params.stateAuth
-        && route.params.stateAuth.userInfo && route.params.stateAuth.userInfo.customer
-        && route.params.stateAuth.userInfo.customer.data || {};
+    const customer = userInfo && userInfo.customer.data || {};
 
     const checkSubscription = () => {
         Get(`/api/v1/subscriptions/check`)
@@ -92,8 +91,8 @@ export const PackScreen = (props: PackProps) => {
     }
 
     const onPressResume = async () => {
-      Put(`/api/v1/users/${userId}/subscriptions/${subscription_id}`)
-      .then(checkSubscription)
+        Put(`/api/v1/users/${userId}/subscriptions/${subscription_id}`)
+            .then(checkSubscription)
     }
 
     const getTransition = () => {
@@ -141,18 +140,18 @@ export const PackScreen = (props: PackProps) => {
         getSubscription()
     }, []);
     // console.log('nextInvoice', nextInvoice)
-    const nextInvoiceDisplay = nextInvoice? format(nextInvoice, 'do LLLL') : ''
+    const nextInvoiceDisplay = nextInvoice ? format(nextInvoice, 'do LLLL') : ''
     let reminder = `You can edit your next pack until ${nextInvoiceDisplay}`
     // console.log('orderStatus', orderStatus)
     const inTransit = (
-      orderStatus == ORDER_STATUS_IN_DELIVERY
-      || orderStatus == ORDER_STATUS_PAID
-      || orderStatus == ORDER_STATUS_PROCESSING
-      || orderStatus == ORDER_STATUS_READY_FOR_DELIVERY
+        orderStatus == ORDER_STATUS_IN_DELIVERY
+        || orderStatus == ORDER_STATUS_PAID
+        || orderStatus == ORDER_STATUS_PROCESSING
+        || orderStatus == ORDER_STATUS_READY_FOR_DELIVERY
     )
     // console.log('inTransit', inTransit)
-    if(inTransit){
-      reminder = `Your current pack is in transit. You can still edit your next pack.`
+    if (inTransit) {
+        reminder = `Your current pack is in transit. You can still edit your next pack.`
     }
     return (
         <Screen
@@ -186,23 +185,23 @@ export const PackScreen = (props: PackProps) => {
                         titleLeft={'In transit'}
                         titleRight={'Next pack'}
                         viewPageLeft={inTransit ?
-                                <CustomListProduct
-                                    setRefresh={setRefresh}
-                                    listIdTransit={listIdTransit}
-                                    setLoading={setLoading}
-                                    getTransition={getTransition}
-                                    getSubscription={getSubscription}
-                                    subscription_id={subscription_id}
-                                    coupons={coupons}
-                                    type={'TRANSIT'}
-                                    timeEst={timeEst}
-                                    nextInvoice={nextInvoice}
-                                    navigation={navigation}
-                                    refreshing={refreshing}
-                                    orderNumber={orderNumber}
-                                    route={route} />
-                                : null
-                            }
+                            <CustomListProduct
+                                setRefresh={setRefresh}
+                                listIdTransit={listIdTransit}
+                                setLoading={setLoading}
+                                getTransition={getTransition}
+                                getSubscription={getSubscription}
+                                subscription_id={subscription_id}
+                                coupons={coupons}
+                                type={'TRANSIT'}
+                                timeEst={timeEst}
+                                nextInvoice={nextInvoice}
+                                navigation={navigation}
+                                refreshing={refreshing}
+                                orderNumber={orderNumber}
+                            />
+                            : null
+                        }
                         viewPageRight={
                             <CustomListProduct
                                 setRefresh={setRefresh}
@@ -219,7 +218,7 @@ export const PackScreen = (props: PackProps) => {
                                 nextInvoice={nextInvoice}
                                 setEstNextPack={setEstNextPack}
                                 checkSubscription={checkSubscription}
-                                route={route} />
+                            />
                         }
                     />
                 </View>

@@ -1,18 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, ImageBackground, ScrollView, Text, TouchableOpacity, View, StyleSheet, Dimensions, FlatList } from 'react-native';
-import { FONT_14, FONT_24 } from '../../../../themes/fontSize';
+import { Text, View, StyleSheet } from 'react-native';
+import { FONT_24 } from '../../../../themes/fontSize';
 import { size } from '../../../../themes/size';
-import { StatusBarHeight } from '../../../../config/heightStatusbar';
 import { ItemPackManage } from './itemPackManage';
 import { Get } from '../../../../library/networking/fetch';
 import DropDownHolder from '../../../../library/utils/dropDownHolder';
 import { translate } from '../../../../library/utils/i18n/translate';
-
-const { width, height } = Dimensions.get('window');
+import { useContainer } from '../../../../store/store';
 
 export const CustomListManagePack = (props: any) => {
     const {
-        navigation,
         title,
         dataPack,
         isHideBorder,
@@ -25,14 +22,9 @@ export const CustomListManagePack = (props: any) => {
         getTransitionPack
     } = props;
 
-    interface ListMangeProps {
-        item: any,
-        index: number
-    };
-
-    const { getTransAction, getNextPackAction } = route && route.params;
-    const [dataPr, setDataPr] = useState(null)
-    const [isOpen, setIsOpen] = useState(false);
+    const getTransAction = useContainer(container => container.setDataTransAction);
+    const getNextPackAction = useContainer(container => container.setDataNextPackAction);
+    const [dataPr, setDataPr] = useState<any>(null)
 
     const getTransition = () => {
         Get('/api/v1/users/me/orders/latest')
@@ -72,42 +64,44 @@ export const CustomListManagePack = (props: any) => {
         }
     }, [])
 
-    // console.log("dataPr", dataPr)
     return (
         <View style={styles.vContent}>
             <Text style={styles.tTitle}>{title}</Text>
             <View style={styles.vLine} />
             {dataPr && dataPr.map((item: any, index: number) => {
-
                 if (isHideBorder) {
                     return (
-                        <ItemPackManage
-                            index={index}
-                            getTransition={getTransition}
-                            getSubscription={getSubscription}
-                            type={type}
-                            route={route}
-                            subscription_id={subscription_id}
-                            listPrice={listPrice}
-                            setListPrice={setListPrice}
-                            quantity={item.quantity}
-                            item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
-                            isHideBorder={index == dataPack.length - 1 ? true : false} />
+                        <View key={`item-${item.id}`}>
+                            <ItemPackManage
+                                index={index}
+                                getTransition={getTransition}
+                                getSubscription={getSubscription}
+                                type={type}
+                                route={route}
+                                subscription_id={subscription_id}
+                                listPrice={listPrice}
+                                setListPrice={setListPrice}
+                                quantity={item.quantity}
+                                item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
+                                isHideBorder={index == dataPack.length - 1 ? true : false} />
+                        </View>
                     )
                 } else {
                     return (
-                        <ItemPackManage
-                            index={index}
-                            getTransition={getTransition}
-                            getSubscription={getSubscription}
-                            type={type}
-                            route={route}
-                            subscription_id={subscription_id}
-                            listPrice={listPrice}
-                            quantity={item.quantity}
-                            setListPrice={setListPrice}
-                            item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
-                        />
+                        <View key={`item-${item.id}`}>
+                            <ItemPackManage
+                                index={index}
+                                getTransition={getTransition}
+                                getSubscription={getSubscription}
+                                type={type}
+                                route={route}
+                                subscription_id={subscription_id}
+                                listPrice={listPrice}
+                                quantity={item.quantity}
+                                setListPrice={setListPrice}
+                                item={type === "TRANSIT" ? item : (item.product.data && item.product.data || null)}
+                            />
+                        </View>
                     )
                 }
             })}

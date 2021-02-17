@@ -5,7 +5,7 @@ const useUnredux = () => {
   const [dataAuth, setDataAuth] = useState<any>();
   const [isLogout, setLogout] = useState<any>();
   const [token, setToken] = useState<any>();
-  const [userInfo, setUserInfo] = useState<any>();
+  const [userInfo, setInfo] = useState<any>();
   const [dataTrans, setDataTrans] = useState<any>();
   const [dataNextPack, setDataNextPack] = useState<any>();
 
@@ -21,12 +21,12 @@ const useUnredux = () => {
   const logoutFunc = () => {
     setLogout(true);
     setToken(null);
-    setUserInfo(null);
+    setInfo(null);
     setDataAuth(null);
   }
 
   const getUserFunc = (info: any, token: string) => {
-    setUserInfo(info);
+    setInfo(info);
     setToken(token);
     setLogout(false);
   }

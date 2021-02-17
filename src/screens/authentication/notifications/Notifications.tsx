@@ -8,13 +8,11 @@ import NumberPlease from "react-native-number-please";
 import { Switch } from 'react-native-paper';
 
 interface NotificationsProps {
-    navigation: any,
-    actionLogout: any,
-    route: any
+    navigation: any
 }
 
 export const Notifications = (props: NotificationsProps) => {
-    const { navigation, route } = props;
+    const { navigation } = props;
 
     const onPressGoToMenu = () => {
         navigation && navigation.openDrawer();

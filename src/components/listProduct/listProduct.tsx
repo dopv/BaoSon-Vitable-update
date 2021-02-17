@@ -5,7 +5,6 @@ import { FONT_14, FONT_24 } from '../../themes/fontSize';
 import { size } from '../../themes/size';
 import { Get, Put } from '../../library/networking/fetch';
 import DropDownHolder from '../../library/utils/dropDownHolder';
-import { ProcessDialog } from '../../library/components/processDialog';
 import { ItemProduct } from './itemProduct';
 import { SvgEdit } from '../../themes/svg';
 import { MY_PACK } from '../../navigation/TypeScreen';
@@ -20,7 +19,6 @@ export const CustomListProduct = (props: any) => {
         type,
         titleNotPage,
         estNextPack,
-        route,
         subscription_id,
         coupons,
         getTransition,
@@ -32,17 +30,14 @@ export const CustomListProduct = (props: any) => {
         listIdSub,
         listIdTransit,
         setRefresh,
-        setEstNextPack,
         orderNumber,
         isResume,
         checkSubscription
     } = props;
-    // console.log('nextInvoice', nextInvoice)
 
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
     const [indexDisplay, setIndexDisplay] = useState(0);
     const [dataList, setDataList] = useState(null);
-    const [oldEstNextPack, setOldEstNextPack] = useState(estNextPack);
     const refDot = useRef<any>(null);
 
     const onRefresh = React.useCallback(() => {
@@ -103,9 +98,6 @@ export const CustomListProduct = (props: any) => {
         )
     };
 
-    // console.log('orderNumber', orderNumber)
-    // console.log('estNextPack', estNextPack)
-    // console.log('nextInvoice', nextInvoice)
     const openManagerPack = () => {
         navigation && navigation.navigate(MY_PACK, {
             getTransition: getTransition,
@@ -149,7 +141,6 @@ export const CustomListProduct = (props: any) => {
         const formatDate = format(new Date(date), 'yyyy-MM-dd')
         const dayOffDate = format(new Date(date), 'do MMMM')
         putEditTime(formatDate);
-        // setEstNextPack(formatDate)
         hideDatePicker();
     };
 
@@ -244,7 +235,7 @@ export const CustomListProduct = (props: any) => {
                 <TouchableOpacity
                     onPress={openManagerPack}
                     style={styles.btnManager}>
-                    <Text style={styles.tManage}>{type === 'TRANSIT'?'View my pack':'Manage my pack'}</Text>
+                    <Text style={styles.tManage}>{type === 'TRANSIT' ? 'View my pack' : 'Manage my pack'}</Text>
                 </TouchableOpacity>
             </View>
             <DateTimePickerModal
@@ -258,7 +249,7 @@ export const CustomListProduct = (props: any) => {
                 textColor="#272626"
                 headerTextIOS="Pick Est. Delivery"
                 minimumDate={new Date(estNextPack) || new Date}
-                maximumDate={new Date(estNextPack).setDate(new Date(estNextPack).getDate() + 4 * 7) || new Date}
+                maximumDate={estNextPack && new Date(new Date(estNextPack).setDate(new Date(estNextPack).getDate() + 4 * 7)) || new Date()}
             />
         </ScrollView>
     )
@@ -266,7 +257,6 @@ export const CustomListProduct = (props: any) => {
 
 const styles = StyleSheet.create({
     vFullScreen: {
-        // marginTop: size[10],
         flex: 1,
     },
     tTitleNotPage: {

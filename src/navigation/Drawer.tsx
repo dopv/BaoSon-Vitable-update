@@ -29,16 +29,10 @@ export const MyDrawer = (props: any) => {
             <Drawer.Screen
                 name={HOME_SCREEN}
                 component={HomePage}
-                initialParams={props && props.route && props.route.params
-                    && props.route.params.props
-                }
             />
             <Drawer.Screen
                 name={PACK_SCREEN}
                 component={PackScreen}
-                initialParams={props && props.route && props.route.params
-                    && props.route.params.props
-                }
             />
             <Drawer.Screen
                 name={BROWSER_SHOP_SCREEN}
@@ -55,9 +49,6 @@ export const MyDrawer = (props: any) => {
             <Drawer.Screen
                 name={ACCOUNT_DETAIL_SCREEN}
                 component={AccountDetail}
-                initialParams={props && props.route && props.route.params
-                    && props.route.params.props
-                }
             />
             <Drawer.Screen name={NOTIFICATIONS_SCREEN} component={Notifications} />
         </Drawer.Navigator>

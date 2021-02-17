@@ -17,6 +17,7 @@ import { trackEvent, trackCurrentScreen } from '../../../library/analytics-track
 import { ONBOARDING } from '../../../navigation/TypeScreen';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
 import Constants from 'expo-constants';
+import { useContainer } from '../../../store/store';
 const { manifest: { extra: { boarding } } } = Constants;
 
 const { height: heightScr, width } = Dimensions.get('window');
@@ -26,18 +27,17 @@ const statusBarHeight = StatusBar.currentHeight &&
 const height = heightScr + statusBarHeight;
 
 interface LoginProps {
-    route: any,
     navigation: any
 }
 
 export const Login = (props: LoginProps) => {
-    const { route, navigation } = props;
-    const { getUserInfoAction } = route.params;
+    const { navigation } = props;
     const [dataLogin, setDataLogin] = useState({ email: '', password: '' });
     const [validateInputEmail, setValidateInputEmail] = useState('');
     const [validateInputPassword, setValidateInputPassword] = useState('');
     const [isLogin, setLogin] = useState(false);
     const [loginState, setLoginState] = useState('');
+    const setUserInfo = useContainer(container => container.getUserInfoAction);
 
     useEffect(() => {
         trackCurrentScreen('ForgotPassword');
@@ -109,7 +109,7 @@ export const Login = (props: LoginProps) => {
     const getUserInfo = (token: string) => {
         Get(`/api/v1/me/profile`).then(response => {
             response.json().then(data => {
-                getUserInfoAction && getUserInfoAction(data.data, token);
+                setUserInfo(data.data, token);
             });
         }).catch(err => {
             console.log('err', err);

@@ -49,7 +49,7 @@ export const Post = async (path: string, body: any) => {
     return Fetch(`${apiUrl}${path}`, { method: 'POST', headers: header, body: JSON.stringify(body) });
 }
 
-export const Put = async (path: string, body: any) => {
+export const Put = async (path: string, body?: any) => {
     let header = {
         Authorization: "",
         Accept: "application/json",
