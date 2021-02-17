@@ -170,8 +170,9 @@ export const CustomListProduct = (props: any) => {
     const momentTimeEst = timeEst && moment(new Date(timeEst)).format('Do MMMM');
     const momentEstNextPack = estNextPack !== undefined && moment(new Date(estNextPack)).format('Do MMMM');
     const minDatePicker = new Date(estNextPack) || new Date();
-    const dayMaxDate = new Date(estNextPack).getDate() + 4 * 7 || 0
-    const maxDatePicker = estNextPack && new Date(estNextPack).setDate(dayMaxDate) || new Date();
+    const dayMaxDate = estNextPack  && new Date(estNextPack).getDate() + (4 * 7) || 0
+    const maxDatePicker = estNextPack  && new Date(new Date(estNextPack).setDate(dayMaxDate)) || new Date();
+
     const titleButton = type === TRANSIT ? translate("AUTHENTIC:PACK:V_MY_PACK") : translate("AUTHENTIC:PACK:MANAGE_MY_PACK");
 
     return (

@@ -33,7 +33,6 @@ export const CustomListManagePack = (props: any) => {
 
     const { getTransAction, getNextPackAction } = route && route.params;
     const [dataPr, setDataPr] = useState(null)
-    const [isOpen, setIsOpen] = useState(false);
 
     const getTransition = () => {
         Get('/api/v1/users/me/orders/latest')
