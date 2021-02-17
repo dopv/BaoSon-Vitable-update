@@ -13,6 +13,7 @@ import { OnBoardingScroll } from '../screens/unAuthentication/onboarding/compone
 import { OnBoardingEnd } from '../screens/unAuthentication/onboarding/components/welcomeEnd/OnBoardingEnd';
 import { MyPackScreen } from '../screens/authentication/myPack';
 import { Get } from '../library/networking/fetch';
+import { updatePushToken } from '../library/push';
 import { Detail } from '../screens/authentication/detail/Detail';
 import { useContainer } from '../store/store';
 
@@ -35,6 +36,7 @@ export const StackNavigator = (props: any) => {
                 let token = JSON.parse(tokenJson);
                 if (token) {
                     await getUserInfo(token);
+                    updatePushToken()
                 }
             } else {
                 setIsLoading(false);
