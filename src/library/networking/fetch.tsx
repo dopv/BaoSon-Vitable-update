@@ -27,11 +27,8 @@ export const Get = async (path: string, param?: any) => {
         Accept: "application/json",
         "Content-Type": "application/json"
     };
-    await AsyncStorage.getItem(TOKEN).then(val => {
-        if (val && typeof val == 'string') {
-            header.Authorization = `Bearer ${JSON.parse(val) && JSON.parse(val) || ''}`;
-        }
-    });
+    let tokenJson = await AsyncStorage.getItem(TOKEN);
+    if(tokenJson) header.Authorization = `Bearer ${JSON.parse(tokenJson)}`;
     let url = (`${apiUrl}${path}`);
     // url.search = new URLSearchParams(param).toString();
     return Fetch(`${url}`, { method: 'GET', headers: header });
