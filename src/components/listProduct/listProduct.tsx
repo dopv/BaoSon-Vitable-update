@@ -34,7 +34,8 @@ export const CustomListProduct = (props: any) => {
         setRefresh,
         orderNumber,
         isResume,
-        checkSubscription
+        checkSubscription,
+        loading
     } = props;
 
     const [isDatePickerVisible, setDatePickerVisible] = useState(false);
@@ -243,7 +244,8 @@ export const CustomListProduct = (props: any) => {
                     horizontal
                     keyExtractor={(item, index) => index.toString()}
                 />
-                <TouchableOpacity
+                <TouchableOpacity  
+                    disabled={loading}
                     onPress={openManagerPack}
                     style={styles.btnManager}>
                     <Text style={styles.tManage}>{titleButton}</Text>

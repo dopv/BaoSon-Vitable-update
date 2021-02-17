@@ -10,15 +10,15 @@ import { Get } from '../../../library/networking/fetch';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
 import { translate } from '../../../library/utils/i18n/translate';
 import {
-  SUBSCRIPTION_STATUS_ACTIVE,
-  ORDER_STATUS_DELIVERED,
-  ORDER_STATUS_CANCELED,
-  ORDER_STATUS_IN_DELIVERY,
-  ORDER_STATUS_PAID,
-  ORDER_STATUS_PROCESSING,
-  ORDER_STATUS_READY_FOR_DELIVERY,
-  SUBSCRIPTION,
-  TRANSIT
+    SUBSCRIPTION_STATUS_ACTIVE,
+    ORDER_STATUS_DELIVERED,
+    ORDER_STATUS_CANCELED,
+    ORDER_STATUS_IN_DELIVERY,
+    ORDER_STATUS_PAID,
+    ORDER_STATUS_PROCESSING,
+    ORDER_STATUS_READY_FOR_DELIVERY,
+    SUBSCRIPTION,
+    TRANSIT
 } from '../../../config';
 import { ProcessDialog } from '../../../library/components/processDialog';
 import moment from 'moment';
@@ -138,18 +138,16 @@ export const PackScreen = (props: PackProps) => {
         getTransition()
         getSubscription()
     }, []);
-    // console.log('nextInvoice', nextInvoice)
+
     const nextInvoiceDisplay = nextInvoice ? moment(nextInvoice).format('Do MMMM') : ''
     let reminder = `You can edit your next pack until ${nextInvoiceDisplay}`
-    // console.log('orderStatus', orderStatus)
     const inTransit = (
-      orderStatus == ORDER_STATUS_IN_DELIVERY
-      || orderStatus == ORDER_STATUS_PAID
-      || orderStatus == ORDER_STATUS_PROCESSING
-      || orderStatus == ORDER_STATUS_READY_FOR_DELIVERY
+        orderStatus == ORDER_STATUS_IN_DELIVERY
+        || orderStatus == ORDER_STATUS_PAID
+        || orderStatus == ORDER_STATUS_PROCESSING
+        || orderStatus == ORDER_STATUS_READY_FOR_DELIVERY
     )
-    // console.log('inTransit', inTransit)
-    if(inTransit){
+    if (inTransit) {
         reminder = translate('AUTHENTIC:PACK:REMINDER_IN_TRANSIT') || ""
     }
     return (
@@ -184,25 +182,27 @@ export const PackScreen = (props: PackProps) => {
                         titleLeft={translate('AUTHENTIC:PACK:IN_TRANSIT')}
                         titleRight={translate('AUTHENTIC:PACK:NEXT_PACK')}
                         viewPageLeft={inTransit ?
-                                <CustomListProduct
-                                    setRefresh={setRefresh}
-                                    listIdTransit={listIdTransit}
-                                    setLoading={setLoading}
-                                    getTransition={getTransition}
-                                    getSubscription={getSubscription}
-                                    subscription_id={subscription_id}
-                                    coupons={coupons}
-                                    type={TRANSIT}
-                                    timeEst={timeEst}
-                                    nextInvoice={nextInvoice}
-                                    navigation={navigation}
-                                    refreshing={refreshing}
-                                    orderNumber={orderNumber}
-                                    route={route} />
-                                : null
-                            }
+                            <CustomListProduct
+                                loading={loading}
+                                setRefresh={setRefresh}
+                                listIdTransit={listIdTransit}
+                                setLoading={setLoading}
+                                getTransition={getTransition}
+                                getSubscription={getSubscription}
+                                subscription_id={subscription_id}
+                                coupons={coupons}
+                                type={TRANSIT}
+                                timeEst={timeEst}
+                                nextInvoice={nextInvoice}
+                                navigation={navigation}
+                                refreshing={refreshing}
+                                orderNumber={orderNumber}
+                                route={route} />
+                            : null
+                        }
                         viewPageRight={
                             <CustomListProduct
+                                loading={loading}
                                 setRefresh={setRefresh}
                                 listIdSub={listIdSub}
                                 setLoading={setLoading}
@@ -247,6 +247,7 @@ export const PackScreen = (props: PackProps) => {
                             <CustomListProduct
                                 isResume={true}
                                 setRefresh={setRefresh}
+                                loading={loading}
                                 setLoading={setLoading}
                                 getTransition={getTransition}
                                 getSubscription={getSubscription}
