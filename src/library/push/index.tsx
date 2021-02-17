@@ -3,6 +3,7 @@ import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, Button, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Put } from '../networking/fetch';
 import moment from 'moment'
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -185,7 +186,7 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     // token = (await Notifications.getExpoPushTokenAsync()).data;
-    // console.log(token);
+    // console.log('token', token)
   } else {
     console.log('Must use physical device for Push Notifications');
   }
@@ -200,4 +201,22 @@ async function registerForPushNotificationsAsync() {
   }
 
   return token;
+}
+export async function updatePushToken(){
+  // console.log('updatePushToken')
+  if (Constants.isDevice) {
+    const token = (await Notifications.getExpoPushTokenAsync()).data;
+    // console.log('token', token)
+    if(token){
+      try{
+        const response = await Put(`/api/v1/users/me/update`, {push_token:token})
+        // console.log('response', response)
+        const body = await response.json()
+        // console.log('body', body)
+      }catch(e){
+        console.log('e', e)
+
+      }
+    }
+  }
 }
