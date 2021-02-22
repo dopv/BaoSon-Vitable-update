@@ -80,7 +80,12 @@ export const styles = StyleSheet.create({
     tItemTimePicker:{
         fontSize: FONT_32,
         fontFamily: 'SolaireDT',
-        color: '#F5785A'
+        color: '#637C5A'
+    },
+    tItemMinutePicker:{
+        fontSize: FONT_32,
+        fontFamily: 'SolaireDT',
+        color: '#000'
     },
     tMinute:{
         fontSize: FONT_32,
@@ -89,7 +94,7 @@ export const styles = StyleSheet.create({
     },
     tReminder:{
         paddingVertical: size[15],
-        paddingHorizontal: size[24],
+        paddingHorizontal: size[40],
         fontSize: FONT_14,
         fontWeight: '400',
         fontFamily: 'NHaasGroteskTXPro',

@@ -23,7 +23,7 @@ export const ItemOnBoarding = (props: any) => {
             <Image
                 style={index == 2 ? styles.vImageIndex2 : styles.viewImage1}
                 source={item.image}
-                resizeMode='stretch'
+                resizeMode='contain'
             />
             <View style={styles.vBottomItem}/>
             

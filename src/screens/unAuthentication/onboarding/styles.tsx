@@ -14,8 +14,8 @@ export const styles = StyleSheet.create({
     },
     viewTextDearAime: {
         marginTop: 114 / 568 * height,
-        marginLeft: 99 / 320 * width,
-        marginRight: 99 / 320 * width,
+        marginLeft: size[80],
+        marginRight: size[80],
         alignItems:'center',
         justifyContent:'center'
     },
@@ -33,6 +33,7 @@ export const styles = StyleSheet.create({
         justifyContent: "center",
     },
     tName:{
+        textAlign: 'center',
         fontSize: FONT_32,
         fontFamily: 'HOMEMADE_APPLE',
         color: '#272626'

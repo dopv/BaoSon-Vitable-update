@@ -3,9 +3,9 @@ import { View, Text, TouchableWithoutFeedback, Image } from 'react-native';
 import { Screen } from '../../../library/components/screen';
 import { styles } from './styles';
 import { trackEvent, trackCurrentScreen } from '../../../library/analytics-tracking';
-import {getReminderSchedule, setReminderSchedule, getReminderEnabled, disableReminders} from '../../../library/push';
-import NumberPlease from "react-native-number-please";
+import { getReminderSchedule, getMinuteReminderSchedule, setReminderSchedule, getReminderEnabled, disableReminders} from '../../../library/push';
 import { Switch } from 'react-native-paper';
+import { CustomScrollPicker } from '../../../library/components/customScrollPicker';
 
 interface NotificationsProps {
     navigation: any,
@@ -19,30 +19,36 @@ export const Notifications = (props: NotificationsProps) => {
     const onPressGoToMenu = () => {
         navigation && navigation.openDrawer();
     }
-    const [reminderHour, setReminderHour] = useState(0)
+    const [reminderHour, setReminderHour] = useState(1)
+    const [reminderMinute, setReminderMinute] = useState(0)
     const [reminderEnabled, setReminderEnabled] = useState(false)
+
     useEffect(()=>{
         trackCurrentScreen('Notifications');
         async function getSettings(){
           const hour = await getReminderSchedule()
+          const minute = await getMinuteReminderSchedule()
           const enabled = await getReminderEnabled()
           // console.log('enabled', enabled)
           // console.log('hour', hour)
           setReminderHour(hour)
+          setReminderMinute(minute)
           setReminderEnabled(enabled)
           setHourValue([{id:'hour', value:hour}])
         }
         getSettings();
-    },[])
-    function changeReminderEnabled(val){
+    },[]);
+
+    const changeReminderEnabled = (val: any) => {
       // console.log('changeReminderEnabled', val)
       setReminderEnabled(val)
       if(val){
-        setReminderSchedule(reminderHour)
+        setReminderSchedule(reminderHour, reminderMinute)
       }else{
         disableReminders()
       }
-    }
+    };
+
     function changeReminderHour(val){
       console.log('changeReminderHour', val)
       const hour = val[0].value
@@ -75,14 +81,11 @@ export const Notifications = (props: NotificationsProps) => {
                 <Text>Notification settings</Text>
                 <Text>Reminder enabled {reminderEnabled}</Text>
                 <Switch value={reminderEnabled} onValueChange={changeReminderEnabled} />
-                {/* <View>
-                  <NumberPlease
-                    digits={hourNumbers}
-                    values={hourValue}
-                    onChange={changeReminderHour}
-                  />
-                  <Text>: 00</Text>
-                </View> */}
+
+          <CustomScrollPicker
+            setTimeSelect={setReminderHour}
+            setMinuteSelect={setReminderMinute}
+          />
             </View>
         </Screen>
     );

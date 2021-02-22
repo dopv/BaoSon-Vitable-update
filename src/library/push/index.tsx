@@ -13,6 +13,7 @@ Notifications.setNotificationHandler({
 });
 const DAILY_REMINDER = 'DAILY_REMINDER'
 const REMINDER_HOUR = 'REMINDER_HOUR'
+const REMINDER_MINUTE = 'REMINDER_MINUTE'
 const REMINDER_ENABLED = 'REMINDER_ENABLED'
 const ADVANCE_SCHEDULE = 7
 /*
@@ -85,12 +86,14 @@ async function updateReminderSchedule(){
   //clear any existing
   await Notifications.cancelAllScheduledNotificationsAsync()
   let reminderEnabled = await AsyncStorage.getItem(REMINDER_ENABLED)
-  reminderEnabled = reminderEnabled === 'true'
-  console.log('reminderEnabled', reminderEnabled)
-  if(reminderEnabled){
+  const checkReminderEnabled = reminderEnabled === 'true'
+  if (checkReminderEnabled){
     let reminderHour = await AsyncStorage.getItem(REMINDER_HOUR)
-    reminderHour = parseInt(reminderHour)
-    console.log('reminderHour', reminderHour)
+    let reminderMinute = await AsyncStorage.getItem(REMINDER_MINUTE)
+    const hour = parseInt(reminderHour || "1")
+    const minute = parseInt(reminderMinute || "0")
+    console.log('reminderHour', hour)
+    console.log('reminderMinute', minute)
     // const deviceToken = await Notifications.getDevicePushTokenAsync()
     // console.log('deviceToken', deviceToken)
     // const expoToken = registerForPushNotificationsAsync()
@@ -101,8 +104,6 @@ async function updateReminderSchedule(){
     console.log('Platform.OS', Platform.OS)
     const now = moment()
     const current = moment()
-    let hour = reminderHour
-    let minute = 0
     let second = 0
     // hour = now.hour()
     // minute = now.minute()
@@ -140,16 +141,25 @@ export async function disableReminders(){
   await Notifications.cancelAllScheduledNotificationsAsync()
   await AsyncStorage.setItem(REMINDER_ENABLED, "false")
 }
-export async function setReminderSchedule(hour:int){
-  await AsyncStorage.setItem(REMINDER_HOUR, hour.toString())
+export async function setReminderSchedule(hour: number, minute: number){
+  await AsyncStorage.setItem(REMINDER_HOUR, hour.toString());
+  await AsyncStorage.setItem(REMINDER_MINUTE, minute.toString())
+
   await AsyncStorage.setItem(REMINDER_ENABLED, "true")
   updateReminderSchedule()
 }
+
 export async function getReminderSchedule(){
-  let hour = await AsyncStorage.getItem(REMINDER_HOUR)
-  hour = parseInt(hour)
+  let hourAsync = await AsyncStorage.getItem(REMINDER_HOUR)
+  let hour = parseInt(hourAsync || "0")
   if(isNaN(hour)) hour = 0
   return hour
+}
+export async function getMinuteReminderSchedule() {
+  let minuteAsync = await AsyncStorage.getItem(REMINDER_MINUTE)
+  let minute = parseInt(minuteAsync || "0")
+  if (isNaN(minute)) minute = 0
+  return minute
 }
 export async function getReminderEnabled(){
   const enabled = await AsyncStorage.getItem(REMINDER_ENABLED)

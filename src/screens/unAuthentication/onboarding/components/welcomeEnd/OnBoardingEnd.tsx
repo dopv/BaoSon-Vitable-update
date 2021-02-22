@@ -8,6 +8,7 @@ import { IS_ONBOARDING, TOKEN } from '../../../../../common/keyStore';
 import { setReminderSchedule } from '../../../../../library/push';
 import DropDownHolder from '../../../../../library/utils/dropDownHolder';
 import { translate } from '../../../../../library/utils/i18n/translate';
+import { CustomScrollPicker } from '../../../../../library/components/customScrollPicker';
 
 const { width, height } = Dimensions.get('window');
 
@@ -15,19 +16,18 @@ export const OnBoardingEnd = (props: any) => {
     const { route, navigation } = props;
     const { actionLogin, data } = route.params;
     const [timeSelect, setTimeSelect] = useState(1);
-    const [dataTime, setDataTime] = useState([]);
-
+    const [minuteSelect, setMinuteSelect] = useState(0);
 
     const onReminder = () => {
-        if (timeSelect) {
-            setReminderSchedule(timeSelect)
+        if (timeSelect || minuteSelect) {
+            setReminderSchedule(timeSelect, minuteSelect)
             AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
             actionLogin && actionLogin(data || null);
         } else {
-            DropDownHolder.showWarning("", translate('UNAUTHENTIC:BOARDING:NULL_HOUR'));
+            DropDownHolder.showWarning("", translate('UNAUTHENTIC:BOARDING:NULL_HOUR') || "");
         }
         // AsyncStorage.setItem(IS_ONBOARDING, JSON.stringify("Open OnBoarding"));
-      
+
     };
     const onNotTime = () => {
         // AsyncStorage.setItem(IS_ONBOARDING, JSON.stringify("Open OnBoarding"));
@@ -35,13 +35,6 @@ export const OnBoardingEnd = (props: any) => {
         actionLogin && actionLogin(data || null);
     };
 
-    useEffect(() => {
-        const list: any = [];
-        for (let i = 1; i <= 24; i++) {
-            list.push(i)
-        };
-        setDataTime(list);
-    }, []);
 
     return (
         <ScrollView style={styles.sFullScreen}>
@@ -55,34 +48,10 @@ export const OnBoardingEnd = (props: any) => {
                 <View style={styles.viewContent2}>
                     <Text style={styles.textContent}>{translate('UNAUTHENTIC:BOARDING:TIP_END')}</Text>
                 </View>
-                <View style={styles.vSelectTime}>
-                    <View style={styles.vListTime}>
-                        <ScrollPicker
-                            dataSource={dataTime}
-                            selectedIndex={0}
-                            itemHeight={width * 0.15}
-                            wrapperHeight={height * 0.2}
-                            wrapperColor={'transparent'}
-                            highlightColor={'transparent'}
-                            renderItem={(data: any, index: number, isSelected: boolean) => {
-                                if (isSelected) {
-                                    return (
-                                        <Text style={styles.tItemTimePicker}>{data}</Text>
-                                    )
-                                } else {
-                                    return (
-                                        <Text style={styles.tItemTime}>{data}</Text>
-                                    )
-                                }
-                            }}
-                            onValueChange={(data: any, selectedIndex: number) => {
-                                setTimeSelect(data)
-                            }}
-                        />
-                    </View>
-                    <Text style={[styles.tMinute, { marginRight: size[28], marginLeft: size[26] }]}>:</Text>
-                    <Text style={styles.tMinute}>00</Text>
-                </View>
+                <CustomScrollPicker
+                    setTimeSelect={setTimeSelect}
+                    setMinuteSelect={setMinuteSelect}
+                />
                 <TouchableOpacity
                     onPress={onReminder}
                     style={styles.btnReminder}>
