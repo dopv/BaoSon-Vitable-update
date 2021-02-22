@@ -34,7 +34,6 @@ export const Notifications = (props: NotificationsProps) => {
           setReminderHour(hour)
           setReminderMinute(minute)
           setReminderEnabled(enabled)
-          setHourValue([{id:'hour', value:hour}])
         }
         getSettings();
     },[]);
@@ -49,16 +48,17 @@ export const Notifications = (props: NotificationsProps) => {
       }
     };
 
-    function changeReminderHour(val){
+    const changeReminderHour = (val: any) =>{
       console.log('changeReminderHour', val)
-      const hour = val[0].value
-      console.log('hour', hour)
-      setHourValue(val)
-      setReminderHour(hour)
-      setReminderSchedule(hour)
+      setReminderHour(val)
+      setReminderSchedule(val, reminderMinute)
     }
-    const [hourValue, setHourValue] = useState([{id:'hour', value:0}])
-    const hourNumbers = [{id:'hour',min:0, max:12}]
+    const changeReminderMinute = (val: any) =>{
+      console.log('changeReminderMinute', val)
+      setReminderMinute(val)
+      setReminderSchedule(reminderHour, val)
+    }
+
     return (
         <Screen
             isScroll={false}
@@ -82,10 +82,10 @@ export const Notifications = (props: NotificationsProps) => {
                 <Text>Reminder enabled {reminderEnabled}</Text>
                 <Switch value={reminderEnabled} onValueChange={changeReminderEnabled} />
 
-          {/* <CustomScrollPicker
-            setTimeSelect={setReminderHour}
-            setMinuteSelect={setReminderMinute}
-          /> */}
+          <CustomScrollPicker
+            setTimeSelect={changeReminderHour}
+            setMinuteSelect={changeReminderMinute}
+          />
             </View>
         </Screen>
     );
