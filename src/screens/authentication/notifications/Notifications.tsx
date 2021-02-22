@@ -82,10 +82,10 @@ export const Notifications = (props: NotificationsProps) => {
                 <Text>Reminder enabled {reminderEnabled}</Text>
                 <Switch value={reminderEnabled} onValueChange={changeReminderEnabled} />
 
-          <CustomScrollPicker
+          {/* <CustomScrollPicker
             setTimeSelect={setReminderHour}
             setMinuteSelect={setReminderMinute}
-          />
+          /> */}
             </View>
         </Screen>
     );
