@@ -33,11 +33,18 @@ export const StackNavigator = (props: any) => {
         setTimeout(async () => {
             let tokenJson = await AsyncStorage.getItem(TOKEN);
             if (tokenJson) {
-                let token = JSON.parse(tokenJson);
-                if (token) {
-                    await getUserInfo(token);
-                    updatePushToken()
-                }
+              let token
+              try{
+                token = JSON.parse(tokenJson);
+              }catch(e){
+                // console.log('e', e)
+                token = false
+                AsyncStorage.setItem(TOKEN, '');
+              }
+              if (token) {
+                  await getUserInfo(token);
+                  updatePushToken()
+              }
             } else {
                 setIsLoading(false);
             }
