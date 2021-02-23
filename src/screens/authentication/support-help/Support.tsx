@@ -4,13 +4,11 @@ import { Screen } from '../../../library/components/screen';
 import { styles } from './styles';
 
 interface SupportProps {
-    navigation: any,
-    actionLogout: any,
-    route: any
+    navigation: any
 }
 
 export const Support = (props: SupportProps) => {
-    const { navigation, route } = props;
+    const { navigation } = props;
 
     const onPressGoToMenu = () => {
         navigation && navigation.openDrawer();

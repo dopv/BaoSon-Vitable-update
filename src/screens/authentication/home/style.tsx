@@ -18,7 +18,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     vBot: {
-        flex: 1
+        flex: 1,
+        alignItems:'center'
         // height: '60%'
     }
 });

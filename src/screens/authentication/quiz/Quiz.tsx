@@ -4,13 +4,11 @@ import { Screen } from '../../../library/components/screen';
 import { styles } from './styles';
 
 interface QuizProps {
-    navigation: any,
-    actionLogout: any,
-    route: any
+    navigation: any
 }
 
 export const Quiz = (props: QuizProps) => {
-    const { navigation, route } = props;
+    const { navigation } = props;
 
     const goBack = () => {
         navigation && navigation.goBack();

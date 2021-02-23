@@ -5,37 +5,62 @@ import { Splash } from '../screens/unAuthentication/splash/Splash';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TOKEN } from '../common/keyStore';
 import { MyDrawer } from './Drawer';
-import { QUIZ_SCREEN, ONBOARDING, ONBOARDING_SCROLL, ONBOARDING_END } from './TypeScreen';
+import { QUIZ_SCREEN, ONBOARDING, ONBOARDING_SCROLL, ONBOARDING_END, DETAIL, MY_PACK } from './TypeScreen';
 import { Quiz } from '../screens/authentication/quiz/Quiz';
 import { ForgotPassword } from '../screens/unAuthentication/forgot-password/ForgotPassword';
 import { OnBoarding } from '../screens/unAuthentication/onboarding';
 import { OnBoardingScroll } from '../screens/unAuthentication/onboarding/components/onBoardingScroll';
 import { OnBoardingEnd } from '../screens/unAuthentication/onboarding/components/welcomeEnd/OnBoardingEnd';
+import { MyPackScreen } from '../screens/authentication/myPack';
+import { Get } from '../library/networking/fetch';
+import { updatePushToken } from '../library/push';
+import { Detail } from '../screens/authentication/detail/Detail';
+import { useContainer } from '../store/store';
 
 const Stack = createStackNavigator();
 
 export const StackNavigator = (props: any) => {
-    const { stateAuth, setToken } = props.props
-    let dataAuth = null;
-    let isLogout = false;
-    let token = null;
-    if (stateAuth) {
-        dataAuth = stateAuth.dataAuth
-        isLogout = stateAuth.isLogout
-        token = stateAuth.token
-    }
     const [isLoading, setIsLoading] = useState(true);
+    const setUserInfo = useContainer(container => container.getUserInfoAction);
+    const isLogout = useContainer(container => container.isLogout);
+    const token = useContainer(container => container.token);
 
     useEffect(() => {
-        setTimeout(() => {
-            AsyncStorage.getItem(TOKEN).then((token: any) => {
-                if (token) {
-                    setToken && setToken(token || "");
-                }
+        checkToken();
+    }, []);
+
+    const checkToken = () => {
+        setTimeout(async () => {
+            let tokenJson = await AsyncStorage.getItem(TOKEN);
+            if (tokenJson) {
+              let token
+              try{
+                token = JSON.parse(tokenJson);
+              }catch(e){
+                // console.log('e', e)
+                token = false
+                AsyncStorage.setItem(TOKEN, '');
+              }
+              if (token) {
+                  await getUserInfo(token);
+                  updatePushToken()
+              }
+            } else {
+                setIsLoading(false);
+            }
+        }, 2000);
+    }
+
+    const getUserInfo = async (token: string) => {
+        Get(`/api/v1/me/profile`).then(response => {
+            response.json().then(data => {
+                setUserInfo(data.data, token);
                 setIsLoading(false);
             });
-        }, 2000)
-    }, []);
+        }).catch(err => {
+            console.log('err', err);
+        })
+    }
 
     return (
         <Stack.Navigator
@@ -51,12 +76,18 @@ export const StackNavigator = (props: any) => {
                         <Stack.Screen
                             component={MyDrawer}
                             name='MyDrawer'
-                            initialParams={props}
                         />
                         <Stack.Screen
                             component={Quiz}
                             name={QUIZ_SCREEN}
-                            initialParams={props.props}
+                        />
+                        <Stack.Screen
+                            component={Detail}
+                            name={DETAIL}
+                        />
+                        <Stack.Screen
+                            component={MyPackScreen}
+                            name={MY_PACK}
                         />
                     </>)
                     :
@@ -65,7 +96,6 @@ export const StackNavigator = (props: any) => {
                             <Stack.Screen
                                 component={Login}
                                 name="Login"
-                                initialParams={props.props}
                                 options={{
                                     animationTypeForReplace: isLogout ? 'pop' : 'push'
                                 }}
@@ -73,27 +103,26 @@ export const StackNavigator = (props: any) => {
                             <Stack.Screen
                                 component={ForgotPassword}
                                 name="ForgotPassword"
-                                initialParams={props.props}
                             />
                             <Stack.Screen
                                 component={OnBoarding}
                                 name={ONBOARDING}
-                                initialParams={props.props}
                             />
                             <Stack.Screen
                                 component={OnBoardingScroll}
                                 name={ONBOARDING_SCROLL}
-                                initialParams={props.props}
                             />
                             <Stack.Screen
                                 component={OnBoardingEnd}
                                 name={ONBOARDING_END}
-                                initialParams={props.props}
                             />
                         </>
                     )
             ) :
-                <Stack.Screen name="Splash" component={Splash} />
+                <Stack.Screen
+                    name="Splash"
+                    component={Splash}
+                />
             }
         </Stack.Navigator>
     )

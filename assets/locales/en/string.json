@@ -1,82 +1,114 @@
 {
-    "error": {},
-    "UNAUTHENTIC": {
-        "LOGIN": "Login",
-        "LOGOUT": "Log out",
-        "EMAIL": "Email address",
-        "PASSWORD": "Password",
-        "HEADER_LOGIN": "FREE SHIPPING FOR ORDERS OVER $30",
-        "INVALID_EMAIL": "Please enter a valid email",
-        "INVALID_PASSWORD": "Password cannot be empty",
-        "FIRST_SIGNIN": "First, please sign in",
-        "FOR_THE_MOMENT": "For the moment the Vitable App is only accessible for our clients.",
-        "TO_DISCOVER_OUR_OFFER": "To discover our offer, you can go check our website",
-        "LINK": "vitable.com.au",
-        "ENTER_MAIL_HERE": "Your mail address here...",
-        "ENTER_PASSWORD_HERE": "Your password here...",
-        "FORGOT_PASSWORD": "Forgot my password",
-        "NEW_LINE": "\n",
-        "SPACE": " ",
-        "SIGNIN": "Sign in",
-        "SEND": "Send",
-        "BACK_TO_LOGIN": "Back to login",
-        "PASSWORD_RETRIEVAL": "Password Retrieval",
-        "BEFORE_REQUEST": "To reset your password, please enter your email in the box below and submit your request.",
-        "AFTER_REQUEST": "After submitting your request successfully, please visit your email to confirm.",
-        "REQUEST_FORGOT_SUCCESS": "We've just emailed you instructions on how to reset your password.",
-        "GO_TO_LOGIN": "Go to login",
-        "INCORRECT_LOGIN": "Incorrect email or password",
-        "BOARDING": {
-            "NULL_HOUR": "You have not chosen a time",
-            "DEAR": "Dear",
-            "YOUR_HEALTH": " Your health is your most precious gift, so we created the easiest way to keep your health routine going.",
-            "LET_START": "Let’s get you started",
-            "NEXT": "Next",
-            "DATA_TITLE_1": "Stay on top of your health routine",
-            "DATA_TITLE_2": "See your progress",
-            "DATA_TITLE_3": "Manage your pack",
-            "DATA_TITLE_4": "Learn more about your vitamins",
-            "DATA_CONTENT_1": "Track your daily routine. Earn rewards. Support your health. Every day.",
-            "DATA_CONTENT_2": "Set yourself up for success by tracking your progress. Get a tailored guidance towards your goals.",
-            "DATA_CONTENT_3": "Browse, add and remove products easily. You can also track, delay or pause orders at any time.",
-            "DATA_CONTENT_4": "Because we know how important it is to know what your vitamins are made of and how they work.",
-            "TITLE_END": "When should we remind you to take your vitamins?",
-            "CONTENT_END": "Consistency is key to achieve great results. A friendly reminder once a day will help you stay on track",
-            "TIP_END": "Tip: We recommend taking your vitamins after a main meal with water.",
-            "REMINDER_END": "Set my reminder",
-            "NOT_REMINDER_END": "Not this time"
-        }
-    },
-    "AUTHENTIC": {
-        "HOME": {
-            "DAILY_TRACKER": "Daily tracker",
-            "HI": "Hi, ",
-            "TAKE_THE_QUIZ": "Take the quizz"
-        },
-        "HOME_STREAK_HISTORY": {
-            "CURRENT_STREAK": "Current streak",
-            "BEST_STREAK": "Best streak"
-        },
-        "STREAK_ACCUMULATION": {
-            "POINT": "points",
-            "EARN_EXTRA_POINTS": "Earn extra points",
-            "SPLASH": "/"
-        },
-        "MARK_POINTS": {
-            "TAKEN_VITAMIN_TODAY": "I’ve taken my vitamins today",
-            "POINT": "points",
-            "PLUS": "+"
-        },
-        "MENU": {
-            "WANT_TO_AJUST_YOUR_PLAN": "Want to adjust your plan?",
-            "RETAKE_THE_QUIZ": "Retake the quiz",
-            "TRACKING_MY_VITAMINS": "Track my vitamins",
-            "MY_PACK": "My pack",
-            "BROWSE_ON_SHOP": "Browse our shop",
-            "MY_PROFILE": "My profile",
-            "SUPPORT_HELP": "Support / Help",
-            "ACCOUNT_DETAILS": "Account details",
-            "NOTIFICATIONS": "Notifications"
-        }
+  "MESS": {
+    "error": "An error occurred, please try again",
+    "mess_remove": "We don't want to send you empty boxes! Trying to change your plan?"
+  },
+  "UNAUTHENTIC": {
+    "LOGIN": "Login",
+    "LOGOUT": "Log out",
+    "EMAIL": "Email address",
+    "PASSWORD": "Password",
+    "HEADER_LOGIN": "FREE SHIPPING FOR ORDERS OVER $30",
+    "INVALID_EMAIL": "Please enter a valid email",
+    "INVALID_PASSWORD": "Password cannot be empty",
+    "FIRST_SIGNIN": "First, please sign in",
+    "FOR_THE_MOMENT": "For the moment the Vitable App is only accessible for our clients.",
+    "TO_DISCOVER_OUR_OFFER": "To discover our offer, you can go check our website",
+    "LINK": "vitable.com.au",
+    "ENTER_MAIL_HERE": "Your mail address here...",
+    "ENTER_PASSWORD_HERE": "Your password here...",
+    "FORGOT_PASSWORD": "Forgot my password",
+    "NEW_LINE": "\n",
+    "SPACE": " ",
+    "SIGNIN": "Sign in",
+    "SEND": "Send",
+    "BACK_TO_LOGIN": "Back to login",
+    "PASSWORD_RETRIEVAL": "Password Retrieval",
+    "BEFORE_REQUEST": "To reset your password, please enter your email in the box below and submit your request.",
+    "AFTER_REQUEST": "After submitting your request successfully, please visit your email to confirm.",
+    "REQUEST_FORGOT_SUCCESS": "We've just emailed you instructions on how to reset your password.",
+    "GO_TO_LOGIN": "Go to login",
+    "INCORRECT_LOGIN": "Incorrect email or password",
+    "BOARDING": {
+      "NULL_HOUR": "You have not chosen a time",
+      "DEAR": "Dear",
+      "YOUR_HEALTH": " Your health is your most precious gift, so we created the easiest way to keep your health routine going.",
+      "LET_START": "Let’s get you started",
+      "NEXT": "Next",
+      "DATA_TITLE_1": "Stay on top of your health routine",
+      "DATA_TITLE_2": "See your progress",
+      "DATA_TITLE_3": "Manage your pack",
+      "DATA_TITLE_4": "Learn more about your vitamins",
+      "DATA_CONTENT_1": "Track your daily routine. Earn rewards. Support your health. Every day.",
+      "DATA_CONTENT_2": "Set yourself up for success by tracking your progress. Get a tailored guidance towards your goals.",
+      "DATA_CONTENT_3": "Browse, add and remove products easily. You can also track, delay or pause orders at any time.",
+      "DATA_CONTENT_4": "Because we know how important it is to know what your vitamins are made of and how they work.",
+      "TITLE_END": "When should we remind you to take your vitamins?",
+      "CONTENT_END": "Consistency is key to achieve great results. A friendly reminder once a day will help you stay on track",
+      "TIP_END": "Tip: We recommend taking your vitamins after a main meal with water.",
+      "REMINDER_END": "Set my reminder",
+      "NOT_REMINDER_END": "Not this time"
     }
+  },
+  "AUTHENTIC": {
+    "HOME": {
+      "DAILY_TRACKER": "Daily tracker",
+      "PROGRESS": "Progress",
+      "HI": "Hi ",
+      "TAKE_THE_QUIZ": "Take the quiz",
+      "REMINDER": "It's been two months since you reassessed your needs."
+    },
+    "HOME_STREAK_HISTORY": {
+      "CURRENT_STREAK": "Current streak",
+      "BEST_STREAK": "Best streak"
+    },
+    "STREAK_ACCUMULATION": {
+      "POINT": "points",
+      "EARN_EXTRA_POINTS": "Earn extra points",
+      "SPLASH": "/"
+    },
+    "MARK_POINTS": {
+      "TAKEN_VITAMIN_TODAY": "I’ve taken my vitamins today",
+      "POINT": "points",
+      "PLUS": "+"
+    },
+    "MENU": {
+      "WANT_TO_AJUST_YOUR_PLAN": "Want to adjust your plan?",
+      "RETAKE_THE_QUIZ": "Retake the quiz",
+      "TRACKING_MY_VITAMINS": "Track my vitamins",
+      "MY_PACK": "My pack",
+      "BROWSE_ON_SHOP": "Browse our shop",
+      "MY_PROFILE": "My profile",
+      "SUPPORT_HELP": "Support / Help",
+      "ACCOUNT_DETAILS": "Account details",
+      "NOTIFICATIONS": "Notifications"
+    },
+    "PACK": {
+      "REMINDER_PAUSE": "It seems that you are on a pause. Ready to come back?",
+      "REMINDER_IN_TRANSIT": "Your current pack is in transit. You can still edit your next pack.",
+      "RESUME": "Resume my subscription",
+      "LAST_PACK": "Your last pack",
+      "IN_TRANSIT": "In transit",
+      "NEXT_PACK": "Next pack",
+      "DELIVERED": "Delivered :  ",
+      "EST_DELIVERY": "Est. delivery : ",
+      "V_MY_PACK": "View my pack",
+      "MANAGE_MY_PACK": "Manage my pack",
+      "TITLE_DATE_PICKER": "Pick Est. Delivery"
+    },
+    "MY_PACK": {
+      "GOOD_NEW": "Good new !",
+      "NOTE_IN_TRANSIT": "This pack is currently in transit",
+      "NOTE_RESUME": "Your subscription is currently paused, it can still be edited.",
+      "LINK_RESUME": "Resume my subscription",
+      "VITAMINS": "Vitamins",
+      "TOTAL": "Total",
+      "SUBTOTAL": "Subtotal",
+      "SHIPPING": "Shipping",
+      "DISCOUNT": "Discount",
+      "CREDIT": "Credit",
+      "REMOVE": "Remove",
+      "APPLY":"Apply"
+    }
+  }
 }

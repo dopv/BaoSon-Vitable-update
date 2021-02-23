@@ -4,19 +4,18 @@ import { Text, View, TouchableWithoutFeedback, Image } from 'react-native';
 import { TOKEN } from '../../../common/keyStore';
 import { Screen } from '../../../library/components/screen';
 import { styles } from './styles';
+import { useContainer } from '../../../store/store';
 
 interface AccountDetailProps {
-    navigation: any,
-    actionLogout: any,
-    route: any
+    navigation: any
 }
 
 export const AccountDetail = (props: AccountDetailProps) => {
-    const { navigation, route } = props;
-    const { actionLogout } = route.params;
+    const logoutAction = useContainer(container => container.logoutAction);
+    const { navigation } = props;
 
     const onPressToLogout = () => {
-        actionLogout && actionLogout();
+        logoutAction();
         AsyncStorage.setItem(TOKEN, "");
     }
 

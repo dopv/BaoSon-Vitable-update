@@ -3,6 +3,7 @@ import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, Button, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Put } from '../networking/fetch';
 import moment from 'moment'
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -76,13 +77,13 @@ export function Demo() {
 }
 */
 export async function initPush(){
-  console.log('initPush')
+  // console.log('initPush')
   await registerForPushNotificationsAsync()
-  // updateReminderSchedule()
+  updateReminderSchedule()
 }
 async function updateReminderSchedule(){
-  const notifications = await Notifications.getAllScheduledNotificationsAsync()
-  console.log('notifications', notifications)
+  // const notifications = await Notifications.getAllScheduledNotificationsAsync()
+  // console.log('notifications', notifications)
   //clear any existing
   await Notifications.cancelAllScheduledNotificationsAsync()
   let reminderEnabled = await AsyncStorage.getItem(REMINDER_ENABLED)
@@ -94,6 +95,7 @@ async function updateReminderSchedule(){
     const minute = parseInt(reminderMinute || "0")
     console.log('reminderHour', hour)
     console.log('reminderMinute', minute)
+
     // const deviceToken = await Notifications.getDevicePushTokenAsync()
     // console.log('deviceToken', deviceToken)
     // const expoToken = registerForPushNotificationsAsync()
@@ -101,31 +103,41 @@ async function updateReminderSchedule(){
     // const notifications = await Notifications.getAllScheduledNotificationsAsync()
     // console.log('notifications', notifications)
     let trigger
-    console.log('Platform.OS', Platform.OS)
+    // console.log('Platform.OS', Platform.OS)
+    // reminderHour = 10
+    // console.log('reminderHour', reminderHour)
     const now = moment()
+    // console.log('now', now)
     const current = moment()
     let second = 0
+    let millisecond = 0
+    // console.log('hour', hour)
     // hour = now.hour()
     // minute = now.minute()
     // second = now.second() + 3
-    current.hour(hour)
-    current.minute(minute)
-    current.second(second)
-    current.millisecond(0)
+    current.set({hour,minute,second,millisecond});
+    // current.hour(hour)
+    // current.minute(minute)
+    // current.second(second)
+    // current.millisecond(0)
     if(current.isBefore(now)) current.add(1, 'days')
+    // console.log('current start', current)
     for (let i = 0; i < ADVANCE_SCHEDULE; i++) {
       // trigger = current.toDate()
-      console.log('current', current)
+      // console.log('current', current)
       // console.log('trigger', trigger)
       const seconds = current.diff(now, 'seconds')
-      console.log('seconds', seconds)
+      // console.log('seconds', seconds)
+      // const minutes = seconds / 60
+      // const hours = minutes / 60
+      // console.log('hours', hours)
       trigger = {seconds}
-      console.log('trigger', trigger)
+      // console.log('trigger', trigger)
       await Notifications.scheduleNotificationAsync({
         // identifier:DAILY_REMINDER,
         content: {
           title: "Time to take your vitamins",
-          body: `trigger ${i}`,
+          // body: `trigger ${i}`,
           data: { data: 'goes here' },
         },
         trigger,
@@ -180,7 +192,7 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     // token = (await Notifications.getExpoPushTokenAsync()).data;
-    // console.log(token);
+    // console.log('token', token)
   } else {
     console.log('Must use physical device for Push Notifications');
   }
@@ -195,4 +207,22 @@ async function registerForPushNotificationsAsync() {
   }
 
   return token;
+}
+export async function updatePushToken(){
+  // console.log('updatePushToken')
+  if (Constants.isDevice) {
+    const token = (await Notifications.getExpoPushTokenAsync()).data;
+    // console.log('token', token)
+    if(token){
+      try{
+        const response = await Put(`/api/v1/users/me/update`, {push_token:token})
+        // console.log('response', response)
+        const body = await response.json()
+        // console.log('body', body)
+      }catch(e){
+        console.log('e', e)
+
+      }
+    }
+  }
 }

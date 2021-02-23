@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { Screen } from '../../../library/components/screen/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Post } from '../../../library/networking/fetch';
+import { Get, Post } from '../../../library/networking/fetch';
 import { validateEmail } from '../../../library/utils/validate';
 import { TOKEN, IS_ONBOARDING } from '../../../common/keyStore';
 import { styles } from './style';
@@ -17,6 +17,7 @@ import { trackEvent, trackCurrentScreen } from '../../../library/analytics-track
 import { ONBOARDING } from '../../../navigation/TypeScreen';
 import DropDownHolder from '../../../library/utils/dropDownHolder';
 import Constants from 'expo-constants';
+import { useContainer } from '../../../store/store';
 const { manifest: { extra: { boarding } } } = Constants;
 
 const { height: heightScr, width } = Dimensions.get('window');
@@ -26,18 +27,17 @@ const statusBarHeight = StatusBar.currentHeight &&
 const height = heightScr + statusBarHeight;
 
 interface LoginProps {
-    route: any,
     navigation: any
 }
 
 export const Login = (props: LoginProps) => {
-    const { route, navigation } = props;
-    const { actionLogin } = route.params;
+    const { navigation } = props;
     const [dataLogin, setDataLogin] = useState({ email: '', password: '' });
     const [validateInputEmail, setValidateInputEmail] = useState('');
     const [validateInputPassword, setValidateInputPassword] = useState('');
     const [isLogin, setLogin] = useState(false);
     const [loginState, setLoginState] = useState('');
+    const setUserInfo = useContainer(container => container.getUserInfoAction);
 
     useEffect(() => {
         trackCurrentScreen('ForgotPassword');
@@ -74,24 +74,26 @@ export const Login = (props: LoginProps) => {
         setLogin(true);
         Post('/api/v1/auth/login', dataLogin)
             .then(response => {
-                response.json().then(data => {
+                response.json().then(async data => {
                     if (data.message) {
                         setLoginState(data.message);
                         trackEvent('LOGIN_FAILURE', 'login_failure', 'login');
                     } else {
+                        AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+                        // actionLogin && actionLogin(data || null);
+                        getUserInfo(data.access_token);
                         // if (boarding) {
                         //     navigation && navigation.navigate(ONBOARDING, { data: data })
                         // } else {
-                            // AsyncStorage.getItem(IS_ONBOARDING).then((checkBoarding: any) => {
-                            //     if (checkBoarding) {
-                            //         AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-                            //         actionLogin && actionLogin(data || null);
-                            //     } else {
-                                    navigation && navigation.navigate(ONBOARDING, { data: data })
-                                // }
-                            // })
+                        // AsyncStorage.getItem(IS_ONBOARDING).then((checkBoarding: any) => {
+                        //     if (checkBoarding) {
+                        //         AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
+                        //         actionLogin && actionLogin(data || null);
+                        //     } else {
+                        navigation && navigation.navigate(ONBOARDING, { data: data })
                         // }
-
+                        // })
+                        // }
                         trackEvent('LOGIN_SUCCESS', 'login_success', 'login', 'go to home screen');
                     }
                     setLogin(false);
@@ -102,6 +104,16 @@ export const Login = (props: LoginProps) => {
                 DropDownHolder.showError("", err)
                 console.log('err', err);
             })
+    }
+
+    const getUserInfo = (token: string) => {
+        Get(`/api/v1/me/profile`).then(response => {
+            response.json().then(data => {
+                setUserInfo(data.data, token);
+            });
+        }).catch(err => {
+            console.log('err', err);
+        })
     }
 
     const onPressToForgot = () => {

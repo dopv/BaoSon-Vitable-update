@@ -1,58 +1,55 @@
-import { useState } from "react";
-import { combineReducers } from 'un-redux';
+import { useCallback, useState } from 'react';
+import unreduxed from "unreduxed";
 
-interface StateAuth {
-  isLogout: false,
-  dataAuth: null,
-  token: null
-}
-export const rootReducer = combineReducers({
+const useUnredux = () => {
+  const [dataAuth, setDataAuth] = useState<any>();
+  const [isLogout, setLogout] = useState<any>();
+  const [token, setToken] = useState<any>();
+  const [userInfo, setInfo] = useState<any>();
+  const [dataTrans, setDataTrans] = useState<any>();
+  const [dataNextPack, setDataNextPack] = useState<any>();
 
-  reducerAuth: (state: StateAuth, action: any) => {
-   
-    if (action.type === 'TOKEN') {
-      return {
-        ...state,
-        token: action.token,
-      };
-    } 
-    if (action.type === 'LOGIN') {
-      return {
-        ...state, 
-        dataAuth: action.dataAuth,
-        isLogout: false,
-        token: action.dataAuth && action.dataAuth.access_token 
-      };
-    } 
-   
-    if (action.type === 'LOGOUT') {
-      return {
-        ...state,
-        dataAuth: null,
-        isLogout: true,
-        token: null
-      };
-    }
+  const loginFunc = (dataAuth: any) => {
+    setLogout(false);
+    setDataAuth(dataAuth);
   }
-});
 
-interface StateMapProps {
-  reducerAuth: {}
-}
-export const mapStateToProps = (state: StateMapProps) => {
-  return {
-    stateAuth: state.reducerAuth
+  const setTokenFunc = (token: any) => {
+    setToken(token)
   }
-}
 
-export const mapDispatchToProps = (dispatch: any) => {
+  const logoutFunc = () => {
+    setLogout(true);
+    setToken(null);
+    setInfo(null);
+    setDataAuth(null);
+  }
+
+  const getUserFunc = (info: any, token: string) => {
+    setInfo(info);
+    setToken(token);
+    setLogout(false);
+  }
+
+  const setDataTransFunc = (data: any) => {
+    setDataTrans(data);
+  }
+
+  const setDataNextPackFunc = (data: any) => {
+    setDataNextPack(data)
+  }
+
+  const loginAction = useCallback((dataAuth: any) => loginFunc(dataAuth), []);
+  const setTokenAction = useCallback((token: any) => setTokenFunc(token), []);
+  const logoutAction = useCallback(() => logoutFunc(), []);
+  const getUserInfoAction = useCallback((info: any, token: string) => getUserFunc(info, token), []);
+  const setDataTransAction = useCallback((data: any) => setDataTransFunc(data), []);
+  const setDataNextPackAction = useCallback((data: any) => setDataNextPackFunc(data), []);
+
   return {
-    actionLogin: (dataAuth: null) => {
-      dispatch({ type: 'LOGIN', dataAuth: dataAuth})
-    },
-    setToken: (token: null) => {
-      dispatch({ type: 'TOKEN', token: token })
-    },
-    actionLogout: () => dispatch({ type:'LOGOUT' }),
+    dataAuth, isLogout, token, userInfo, dataTrans, dataNextPack,
+    loginAction, setTokenAction, logoutAction, getUserInfoAction, setDataTransAction, setDataNextPackAction
   };
-}
+};
+
+export const [ContainerProvider, useContainer] = unreduxed(useUnredux);
