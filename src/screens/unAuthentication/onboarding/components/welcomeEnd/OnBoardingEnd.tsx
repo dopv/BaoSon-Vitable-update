@@ -10,6 +10,7 @@ import DropDownHolder from '../../../../../library/utils/dropDownHolder';
 import { translate } from '../../../../../library/utils/i18n/translate';
 import { CustomScrollPicker } from '../../../../../library/components/customScrollPicker';
 import { useContainer } from '../../../../../store/store';
+import { Get } from '../../../../../library/networking/fetch';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,13 +21,25 @@ export const OnBoardingEnd = (props: any) => {
     const [minuteSelect, setMinuteSelect] = useState(0);
     const [dataTime, setDataTime] = useState([]);
     const actionLogin = useContainer(container => container.loginAction);
+    const setUserInfo = useContainer(container => container.getUserInfoAction);
 
-
+    const getUserInfo = (token: string) => {
+        Get(`/api/v1/me/profile`).then(response => {
+            response.json().then(data => {
+                setUserInfo(data.data, token);
+            });
+        }).catch(err => {
+            console.log('err', err);
+        })
+    }
     const onReminder = () => {
         if (timeSelect || minuteSelect) {
             setReminderSchedule(timeSelect, minuteSelect)
             AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
             actionLogin(data || null);
+            // actionLogin && actionLogin(data || null);
+            getUserInfo(data.access_token);
+
         } else {
             DropDownHolder.showWarning("", translate('UNAUTHENTIC:BOARDING:NULL_HOUR') || "");
         }
@@ -37,6 +50,8 @@ export const OnBoardingEnd = (props: any) => {
         // AsyncStorage.setItem(IS_ONBOARDING, JSON.stringify("Open OnBoarding"));
         AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
         actionLogin(data || null);
+        getUserInfo(data.access_token);
+
     };
 
 

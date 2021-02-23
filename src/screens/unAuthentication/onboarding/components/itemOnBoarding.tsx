@@ -20,13 +20,22 @@ export const ItemOnBoarding = (props: any) => {
                 </View>
 
             </View>
+            {index == 2 &&
+                <Image
+                    style={styles.imgMyPack}
+                    source={require('../../../../../assets/images/Mypack.png')}
+                    resizeMode='contain'
+                />
+            }
             <Image
                 style={index == 2 ? styles.vImageIndex2 : styles.viewImage1}
                 source={item.image}
                 resizeMode='contain'
             />
-            <View style={styles.vBottomItem}/>
-            
+
+
+            <View style={styles.vBottomItem} />
+
         </View>
     );
 }

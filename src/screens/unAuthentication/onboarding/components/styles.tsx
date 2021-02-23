@@ -120,5 +120,24 @@ export const styles = StyleSheet.create({
         top: 293 / 568 * height,
         left: 24 / 320 * width,
         right: 24 / 320 * width
+    },
+    imgMyPack:{
+        zIndex:3,
+        width: 128 / 320 * width,
+        height: 53 / 320 * width,
+        position: "absolute",
+        top: 230 / 568 * height,
+        right: 30 / 320 * width,
+        backgroundColor: 'transparent',
+        borderTopLeftRadius: size[50],
+        borderBottomLeftRadius: size[50],
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
     }
 });

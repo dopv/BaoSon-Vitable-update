@@ -79,9 +79,6 @@ export const Login = (props: LoginProps) => {
                         setLoginState(data.message);
                         trackEvent('LOGIN_FAILURE', 'login_failure', 'login');
                     } else {
-                        AsyncStorage.setItem(TOKEN, JSON.stringify(data.access_token));
-                        // actionLogin && actionLogin(data || null);
-                        getUserInfo(data.access_token);
                         // if (boarding) {
                         //     navigation && navigation.navigate(ONBOARDING, { data: data })
                         // } else {
@@ -94,6 +91,7 @@ export const Login = (props: LoginProps) => {
                         // }
                         // })
                         // }
+
                         trackEvent('LOGIN_SUCCESS', 'login_success', 'login', 'go to home screen');
                     }
                     setLogin(false);
