@@ -121,10 +121,8 @@ export const styles = StyleSheet.create({
         left: 24 / 320 * width,
         right: 24 / 320 * width
     },
-    imgMyPack:{
-        zIndex:3,
-        width: 128 / 320 * width,
-        height: 53 / 320 * width,
+    vImgMyPack:{
+        zIndex: 3,
         position: "absolute",
         top: 230 / 568 * height,
         right: 30 / 320 * width,
@@ -138,6 +136,11 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5
+        elevation: 3
+    },
+    imgMyPack:{
+        width: 128 / 320 * width,
+        height: 53 / 320 * width,
+       
     }
 });
