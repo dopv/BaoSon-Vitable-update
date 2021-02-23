@@ -56,7 +56,7 @@ export const OnBoardingEnd = (props: any) => {
 
 
     return (
-        <ScrollView style={styles.sFullScreen}>
+        <View style={styles.sFullScreen}>
             <View style={styles.viewBackground}>
                 <View style={styles.viewTitle}>
                     <Text style={styles.textTitle}>{translate('UNAUTHENTIC:BOARDING:TITLE_END')}</Text>
@@ -82,6 +82,6 @@ export const OnBoardingEnd = (props: any) => {
                     <Text style={styles.tNotTime}>{translate('UNAUTHENTIC:BOARDING:NOT_REMINDER_END')}</Text>
                 </TouchableOpacity>
             </View>
-        </ScrollView>
+        </View>
     );
 }

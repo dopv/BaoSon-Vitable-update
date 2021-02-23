@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions, StatusBar } from 'react-native';
-import { FONT_14, FONT_18, FONT_32 } from '../../../../../themes/fontSize';
+import { FONT_14, FONT_18, FONT_24, FONT_32 } from '../../../../../themes/fontSize';
 import { size } from '../../../../../themes/size';
 const { height: heightScr, width } = Dimensions.get('window');
 const statusBarHeight = StatusBar.currentHeight &&
@@ -8,32 +8,30 @@ const statusBarHeight = StatusBar.currentHeight &&
 const height = heightScr + statusBarHeight;
 export const styles = StyleSheet.create({
     sFullScreen:{
+        flex:1,
         backgroundColor: "#F2EDE0",
     },
     viewBackground:{
-        width:width,
-        height:height,
+       flex:1,
         backgroundColor:"#F2EDE0",
         alignItems:'center'
     },
     textTitle:{
         fontFamily:"SolaireDT",
-        fontSize:24/320*width,
+        fontSize: FONT_24,
         lineHeight:31.2/568*height,
         color: "#272626",
         textAlign: "center"
     },
     viewTitle:{
-        marginTop:74/568*height,
-        marginLeft:24/320*width,
-        marginRight:24/320*width,
+        marginTop: 74 / 568 * height,
+        paddingHorizontal: size[20],
         alignItems:"center",
         justifyContent:"center",
     },
     viewContent1:{
         marginTop:24/568*height,
-        marginLeft:24/320*width,
-        marginRight:24/320*width,
+        paddingHorizontal: size[20],
         alignItems:"center",
         justifyContent:"center",
     },
@@ -47,8 +45,7 @@ export const styles = StyleSheet.create({
     },
     viewContent2:{
         marginTop:8/568*height,
-        marginLeft:24/320*width,
-        marginRight:24/320*width,
+        paddingHorizontal: size[20],
         alignItems:"center",
         justifyContent:"center",
     },
