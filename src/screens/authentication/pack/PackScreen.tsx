@@ -17,9 +17,11 @@ import {
     ORDER_STATUS_PAID,
     ORDER_STATUS_PROCESSING,
     ORDER_STATUS_READY_FOR_DELIVERY,
+    SUBSCRIPTION,
+    TRANSIT
 } from '../../../config';
 import { ProcessDialog } from '../../../library/components/processDialog';
-import { format } from 'date-fns';
+import moment from 'moment';
 import { useContainer } from '../../../store/store';
 
 interface PackProps {
@@ -139,19 +141,17 @@ export const PackScreen = (props: PackProps) => {
         getTransition()
         getSubscription()
     }, []);
-    // console.log('nextInvoice', nextInvoice)
-    const nextInvoiceDisplay = nextInvoice ? format(nextInvoice, 'do LLLL') : ''
+
+    const nextInvoiceDisplay = nextInvoice ? moment(nextInvoice).format('Do MMMM') : ''
     let reminder = `You can edit your next pack until ${nextInvoiceDisplay}`
-    // console.log('orderStatus', orderStatus)
     const inTransit = (
         orderStatus == ORDER_STATUS_IN_DELIVERY
         || orderStatus == ORDER_STATUS_PAID
         || orderStatus == ORDER_STATUS_PROCESSING
         || orderStatus == ORDER_STATUS_READY_FOR_DELIVERY
     )
-    // console.log('inTransit', inTransit)
     if (inTransit) {
-        reminder = `Your current pack is in transit. You can still edit your next pack.`
+        reminder = translate('AUTHENTIC:PACK:REMINDER_IN_TRANSIT') || ""
     }
     return (
         <Screen
@@ -182,10 +182,11 @@ export const PackScreen = (props: PackProps) => {
                         setTabIndex={setTabIndex}
                         onClickTabChange={onClickTabChange}
                         isClickTabAble={isClickTabAble}
-                        titleLeft={'In transit'}
-                        titleRight={'Next pack'}
+                        titleLeft={translate('AUTHENTIC:PACK:IN_TRANSIT')}
+                        titleRight={translate('AUTHENTIC:PACK:NEXT_PACK')}
                         viewPageLeft={inTransit ?
                             <CustomListProduct
+                                loading={loading}
                                 setRefresh={setRefresh}
                                 listIdTransit={listIdTransit}
                                 setLoading={setLoading}
@@ -193,17 +194,18 @@ export const PackScreen = (props: PackProps) => {
                                 getSubscription={getSubscription}
                                 subscription_id={subscription_id}
                                 coupons={coupons}
-                                type={'TRANSIT'}
+                                type={TRANSIT}
                                 timeEst={timeEst}
                                 nextInvoice={nextInvoice}
                                 navigation={navigation}
                                 refreshing={refreshing}
                                 orderNumber={orderNumber}
-                            />
+                               />
                             : null
                         }
                         viewPageRight={
                             <CustomListProduct
+                                loading={loading}
                                 setRefresh={setRefresh}
                                 listIdSub={listIdSub}
                                 setLoading={setLoading}
@@ -212,7 +214,7 @@ export const PackScreen = (props: PackProps) => {
                                 subscription_id={subscription_id}
                                 refreshing={refreshing}
                                 coupons={coupons}
-                                type={'SUBSCRIPTION'}
+                                type={SUBSCRIPTION}
                                 navigation={navigation}
                                 estNextPack={estNextPack}
                                 nextInvoice={nextInvoice}
@@ -229,10 +231,10 @@ export const PackScreen = (props: PackProps) => {
                         isBtnText={true}
                         navigation={navigation}
                         onPressRight={onBackTracker}
-                        titleButton={'Resume my subscription'}
+                        titleButton={translate('AUTHENTIC:PACK:RESUME')}
                         onPressTitleButton={onPressResume}
                         userName={customer && customer.name_on_pack}
-                        reminder={`It seems that you are on a pause. Ready to come back?`}
+                        reminder={translate('AUTHENTIC:PACK:REMINDER_PAUSE')}
                         imgBackground={require('../../../../assets/images/bg_pack_pause.png')}
                         logoRight={require('../../../../assets/images/logo_tracker.png')}
                         logoLeft={require('../../../../assets/images/Menu.png')}
@@ -248,6 +250,7 @@ export const PackScreen = (props: PackProps) => {
                             <CustomListProduct
                                 isResume={true}
                                 setRefresh={setRefresh}
+                                loading={loading}
                                 setLoading={setLoading}
                                 getTransition={getTransition}
                                 getSubscription={getSubscription}
@@ -255,11 +258,11 @@ export const PackScreen = (props: PackProps) => {
                                 coupons={coupons}
                                 refreshing={refreshing}
                                 listIdSub={listIdSub}
-                                type={'SUBSCRIPTION'}
+                                type={SUBSCRIPTION}
                                 navigation={navigation}
                                 estNextPack={estNextPack}
                                 setEstNextPack={setEstNextPack}
-                                titleNotPage={'Your last pack'}
+                                titleNotPage={translate('AUTHENTIC:PACK:LAST_PACK')}
                             />
                         }
                     />

@@ -58,6 +58,7 @@ export const ItemProduct = (props: propRender) => {
                     <FlatList
                         scrollEnabled={false}
                         numColumns={categories && categories.length > 0 && categories.length || undefined}
+                        key={categories && categories.length > 0 && categories.length || undefined}
                         showsHorizontalScrollIndicator={false}
                         horizontal={false}
                         data={categories}

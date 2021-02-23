@@ -18,7 +18,8 @@ export const CustomPage = (props: any) => {
         viewPageRight,
         onClickTabChange,
         isClickTabAble,
-        inTransit
+        inTransit,
+        page
     } = props;
 
     const _viewPager = useRef<ViewPager>(null);
@@ -37,7 +38,7 @@ export const CustomPage = (props: any) => {
 
     return (
         <View style={styles.vContent}>
-            {inTransit &&
+            {(inTransit || page) &&
                 <View style={styles.vTab}>
 
                     {titleLeft &&
