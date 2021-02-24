@@ -15,8 +15,9 @@ import {
     MenuProvider,
 } from 'react-native-popup-menu';
 import { useContainer } from '../../../../store/store';
-const { SlideInMenu } = renderers;
+import { TRANSIT } from '../../../../config';
 
+const { SlideInMenu } = renderers;
 
 const { width, height } = Dimensions.get('window');
 
@@ -57,7 +58,7 @@ export const ItemPackManage = (props: any) => {
             .then(response => {
                 response.json().then(data => {
                     if (data.successed) {
-                        if (type === "TRANSIT") {
+                        if (type === TRANSIT) {
                             getTransition();
                         } else {
                             getSubscription();
@@ -75,14 +76,14 @@ export const ItemPackManage = (props: any) => {
 
     const removeProduct = () => {
 
-        if (type === "TRANSIT") {
+        if (type === TRANSIT) {
             if (dataTrans.products && dataTrans.products.data.length <= 1) {
-                DropDownHolder.showWarning("", "We don't want to send you empty boxes! Trying to change your plan?")
+                DropDownHolder.showWarning("", translate("MESS:mess_remove") || "")
                 return
             }
         } else {
             if (dataNextPack && dataNextPack.length <= 1) {
-                DropDownHolder.showWarning("", "We don't want to send you empty boxes! Trying to change your plan?")
+                DropDownHolder.showWarning("", translate("MESS:mess_remove") || "")
                 return
             }
         }
@@ -91,7 +92,7 @@ export const ItemPackManage = (props: any) => {
             .then(response => {
                 response.json().then(data => {
                     if (data.successed) {
-                        if (type === "TRANSIT") {
+                        if (type === TRANSIT) {
                             getTransition();
                         } else {
                             getSubscription();
@@ -151,7 +152,7 @@ export const ItemPackManage = (props: any) => {
 
     if (item) {
         return (
-            <View key={`row-${index}`} style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
+            <View style={isHideBorder ? styles.vContent : [styles.vContent, styles.borderBottom]}>
                 <View style={styles.vItem}>
                     <Image
                         style={styles.imgProduct}
@@ -159,7 +160,7 @@ export const ItemPackManage = (props: any) => {
                     <View style={styles.vTitle}>
                         <View style={styles.vRow}>
                             <Text style={styles.tName}>{item.name}</Text>
-                            {type !== "TRANSIT" &&
+                            {type !== TRANSIT &&
                                 <TouchableOpacity
                                     onPress={removeProduct}
                                     style={styles.btnDelete}>
@@ -171,14 +172,12 @@ export const ItemPackManage = (props: any) => {
                         <Text style={styles.tNote}>{item.booklet_reason}</Text>
                         <View style={styles.vRow}>
 
-                            {type === "TRANSIT"
+                            {type === TRANSIT
                                 ?
                                 <View style={styles.vRow}>
                                     <Text style={styles.tPrice}>{item.price}$</Text>
                                 </View>
                                 :
-
-
                                 <View style={styles.vRow}>
                                     <TouchableOpacity
                                         onPress={showOptionQuality}

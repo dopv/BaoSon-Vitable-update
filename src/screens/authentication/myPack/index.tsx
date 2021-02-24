@@ -10,12 +10,13 @@ import DropDownHolder from '../../../library/utils/dropDownHolder';
 import { translate } from '../../../library/utils/i18n/translate';
 import { CustomListManagePack } from './component/listManagePack';
 import { ProcessDialog } from '../../../library/components/processDialog';
-import { format } from "date-fns";
+import moment from 'moment';
+
 import {
     MenuProvider,
 } from 'react-native-popup-menu';
 import { useContainer } from '../../../store/store';
-
+import { TRANSIT } from '../../../config';
 
 interface MyPackProps {
     navigation: any,
@@ -36,6 +37,7 @@ export const MyPackScreen = (props: MyPackProps) => {
     var isResume = false;
 
     const userInfo = useContainer(container => container.userInfo);
+    
     if (route && route.params) {
         dataList = route.params.dataList
         credit_available = userInfo && userInfo.customer && userInfo.customer.data && userInfo.customer.data.credit_available || 0
@@ -295,8 +297,20 @@ export const MyPackScreen = (props: MyPackProps) => {
         }
         setTotal(sum)
     }, [listPrice, countries, percent, discount, type]);
-    // console.log('orderNumber', orderNumber)
-    // console.log('nextInvoice', nextInvoice)
+
+    var titleValue = "";
+    var title = ""
+    var headerTitle = ""
+    if (type === TRANSIT) {
+        headerTitle = 'View my pack';
+        title = 'Order number :';
+        titleValue = orderNumber;
+    } else {
+        headerTitle = 'Manage my pack';
+        title = 'You can edit your order until :';
+        titleValue = moment(new Date(nextInvoice)).format('Do MMMM');
+    }
+
     return (
         <MenuProvider>
             <Screen
@@ -313,33 +327,33 @@ export const MyPackScreen = (props: MyPackProps) => {
                         imgBackground={require('../../../../assets/images/bg_manage_pack.png')}
                         logoLeft={require('../../../../assets/images/icons/Back.png')}
                         onPressLeft={goBack}
-                        title={type === 'TRANSIT' ? 'View my pack' : 'Manage my pack'}
+                        title={headerTitle}
                     />
                     <ScrollView
                         keyboardShouldPersistTaps={'always'}
                         contentContainerStyle={{ paddingBottom: size[26] }}>
                         <View style={styles.vContent}>
-                            {type === "TRANSIT" && dataTrans.tracking_url &&
+                            {type === TRANSIT && dataTrans.tracking_url &&
                                 <View style={styles.vNoteTransit}>
-                                    <Text style={styles.tNoteTran}>Good new !</Text>
-                                    <Text style={styles.tNoteTran}>This pack is currently in transit</Text>
+                                    <Text style={styles.tNoteTran}>{translate("AUTHENTIC:MY_PACK:GOOD_NEW")}</Text>
+                                    <Text style={styles.tNoteTran}>{translate("AUTHENTIC:MY_PACK:NOTE_IN_TRANSIT")}</Text>
                                     <Text style={styles.tUrl}>{dataTrans.tracking_url}</Text>
                                 </View>
                             }
                             {isResume &&
                                 <View style={styles.vNoteResume}>
-                                    <Text style={styles.tNoteTran}>Your subscription is currently paused, it can still be edited.</Text>
-                                    <Text style={styles.tUrl}>Resume my subscription</Text>
+                                    <Text style={styles.tNoteTran}>{translate("AUTHENTIC:MY_PACK:NOTE_RESUME")}</Text>
+                                    <Text style={styles.tUrl}>{translate("AUTHENTIC:MY_PACK:LINK_RESUME")}</Text>
                                 </View>
                             }
-                            <Text style={styles.tTitle}>{type === 'TRANSIT' ? 'Order number :' : 'You can edit your order until :'}</Text>
-                            <Text style={[styles.tTitle, { color: '#000' }]}>{type === 'TRANSIT' ? orderNumber : format(new Date(nextInvoice), 'do MMMM')}</Text>
+                            <Text style={styles.tTitle}>{title}</Text>
+                            <Text style={[styles.tTitle, { color: '#000' }]}>{titleValue}</Text>
                             <CustomListManagePack
                                 type={type}
                                 route={route}
                                 listPrice={listPrice}
                                 setListPrice={setListPrice}
-                                title={'Vitamins'}
+                                title={translate("AUTHENTIC:MY_PACK:VITAMINS")}
                                 dataPack={dataList}
                                 subscription_id={subscription_id}
                                 getSubscriptionPack={getSubscription}
@@ -348,7 +362,7 @@ export const MyPackScreen = (props: MyPackProps) => {
                         </View>
                         <View style={styles.vTotal}>
                             <View style={styles.vHeaderTotal}>
-                                <Text style={styles.tTotal}>Total</Text>
+                                <Text style={styles.tTotal}>{translate("AUTHENTIC:MY_PACK:TOTAL")}</Text>
                                 <View style={styles.vRightTotal}>
                                     <View style={styles.vPrice}>
                                         <Text style={[styles.tPrice, { opacity: 0.5 }]}>${total.toFixed(2)}</Text>
@@ -360,23 +374,23 @@ export const MyPackScreen = (props: MyPackProps) => {
                             </View>
                             <View style={styles.vBottomTotal}>
                                 <View style={styles.rowTotal}>
-                                    <Text style={styles.titleBottomTotal}>Subtotal</Text>
+                                    <Text style={styles.titleBottomTotal}>{translate("AUTHENTIC:MY_PACK:SUBTOTAL")}</Text>
                                     <Text style={styles.tSubPrice}>${total}</Text>
                                 </View>
                                 <View style={[styles.rowTotal, { marginTop: size[16] }]}>
-                                    <Text style={styles.titleBottomTotal}>Shipping</Text>
+                                    <Text style={styles.titleBottomTotal}>{translate("AUTHENTIC:MY_PACK:SHIPPING")}</Text>
                                     <Text style={styles.priceBottomTotal}>{countries && countries[0] && (total >= countries[0].freeShipping ? 'FREE' : `$${countries[0].shippingCost}`) || 0}</Text>
                                 </View>
                                 {(discount !== "" || percent !== "") &&
                                     <View style={[styles.rowTotal, { marginTop: size[16] }]}>
-                                        <Text style={styles.titleBottomTotal}>Discount</Text>
+                                    <Text style={styles.titleBottomTotal}>{translate("AUTHENTIC:MY_PACK:DISCOUNT")}</Text>
                                         <Text style={styles.priceBottomTotal}>{discount !== "" ? `${discount}$` : `${percent}%`}  </Text>
                                     </View>
                                 }
 
                                 {credit_available > 0 &&
                                     <View style={[styles.rowTotal, { marginTop: size[16] }]}>
-                                        <Text style={styles.titleBottomTotal}>Credit</Text>
+                                    <Text style={styles.titleBottomTotal}>{translate("AUTHENTIC:MY_PACK:CREDIT")}</Text>
                                         <Text style={styles.priceBottomTotal}>${credit.toFixed(2)}</Text>
                                     </View>
                                 }
@@ -386,7 +400,7 @@ export const MyPackScreen = (props: MyPackProps) => {
                                     </View>
                                 }
                             </View>
-                            {type !== "TRANSIT" &&
+                            {type !== TRANSIT &&
                                 <View style={styles.vPromocode}>
                                     <TextInput
                                         style={styles.inputPromocode}
@@ -399,13 +413,13 @@ export const MyPackScreen = (props: MyPackProps) => {
                                         <TouchableOpacity
                                             onPress={removePromoCode}
                                             style={styles.btnPromocode}>
-                                            <Text style={styles.tBtnPromocode}>Remove</Text>
+                                        <Text style={styles.tBtnPromocode}>{translate("AUTHENTIC:MY_PACK:REMOVE")}</Text>
                                         </TouchableOpacity>
                                         :
                                         <TouchableOpacity
                                             onPress={applyPromoCode}
                                             style={styles.btnPromocode}>
-                                            <Text style={styles.tBtnPromocode}>Apply</Text>
+                                        <Text style={styles.tBtnPromocode}>{translate("AUTHENTIC:MY_PACK:APPLY")}</Text>
                                         </TouchableOpacity>
                                     }
 

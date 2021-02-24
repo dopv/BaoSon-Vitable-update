@@ -45,18 +45,19 @@ export const HomePage = (props: HomePageProps) => {
                     userInfo.customer.data.name_on_pack}
                 titleButton={translate('AUTHENTIC:HOME:TAKE_THE_QUIZ')}
                 onPressTitleButton={onPressGoToQuiz}
-                reminder={`It's been two months since you reassessed your needs.`}
+                reminder={translate('AUTHENTIC:HOME:REMINDER')}
                 imgBackground={require('../../../../assets/images/Vitable_Hero_Images.png')}
                 logoRight={require('../../../../assets/images/Mypack.png')}
                 logoLeft={require('../../../../assets/images/Menu.png')}
                 onPressLeft={onPressGoToMenu}
             />
             <CustomPage
+                page={true}
                 navigation={navigation}
                 tabIndex={tabIndex}
                 setTabIndex={setTabIndex}
-                titleLeft={'Daily tracker'}
-                titleRight={'Progress'}
+                titleLeft={translate('AUTHENTIC:HOME:DAILY_TRACKER')}
+                titleRight={translate('AUTHENTIC:HOME:PROGRESS')}
                 viewPageLeft={
                     <View style={styles.vBot}>
                         <HomeStreakHistory

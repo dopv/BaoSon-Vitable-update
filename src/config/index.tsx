@@ -8,6 +8,8 @@ export const RESULT_CODE_PUSH_OUT = 401;
 export const PAGE_SIZE_DEFAULT = 15;
 export const PAGE_SIZE_SEARCH = 15;
 export const CITY_WEATHER_ID = 'CITY_WEATHER_ID';
+export const SUBSCRIPTION = 'SUBSCRIPTION';
+export const TRANSIT = 'TRANSIT';
 
 export const SUBSCRIPTION_STATUS_ACTIVE = 'active';
 export const SUBSCRIPTION_STATUS_PAUSED = 'paused';
