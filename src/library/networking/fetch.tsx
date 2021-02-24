@@ -22,43 +22,67 @@ const {manifest:{extra:{apiUrl}}} = Constants;
 // }
 
 export const Get = async (path: string, param?: any) => {
+    // console.log('Get', path)
     let header = {
         Authorization: "",
         Accept: "application/json",
         "Content-Type": "application/json"
     };
     let tokenJson = await AsyncStorage.getItem(TOKEN);
-    if(tokenJson) header.Authorization = `Bearer ${JSON.parse(tokenJson)}`;
+    console.log('tokenJson', tokenJson)
+    let token
+    try{
+      token = JSON.parse(tokenJson)
+    }catch(e){
+      console.log('e', e)
+      AsyncStorage.setItem(TOKEN, '');
+    }
+    console.log('token', token)
+    if(token) header.Authorization = `Bearer ${token}`;
     let url = (`${apiUrl}${path}`);
     // url.search = new URLSearchParams(param).toString();
     return Fetch(`${url}`, { method: 'GET', headers: header });
 }
 
 export const Post = async (path: string, body: any) => {
+    // console.log('Post', path)
     let header = {
         Authorization: "",
         Accept: "application/json",
         "Content-Type": "application/json"
     };
-    await AsyncStorage.getItem(TOKEN).then(val => {
-      
-        if (val && typeof val == 'string') {
-            header.Authorization = `Bearer ${JSON.parse(val) && JSON.parse(val) || ''}`;
+    await AsyncStorage.getItem(TOKEN).then(tokenJson => {
+        let token
+        try{
+          token = JSON.parse(tokenJson)
+        }catch(e){
+          console.log('e', e)
+          AsyncStorage.setItem(TOKEN, '');
+        }
+        if (token) {
+            header.Authorization = `Bearer ${token}`;
         }
     });
     return Fetch(`${apiUrl}${path}`, { method: 'POST', headers: header, body: JSON.stringify(body) });
 }
 
 export const Put = async (path: string, body?: any) => {
+    // console.log('Put', path)
     let header = {
         Authorization: "",
         Accept: "application/json",
         "Content-Type": "application/json"
     };
-    await AsyncStorage.getItem(TOKEN).then(val => {
-
-        if (val && typeof val == 'string') {
-            header.Authorization = `Bearer ${JSON.parse(val) && JSON.parse(val) || ''}`;
+    await AsyncStorage.getItem(TOKEN).then(tokenJson => {
+        let token
+        try{
+          token = JSON.parse(tokenJson)
+        }catch(e){
+          console.log('e', e)
+          AsyncStorage.setItem(TOKEN, '');
+        }
+        if (token) {
+            header.Authorization = `Bearer ${token}`;
         }
     });
     return Fetch(`${apiUrl}${path}`, { method: 'PUT', headers: header, body: JSON.stringify(body) });
