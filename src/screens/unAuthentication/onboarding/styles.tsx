@@ -14,8 +14,8 @@ export const styles = StyleSheet.create({
     },
     viewTextDearAime: {
         marginTop: 114 / 568 * height,
-        marginLeft: size[80],
-        marginRight: size[80],
+        marginLeft: size[40],
+        marginRight: size[40],
         alignItems:'center',
         justifyContent:'center'
     },

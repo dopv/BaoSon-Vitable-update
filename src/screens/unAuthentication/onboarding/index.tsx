@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ImageBackground, TouchableOpacity, ScrollView } from 'react-native';
 import { Screen } from '../../../library/components/screen';
 import { Get } from '../../../library/networking/fetch';
 import { ONBOARDING_SCROLL } from '../../../navigation/TypeScreen';
@@ -8,6 +8,7 @@ import Fetch from 'node-fetch';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import { translate } from '../../../library/utils/i18n/translate';
+import { size } from '../../../themes/size';
 
 const { manifest: { extra: { apiUrl } } } = Constants;
 
@@ -44,12 +45,14 @@ export const OnBoarding = (props: any) => {
             forceInset={{ bottom: 'never', top: 'never' }}
             draw={true}
         >
-            <View>
                 <ImageBackground
                     source={require('../../../../assets/images/onboarding/Vitable_HeroImages_341.png')}
                     style={styles.vBackground}
                     resizeMode='stretch'
                 >
+                    <ScrollView 
+                    contentContainerStyle={{paddingBottom: size[30]}}
+                    style={{flex:1}}>
                     <View style={styles.viewTextDearAime}>
                         <Text style={styles.textDear}>{translate('UNAUTHENTIC:BOARDING:DEAR')}</Text>
                         <View style={styles.textAime}>
@@ -72,9 +75,9 @@ export const OnBoarding = (props: any) => {
                         >{translate('UNAUTHENTIC:BOARDING:LET_START')}
                         </Text>
                     </TouchableOpacity>
+                </ScrollView>
                 </ImageBackground>
 
-            </View>
         </Screen>
     );
 }
