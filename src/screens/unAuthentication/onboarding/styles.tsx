@@ -14,10 +14,10 @@ export const styles = StyleSheet.create({
     },
     viewTextDearAime: {
         marginTop: 114 / 568 * height,
-        marginLeft: size[40],
-        marginRight: size[40],
-        alignItems:'center',
-        justifyContent:'center'
+        paddingLeft: size[30],
+        paddingRight: size[30],
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     textDear: {
         fontFamily: "SolaireDT",
@@ -32,11 +32,12 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: "center",
     },
-    tName:{
+    tName: {
         textAlign: 'center',
         fontSize: FONT_32,
         fontFamily: 'HOMEMADE_APPLE',
-        color: '#272626'
+        color: '#272626',
+        fontWeight: "400"
     },
     viewTextContent: {
         marginTop: 40 / 568 * height,

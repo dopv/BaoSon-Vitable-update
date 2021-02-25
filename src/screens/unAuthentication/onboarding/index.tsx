@@ -56,7 +56,7 @@ export const OnBoarding = (props: any) => {
                     <View style={styles.viewTextDearAime}>
                         <Text style={styles.textDear}>{translate('UNAUTHENTIC:BOARDING:DEAR')}</Text>
                         <View style={styles.textAime}>
-                            {name !== '' && <Text style={styles.tName}>{`${name},`}</Text>}
+                            {name !== '' && <Text style={styles.tName}>{`  ${name},`}</Text>}
                         </View>
 
                     </View>

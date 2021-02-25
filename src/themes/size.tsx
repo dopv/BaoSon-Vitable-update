@@ -30,6 +30,7 @@ export const size = {
     36: width *0.1028,
     40: width *0.10667,
     44: width *0.117,
+    48: width *0.128,
     50: width *0.1333,
     55: width *0.1466,
     60: width * 0.16,
